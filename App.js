@@ -8,7 +8,6 @@ import HomeScreen from './pages/HomePage/Screen';
 import ContactScreen from './pages/ContactPage/Screen';
 import NewsScreen from './pages/NewsPage/Screen';
 import { Button,Image } from 'react-native';
-import logoTitle from './assets/header_image.png';
 class App extends Component {
   
   render() {
