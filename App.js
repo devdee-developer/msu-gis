@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './pages/LoginPage/Screen';
 import SplashScreen from './pages/SplashPage/Screen';
 import HomeScreen from './pages/HomePage/Screen';
+import ContactScreen from './pages/ContactPage/Screen';
+import NewsScreen from './pages/NewsPage/Screen';
 class App extends Component {
   
   render() {
@@ -15,6 +17,8 @@ class App extends Component {
         <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
         <Stack.Screen options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
         <Stack.Screen options={{headerShown: false}} name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen options={{headerShown: false}} name="ContactScreen" component={ContactScreen} />
+        <Stack.Screen options={{headerShown: false}} name="NewsScreen" component={NewsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     );
