@@ -7,16 +7,26 @@ import SplashScreen from './pages/SplashPage/Screen';
 import HomeScreen from './pages/HomePage/Screen';
 import ContactScreen from './pages/ContactPage/Screen';
 import NewsScreen from './pages/NewsPage/Screen';
+import { Button,Image } from 'react-native';
+import logoTitle from './assets/header_image.png';
 class App extends Component {
   
   render() {
     const Stack = createStackNavigator();
+    function LogoTitle() {
+      return (
+        <Image
+          style={{ width: 176, height: 40 }}
+          source={require('./assets/header_image.png')}
+        />
+      );
+    }
     return (
       <NavigationContainer>
       <Stack.Navigator initialRouteName="SplashScreen">
         <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
         <Stack.Screen options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen options={{headerShown: false}} name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen options={{headerShown: true}} options={{ headerTitle: props => <LogoTitle {...props} />, headerLeft: ()=> null}}  name="HomeScreen" component={HomeScreen} />
         <Stack.Screen options={{headerShown: false}} name="ContactScreen" component={ContactScreen} />
         <Stack.Screen options={{headerShown: false}} name="NewsScreen" component={NewsScreen} />
       </Stack.Navigator>
