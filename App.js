@@ -1,13 +1,15 @@
+import { Button, Image } from 'react-native';
 import React, { Component } from 'react';
+
 import AppStyles from './AppStyle';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from './pages/LoginPage/Screen';
-import SplashScreen from './pages/SplashPage/Screen';
-import HomeScreen from './pages/HomePage/Screen';
 import ContactScreen from './pages/ContactPage/Screen';
+import HomeScreen from './pages/HomePage/Screen';
+import LoginScreen from './pages/LoginPage/Screen';
+import { NavigationContainer } from '@react-navigation/native';
 import NewsScreen from './pages/NewsPage/Screen';
-import { Button,Image } from 'react-native';
+import SplashScreen from './pages/SplashPage/Screen';
+import { createStackNavigator } from '@react-navigation/stack';
+
 class App extends Component {
   
   render() {
@@ -22,7 +24,7 @@ class App extends Component {
     }
     return (
       <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator initialRouteName="NewsScreen">
         <Stack.Screen options={{headerShown: false}} name="SplashScreen" component={SplashScreen} />
         <Stack.Screen options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
         <Stack.Screen options={{headerShown: true}} options={{ headerTitle: props => <LogoTitle {...props} />, headerLeft: ()=> null}}  name="HomeScreen" component={HomeScreen} />

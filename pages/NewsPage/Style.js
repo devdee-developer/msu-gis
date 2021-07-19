@@ -1,14 +1,14 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color:'#f00'
+        backgroundColor: '#F7F5FC',
       },
-      textApp:{
-          color:"pink"
+     headerGroup:{
+        height:deviceHeight / 3,
+        backgroundColor:"#FFFFFF",
       }
 });
