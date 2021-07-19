@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 import ArrowRight from "../../assets/arrow-r-yellow.png";
 import CalendarIcon from "../../assets/calendar_icon.png";
-import NewsEx from "../../assets/news_ex.png"
+import NewsEx from '../../assets/news_ex.png'
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
 
