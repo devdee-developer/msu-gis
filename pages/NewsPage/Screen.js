@@ -1,15 +1,14 @@
 import {
   Dimensions,
-  Image,
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import React, { Component } from "react";
 
 import ArrowRight from "../../assets/arrow-r-yellow.png";
 import CalendarIcon from "../../assets/calendar_icon.png";
+import Card from '../../components/CardCustomComponent/Screen'
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
 
@@ -180,39 +179,9 @@ class Screen extends Component {
     clearInterval(this.state.interval);
   }
   render() {
-    renderNewsList = () => {
+   const renderNewsList = () => {
       return listNews.map((data, index) => (
-        <TouchableOpacity style={Style.card} onPress={() => alert(data.header)}>
-          <View style={{ width: 115 }}>
-            <View style={{ flex: 4, padding: 5 }}>
-              <Image
-                source={{ uri: data.banner }}
-                style={Style.cardImg}
-                resizeMode="contain"
-              ></Image>
-            </View>
-            <View style={{ flex: 1 }}></View>
-          </View>
-          <View style={Style.cardBody}>
-            <View style={{ flex: 3 }}>
-              <Text numberOfLines={3} style={{ fontSize: 16, color: "#0D0E12" }}>
-                {data.header}
-              </Text>
-            </View>
-            <View style={Style.cardFooter}>
-              <View style={Style.buttonDetail}>
-                <Text style={Style.buttonDetailLabel}>รายละเอียด</Text>
-                <Image source={ArrowRight} style={Style.buttonDetailIcon} />
-              </View>
-              {data.publicDate && (
-                <View style={Style.date}>
-                  <Image source={CalendarIcon} style={Style.dateIcon} />
-                  <Text style={Style.dateLabel}>{data.publicDate}</Text>
-                </View>
-              )}
-            </View>
-          </View>
-        </TouchableOpacity>
+          <Card key={'news'+index} onPress={() => alert(data.header)} thumbnail={data.banner} text={data.header} date={data.publicDate}/>
       ));
     };
     return (
