@@ -29,7 +29,7 @@ class App extends Component {
         <Stack.Screen options={{headerShown: false}} name="LoginScreen" component={LoginScreen} />
         <Stack.Screen options={{headerShown: true}} options={{ headerTitle: props => <LogoTitle {...props} />, headerLeft: ()=> null}}  name="HomeScreen" component={HomeScreen} />
         <Stack.Screen options={{headerShown: false}} name="ContactScreen" component={ContactScreen} />
-        <Stack.Screen options={{headerShown: false}} name="NewsScreen" component={NewsScreen} />
+        <Stack.Screen options={{headerShown: true}} name="NewsScreen" component={NewsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     );
