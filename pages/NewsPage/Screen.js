@@ -6,8 +6,6 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 
-import ArrowRight from "../../assets/arrow-r-yellow.png";
-import CalendarIcon from "../../assets/calendar_icon.png";
 import Card from '../../components/CardCustomComponent/Screen'
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
@@ -181,7 +179,7 @@ class Screen extends Component {
   render() {
    const renderNewsList = () => {
       return listNews.map((data, index) => (
-          <Card key={'news'+index} onPress={() => alert(data.header)} thumbnail={data.banner} text={data.header} date={data.publicDate}/>
+          <Card key={'news'+index} onPress={() =>  this.props.navigation.navigate("NewsDetailScreen", { detail: data })} thumbnail={data.banner} text={data.header} date={data.publicDate}/>
       ));
     };
     return (
@@ -207,8 +205,7 @@ class Screen extends Component {
               onPositionChanged={(position) => this.setState({ position })}
               containerStyle={Style.sliderContainer}
               onPress={(item) => {
-                alert(item.image.header);
-                // this.props.navigation.navigate("News Detail", { id: item.image.id });
+                this.props.navigation.navigate("NewsDetailScreen", { detail: item.image });
               }}
             />
             <View style={{ height: 5 }}></View>

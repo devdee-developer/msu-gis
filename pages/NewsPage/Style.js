@@ -11,7 +11,7 @@ export default StyleSheet.create({
   },
   titleGroup: {
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 15,
     backgroundColor: "#FFFFFF",
   },
   sliderGroup: {
