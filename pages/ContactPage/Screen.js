@@ -1,5 +1,8 @@
 import {
+  Alert,
   Image,
+  Modal,
+  Pressable,
   ScrollView,
   Text,
   TextInput,
@@ -34,30 +37,182 @@ class Screen extends Component {
       showFilterContent: true,
       olderLists: [
         {
+          id: 1,
           avatar: '',
           name: 'นาย ชัยสิทธิ์ มิตรมงคลกุล',
           secondLine: 'อายุ 65 ปี, 3 เดือน',
           thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
           healthText: 'ติดเตียง',
-          docText: 'กำลังออกประเมิน..',
+          docText: 'กำลังประเมิน...',
+          visitText: 'ออกเยี่ยมแล้ว',
+          healthStatus: 1,
+          docStatus: 1,
+          visitStatus: 2,
+        },
+        {
+          id: 2,
+          avatar: '',
+          name: 'นาย ทวีจันทร์ ประสารสิน',
+          secondLine: 'อายุ 75 ปี, 6 เดือน',
+          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
+          healthText: 'แข็งแรง',
+          docText: 'ประเมินแล้ว',
+          visitText: 'ออกเยี่ยมแล้ว',
+          healthStatus: 1,
+          docStatus: 1,
+          visitStatus: 2,
+        },
+        {
+          id: 3,
+          avatar: '',
+          name: 'นาง วรรณา มีวาสนา',
+          secondLine: 'อายุ 61 ปี, 2 เดือน',
+          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
+          healthText: 'พยุงเดิน',
+          docText: 'ประเมินแล้ว',
+          visitText: 'รอออกเยี่ยม...',
+          healthStatus: 1,
+          docStatus: 1,
+          visitStatus: 2,
+        },
+        {
+          id: 4,
+          avatar: '',
+          name: 'นาย ทศพบ กาลชนะเลิศ',
+          secondLine: 'อายุ 78 ปี, 5 เดือน',
+          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
+          healthText: 'ติดเตียง',
+          docText: 'รอประเมิน...',
+          visitText: 'รอออกเยี่ยม...',
+          healthStatus: 1,
+          docStatus: 1,
+          visitStatus: 2,
+        },
+        {
+          id: 5,
+          avatar: '',
+          name: 'นาง กรชยา มิตรมงคลกุล',
+          secondLine: 'อายุ 65 ปี, 3 เดือน',
+          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
+          healthText: 'ติดเตียง',
+          docText: 'กำลังประเมิน...',
           visitText: 'ออกเยี่ยมแล้ว',
           healthStatus: 1,
           docStatus: 1,
           visitStatus: 2,
         },
       ],
+      modalVisible: false,
     }
   }
-  state = {
-    activeSections: [],
-  }
-
   toggleshowFilterContent() {
     this.setState({
       showFilterContent: !this.state.showFilterContent,
     })
   }
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible })
+  }
+
+  renderItemOlder = (item) => {
+    return (
+      <View style={Style.containerBgOlderList} key={item.id}>
+        <View style={Style.containerOlderList}>
+          <View style={Style.containerImageOlder}>
+            <Image source={{ uri: older }} style={Style.imageOlder} />
+          </View>
+          <View style={Style.containerOlderDetail}>
+            <Text style={Style.textOlderName}>{item.name}</Text>
+            <View style={Style.containerOlderDetailLine2}>
+              <Image source={{ uri: user_icon }} style={Style.imageUserIcon} />
+              <Text style={Style.textOlderAge}>{item.secondLine}</Text>
+            </View>
+
+            <View style={Style.containerOlderDetailLine3}>
+              <Image source={{ uri: flag_icon }} style={Style.imageFlagIcon} />
+              <Text style={Style.textOlderAddress}>{item.thridLine}</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <TouchableOpacity onPress={() => this.setModalVisible(true)}>
+            <Image source={{ uri: arrow_right }} style={Style.arrow_right} />
+          </TouchableOpacity>
+            
+          </View>
+        </View>
+        <View style={Style.containerTagHr}>
+          <View style={{ flex: 1, height: 1, backgroundColor: '#E4E1F0' }} />
+        </View>
+        <View style={Style.containerOlderStatus}>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View
+              style={{
+                flex: 10,
+                backgroundColor: '#010979',
+                margin: 10,
+                borderRadius: 50,
+                flexDirection: 'row',
+              }}
+            >
+              <View style={{ flex: 1, marginLeft: 7 }}>
+                <Image
+                  source={{ uri: health_1_icon }}
+                  style={Style.imageHealthIcon_1}
+                />
+              </View>
+              <View style={{ flex: 5, marginLeft: 5 }}>
+                <Text style={Style.textOlderhealth}>{item.healthText}</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flex: 18,
+                backgroundColor: '#FCDDE1',
+                margin: 10,
+                borderRadius: 50,
+                flexDirection: 'row',
+              }}
+            >
+              <View style={{ flex: 1, marginLeft: 7 }}>
+                <Image source={{ uri: doc_icon }} style={Style.imageDocIcon} />
+              </View>
+              <View style={{ flex: 5, marginLeft: 5 }}>
+                <Text style={Style.textOlderdoc}>{item.docText}</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flex: 18,
+                backgroundColor: '#F296A3',
+                margin: 10,
+                borderRadius: 50,
+                flexDirection: 'row',
+              }}
+            >
+              <View style={{ flex: 1, marginLeft: 7 }}>
+                <Image
+                  source={{ uri: visit_icon }}
+                  style={Style.imageVisitIcon}
+                />
+              </View>
+              <View style={{ flex: 5, marginLeft: 5 }}>
+                <Text style={Style.textOldervisit}>{item.visitText}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
   render() {
+    const { modalVisible } = this.state
     return (
       <ScrollView style={Style.container}>
         <View style={Style.containerFilterHead}>
@@ -114,105 +269,37 @@ class Screen extends Component {
           <Text style={Style.textNumberOlderQty}>{this.state.olderQty} คน</Text>
           <View style={{ flex: 1 }}></View>
         </View>
-        <View style={Style.containerBgOlderList}>
-          <View style={Style.containerOlderList}>
-            <View style={Style.containerImageOlder}>
-              <Image source={{ uri: older }} style={Style.imageOlder} />
-            </View>
-            <View style={Style.containerOlderDetail}>
-              <Text style={Style.textOlderName}>นาย ชัยสิทธิ์ มิตรมงคลกุล</Text>
-              <View style={Style.containerOlderDetailLine2}>
-                <Image
-                  source={{ uri: user_icon }}
-                  style={Style.imageUserIcon}
-                />
-                <Text style={Style.textOlderAge}>อายุ 65 ปี, 3 เดือน</Text>
-              </View>
-
-              <View style={Style.containerOlderDetailLine3}>
-                <Image
-                  source={{ uri: flag_icon }}
-                  style={Style.imageFlagIcon}
-                />
-                <Text style={Style.textOlderAddress}>
-                  99/8 หมู่ 5 ตำบลสันป่าตอง
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Image source={{ uri: arrow_right }} style={Style.arrow_right} />
-            </View>
-          </View>
-          <View style={Style.containerTagHr}>
-            <View style={{ flex: 1, height: 1, backgroundColor: '#E4E1F0' }} />
-          </View>
-          <View style={Style.containerOlderStatus}>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View
-                style={{
-                  flex: 10,
-                  backgroundColor: '#010979',
-                  margin: 10,
-                  borderRadius: 50,
-                  flexDirection: 'row',
-                }}
-              >
-                <View style={{ flex: 1, marginLeft: 7 }}>
-                  <Image
-                    source={{ uri: health_1_icon }}
-                    style={Style.imageHealthIcon_1}
-                  />
-                </View>
-                <View style={{ flex: 5, marginLeft: 5 }}>
-                  <Text style={Style.textOlderhealth}>ติดเตียง</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flex: 15,
-                  backgroundColor: '#FCDDE1',
-                  margin: 10,
-                  borderRadius: 50,
-                  flexDirection: 'row',
-                }}
-              >
-                <View style={{ flex: 1, marginLeft: 7 }}>
-                  <Image
-                    source={{ uri: doc_icon }}
-                    style={Style.imageDocIcon}
-                  />
-                </View>
-                <View style={{ flex: 5, marginLeft: 5 }}>
-                  <Text style={Style.textOlderdoc}>กำลังประเมิน...</Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  flex: 15,
-                  backgroundColor: '#F296A3',
-                  margin: 10,
-                  borderRadius: 50,
-                  flexDirection: 'row',
-                }}
-              >
-                <View style={{ flex: 1, marginLeft: 7 }}>
-                  <Image
-                    source={{ uri: visit_icon }}
-                    style={Style.imageVisitIcon}
-                  />
-                </View>
-                <View style={{ flex: 5, marginLeft: 5 }}>
-                  <Text style={Style.textOldervisit}>รอออกเยี่ยม...</Text>
-                </View>
+        {this.state.olderLists.map((item) => {
+          return this.renderItemOlder(item)
+        })}
+        <View style={Style.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.')
+              this.setModalVisible(!modalVisible)
+            }}
+          >
+            <View style={Style.centeredView}>
+              <View style={Style.modalView}>
+                <Text style={Style.modalText}>Hello World!</Text>
+                <Pressable
+                  style={[Style.button, Style.buttonClose]}
+                  onPress={() => this.setModalVisible(!modalVisible)}
+                >
+                  <Text style={Style.textStyle}>Hide Modal</Text>
+                </Pressable>
               </View>
             </View>
-          </View>
+          </Modal>
+          <Pressable
+            style={[Style.button, Style.buttonOpen]}
+            onPress={() => this.setModalVisible(true)}
+          >
+            <Text style={Style.textStyle}>Show Modal</Text>
+          </Pressable>
         </View>
       </ScrollView>
     )
