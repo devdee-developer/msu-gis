@@ -14,6 +14,7 @@ import React, { Component } from 'react'
 import Style from './Style'
 import arrow_d from '../../assets/arrow_d.png'
 import arrow_right from '../../assets/arrow_right.png'
+import axios from 'axios'
 import contact_icon_head from '../../assets/contact_icon_head.png'
 import doc_icon from '../../assets/doc_icon.png'
 import flag_icon from '../../assets/flag_icon.png'
@@ -28,83 +29,105 @@ class Screen extends Component {
     this.state = {
       activeSections: [],
       titleFilter: 'เลือกพื้นที่ดูแล เพื่อเลือกรายชื่อที่ต้องการ',
-      olderQty: '289',
+      olderQty: '',
       FilterModel: {
-        Province: 'จังหวัด มหาสารคาม',
-        District: 'อบต. สันป่าตอง',
-        Moo: 'หมู่ที่ 5',
+        Province: '',
+        District: '',
+        Moo: '',
       },
       showFilterContent: true,
       olderLists: [
-        {
-          id: 1,
-          avatar: '',
-          name: 'นาย ชัยสิทธิ์ มิตรมงคลกุล',
-          secondLine: 'อายุ 65 ปี, 3 เดือน',
-          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
-          healthText: 'ติดเตียง',
-          docText: 'กำลังประเมิน...',
-          visitText: 'ออกเยี่ยมแล้ว',
-          healthStatus: 1,
-          docStatus: 1,
-          visitStatus: 2,
-        },
-        {
-          id: 2,
-          avatar: '',
-          name: 'นาย ทวีจันทร์ ประสารสิน',
-          secondLine: 'อายุ 75 ปี, 6 เดือน',
-          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
-          healthText: 'แข็งแรง',
-          docText: 'ประเมินแล้ว',
-          visitText: 'ออกเยี่ยมแล้ว',
-          healthStatus: 1,
-          docStatus: 1,
-          visitStatus: 2,
-        },
-        {
-          id: 3,
-          avatar: '',
-          name: 'นาง วรรณา มีวาสนา',
-          secondLine: 'อายุ 61 ปี, 2 เดือน',
-          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
-          healthText: 'พยุงเดิน',
-          docText: 'ประเมินแล้ว',
-          visitText: 'รอออกเยี่ยม...',
-          healthStatus: 1,
-          docStatus: 1,
-          visitStatus: 2,
-        },
-        {
-          id: 4,
-          avatar: '',
-          name: 'นาย ทศพบ กาลชนะเลิศ',
-          secondLine: 'อายุ 78 ปี, 5 เดือน',
-          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
-          healthText: 'ติดเตียง',
-          docText: 'รอประเมิน...',
-          visitText: 'รอออกเยี่ยม...',
-          healthStatus: 1,
-          docStatus: 1,
-          visitStatus: 2,
-        },
-        {
-          id: 5,
-          avatar: '',
-          name: 'นาง กรชยา มิตรมงคลกุล',
-          secondLine: 'อายุ 65 ปี, 3 เดือน',
-          thridLine: '99/8 หมู่ 5 ตำบลสันป่าตอง',
-          healthText: 'ติดเตียง',
-          docText: 'กำลังประเมิน...',
-          visitText: 'ออกเยี่ยมแล้ว',
-          healthStatus: 1,
-          docStatus: 1,
-          visitStatus: 2,
-        },
       ],
       modalVisible: false,
     }
   }
+
+  // getAccessToken() {
+  //   var axios = require('axios')
+  //   var FormData = require('form-data')
+  //   var data = new FormData()
+  //   data.append('email', 'test@gamil.com')
+  //   data.append('password', '1234')
+
+  //   var config = {
+  //     method: 'post',
+  //     url: 'http://monplern.com/laravel/api/auth/login',
+  //     headers: {
+  //       Accept: '*/*',
+  //       'Content-Type':
+  //         'multipart/form-data; boundary=<calculated when request is sent>',
+  //       Authorization: 'Basic YnJva2VyOmJyb2tlcl8xMjM=',
+  //     },
+  //     data: data,
+  //   }
+  //   axios(config)
+  //     .then(function (response) {
+  //       console.log(JSON.stringify(response.data))
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     })
+  // }
+
+  // loginUser() {
+  //   var axios = require('axios')
+  //   var data = JSON.stringify({ user: 'msu', pass: '1qaz@WSX' })
+  //   var token =
+  //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjcyODMwMDIsImV4cCI6MTYyNzI4NjYwMiwibmJmIjoxNjI3MjgzMDAyLCJqdGkiOiJvTnhkSVgzMU42RWhGSFVEIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.s83qpQ9OnwBJUmkpwXbnCoVGhPaMUgUPEKnOLtqrH8g'
+  //   var config = {
+  //     method: 'post',
+  //     url: 'http://monplern.com/laravel/api/msulogin',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: 'Bearer ' + token,
+  //     },
+  //     data: data,
+  //   }
+  //   axios(config)
+  //     .then(function (response) {
+  //       console.log(JSON.stringify(response.data))
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error)
+  //     })
+  // }
+
+  getOlders() {
+    var data = JSON.stringify({
+      token:
+        'HrPGcbYFDu7tkfJTQl4LqEnxr8QfpbOnoPSsjbqEcSDBr4G9q0eiO//DXOpYhRtlk8Ba54XZGhLUq8FusHX1tqxZvCY9hHXOq35K+TP98ws=',
+    })
+    var headers = {
+      'Content-Type': 'application/json',
+      Authorization:
+        'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjcyODg1MDksImV4cCI6MTYyNzI5MjEwOSwibmJmIjoxNjI3Mjg4NTA5LCJqdGkiOiJ0R1F0QTkyYlpiQlBtekxWIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.xvlkE9LYwUG13iJ-ocXaAscJV4b9iWQVCoJaeW75uzs',
+    }
+    var config = {
+      method: 'post',
+      url: 'http://monplern.com/laravel/api/getOlders',
+      headers: headers,
+      data: data,
+    }
+
+    axios(config).then((response) => {
+      if (response.status == 200) {
+        this.setState({ olderLists: response.data.Data.olderLists.olders })
+        this.setState({ olderQty: response.data.Data.olderLists.totalOlder })
+        var FilterModel= {
+          Province: response.data.Data.olderLists.provinceFilter,
+          District: response.data.Data.olderLists.tambolFilter,
+          Moo: response.data.Data.olderLists.mooFilter,
+        }
+        this.setState({ FilterModel: FilterModel})
+      }
+    })
+  }
+  componentDidMount() {
+    // this.getAccessToken()
+    // this.loginUser()
+    this.getOlders()
+  }
+
   toggleshowFilterContent() {
     this.setState({
       showFilterContent: !this.state.showFilterContent,
@@ -114,12 +137,12 @@ class Screen extends Component {
     this.setState({ modalVisible: visible })
   }
 
-  renderItemOlder = (item) => {
+  renderItemOlder = (item,index) => {
     return (
-      <View style={Style.containerBgOlderList} key={item.id}>
+      <View style={Style.containerBgOlderList} key={index}>
         <View style={Style.containerOlderList}>
           <View style={Style.containerImageOlder}>
-            <Image source={{ uri: older }} style={Style.imageOlder} />
+            <Image source={{ uri: item.avatar }} style={Style.imageOlder} />
           </View>
           <View style={Style.containerOlderDetail}>
             <Text style={Style.textOlderName}>{item.name}</Text>
@@ -141,9 +164,8 @@ class Screen extends Component {
             }}
           >
             <TouchableOpacity onPress={() => this.setModalVisible(true)}>
-            <Image source={{ uri: arrow_right }} style={Style.arrow_right} />
-          </TouchableOpacity>
-            
+              <Image source={{ uri: arrow_right }} style={Style.arrow_right} />
+            </TouchableOpacity>
           </View>
         </View>
         <View style={Style.containerTagHr}>
@@ -212,7 +234,6 @@ class Screen extends Component {
   }
 
   render() {
-    const { modalVisible } = this.state
     return (
       <ScrollView style={Style.container}>
         <View style={Style.containerFilterHead}>
@@ -269,17 +290,17 @@ class Screen extends Component {
           <Text style={Style.textNumberOlderQty}>{this.state.olderQty} คน</Text>
           <View style={{ flex: 1 }}></View>
         </View>
-        {this.state.olderLists.map((item) => {
-          return this.renderItemOlder(item)
+        {this.state.olderLists.map((item,index) => {
+          return this.renderItemOlder(item,index)
         })}
-        <View style={Style.centeredView}>
+        {/* <View style={Style.centeredView}>
           <Modal
             animationType="slide"
             transparent={true}
-            visible={modalVisible}
+            visible={this.state.modalVisible}
             onRequestClose={() => {
               Alert.alert('Modal has been closed.')
-              this.setModalVisible(!modalVisible)
+              this.setModalVisible(!this.state.modalVisible)
             }}
           >
             <View style={Style.centeredView}>
@@ -287,7 +308,7 @@ class Screen extends Component {
                 <Text style={Style.modalText}>Hello World!</Text>
                 <Pressable
                   style={[Style.button, Style.buttonClose]}
-                  onPress={() => this.setModalVisible(!modalVisible)}
+                  onPress={() => this.setModalVisible(!this.state.modalVisible)}
                 >
                   <Text style={Style.textStyle}>Hide Modal</Text>
                 </Pressable>
@@ -300,7 +321,7 @@ class Screen extends Component {
           >
             <Text style={Style.textStyle}>Show Modal</Text>
           </Pressable>
-        </View>
+        </View> */}
       </ScrollView>
     )
   }
