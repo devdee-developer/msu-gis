@@ -9,77 +9,9 @@ import React, { Component } from "react";
 import Card from '../../components/CardCustomComponent/Screen'
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
-
+import axios from "axios";
+import { apiUrl } from "../../constants/config";
 const deviceHeight = Dimensions.get("window").height;
-const listNews = [
-  {
-    thumbnail: "http://monplern.com/laravel/img/news1.png",
-    header:
-      "เปิดรับอาสาสมัครเพื่อออกตรวจเยี่ยมผู้สูงอายุประจำปี 2564 ตั้งแต่วันนี้ถึง 31 ธันวาคม 2564",
-    publicDate: "11 ธันวาคม 2564",
-    banner: "http://monplern.com/laravel/img/bannerNews.png",
-    detail:
-      "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                        <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                        <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                        <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                        ",
-    vdoLink: [
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-    ],
-  },
-  {
-    thumbnail: "http://monplern.com/laravel/img/news2.png",
-    header:
-      "เริ่มต้นตรวจเชิงรุก เพื่อค้นหาผู้มีความเสี่ยงต่อการติดเชื้อป้องกันการแพร่กระจายของเชื้อโควิด 19",
-    publicDate: "11 ธันวาคม 2564",
-    banner: "http://monplern.com/laravel/img/bannerNews.png",
-    detail:
-      "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                        <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                        <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                        <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                        ",
-    vdoLink: [
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-    ],
-  },
-  {
-    thumbnail: "http://monplern.com/laravel/img/news3.png",
-    header:
-      "อาสาสมัครรุ่นใหม่เร่ิมต้นการลงเพื้นที่เพื่อให้บริหารด้านการตรวจสุขภาพผู้สูงอายุในพื้นที่ทั้งหมด",
-    publicDate: "11 ธันวาคม 2564",
-    banner: "http://monplern.com/laravel/img/bannerNews.png",
-    detail:
-      "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                        <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                        <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                        <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                        ",
-    vdoLink: [
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-    ],
-  },
-  {
-    thumbnail: "http://monplern.com/laravel/img/news4.png",
-    header:
-      "ฝึกอบรมลูกหลานผู้สูงอายุ เพื่อการดูแลผู้สูงอายุที่อยู่บ้านด้วยตัวเองได้อย่างถูกวิธีด้วยบุคลากรผู้เชียวชาญจากจังหวัด",
-    publicDate: "11 ธันวาคม 2564",
-    banner: "http://monplern.com/laravel/img/bannerNews.png",
-    detail:
-      "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                        <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                        <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                        <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                        ",
-    vdoLink: [
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-    ],
-  },
-  {
-    thumbnail: "http://monplern.com/laravel/img/news5.png",
-    header:
-      "เปิดรับอาสาสมัครเพื่อออกตรวจเยี่ยมผู้สูงอายุประจำปี 2564 ตั้งแต่วันนี้ถึง 31 ธันวาคม 2564",
-    publicDate: "11 ธันวาคม 2564",
-    banner: "http://monplern.com/laravel/img/bannerNews.png",
-    detail:
-      "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                        <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                        <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                        <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                        ",
-    vdoLink: [
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-      "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-    ],
-  },
-];
-
-
 
 class Screen extends Component {
   constructor(props) {
@@ -87,98 +19,54 @@ class Screen extends Component {
     this.state = {
       position: 2,
       interval: null,
-      dataSource: [
-        {
-          thumbnail: "http://monplern.com/laravel/img/news1.png",
-          header:
-            "เปิดรับอาสาสมัครเพื่อออกตรวจเยี่ยมผู้สูงอายุประจำปี 2564 ตั้งแต่วันนี้ถึง 31 ธันวาคม 2564",
-          publicDate: "11 ธันวาคม 2564",
-          url: "http://monplern.com/laravel/img/slide1.png",
-          banner: "http://monplern.com/laravel/img/slide1.png",
-          detail:
-            "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                        <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                        <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                        <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                        <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                        <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                        ",
-          vdoLink: [
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-          ],
-        },
-        {
-          thumbnail: "http://monplern.com/laravel/img/news2.png",
-          header:
-            "เริ่มต้นตรวจเชิงรุก เพื่อค้นหาผู้มีความเสี่ยงต่อการติดเชื้อป้องกันการแพร่กระจายของเชื้อโควิด 19",
-          publicDate: "11 ธันวาคม 2564",
-          url: "http://monplern.com/laravel/img/slide2.png",
-          banner: "http://monplern.com/laravel/img/slide2.png",
-          detail:
-            "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                    <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                    <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                    <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                    <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                    <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                    <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                    <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                    ",
-          vdoLink: [
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-          ],
-        },
-        {
-          thumbnail: "http://monplern.com/laravel/img/news3.png",
-          header:
-            "อาสาสมัครรุ่นใหม่เร่ิมต้นการลงเพื้นที่เพื่อให้บริหารด้านการตรวจสุขภาพผู้สูงอายุในพื้นที่ทั้งหมด",
-          publicDate: "11 ธันวาคม 2564",
-          url: "http://monplern.com/laravel/img/slide3.png",
-          banner: "http://monplern.com/laravel/img/slide3.png",
-          detail:
-            "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                    <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                    <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                    <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                    <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                    <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                    <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                    <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                    ",
-          vdoLink: [
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-          ],
-        },
-        {
-          thumbnail: "http://monplern.com/laravel/img/news3.png",
-          header:
-            "อาสาสมัครรุ่นใหม่เร่ิมต้นการลงเพื้นที่เพื่อให้บริหารด้านการตรวจสุขภาพผู้สูงอายุในพื้นที่ทั้งหมด",
-          publicDate: "11 ธันวาคม 2564",
-          url: "http://monplern.com/laravel/img/slide3.png",
-          banner: "http://monplern.com/laravel/img/slide3.png",
-          detail:
-            "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                    <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                    <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                    <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                    <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                    <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                    <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                    <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                    ",
-          vdoLink: [
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-          ],
-        },
-        {
-          thumbnail: "http://monplern.com/laravel/img/news3.png",
-          header:
-            "อาสาสมัครรุ่นใหม่เร่ิมต้นการลงเพื้นที่เพื่อให้บริหารด้านการตรวจสุขภาพผู้สูงอายุในพื้นที่ทั้งหมด",
-          publicDate: "11 ธันวาคม 2564",
-          url: "http://monplern.com/laravel/img/slide3.png",
-          banner: "http://monplern.com/laravel/img/slide3.png",
-          detail:
-            "<h2>ผู้ป่วยรายแรกเท่าที่ทราบกันเริ่มมีอากรตั้งแต่วันที่ 1 ธันวาคมและไม่ความเชื่อมโยงกับตลาดต้องสงสัยในเมือง อู่ฮั่น</h2>\n                    <p>มีการเก็บตัวอย่างจากสิ่งแวดล้อมในตลาดไปส่งตรวจและพบเชื้อไวรัสและพบมากที่สุดในบริเวณที่ค้าสัตว์ป่าและสัตว์เลี้ยงในปาร์ม</p>\n                    <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่การติดต่อโดยระบบทางเดินอาหารยังไม่เป็นที่ยืนยันการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสัมผัสใกล้ชิดกับผุ้ป่วยโควิด</p>\n                    <p><img src='http://monplern.com/laravel/img/newsDetail1.png' /></p>\n                    <h2>การกักกันคือการจำกันกิจกรรมต่างๆ หรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติ สัมผัสใกล้ชิดกับผู้ป่วยโควิด<h2/>\n                    <p>การเพิ่มจำนวนของไวรัสเกิดขึ้นในระบบทางเดินหายใจส่วนบนและในปอดมีงานวิจัยในช่วงแรกระบุว่าการเพิ่มจำนวนของไวรัสได้ในระบบทางเดินอาหารแต่ยังไม่เป็นที่ยืนยันทการกักกันคือการจำกัดกิจกรรมต่างๆหรือการแยกผู้ที่ไม่ป่วยแต่อาจมีประวัติสมัผัสใกล้ชิดกับผู้ป่วยโควิด</p>\n                    <p><img src='http://monplern.com/laravel/img/newsDetail2.png' /></p>\n                    <h2>เรามาร่วมกันหยุดยั้งการแพร่ระบาดของโควิด<h2/>\n                    ",
-          vdoLink: [
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-            "https://www.youtube.com/watch?time_continue=1&v=OjGWViz_9hI&feature=emb_logo",
-          ],
-        },
-      ],
+      dataSource: [],
+      newsList:[]
     };
   }
   componentDidMount() {
-    this.setState({
-      interval: setInterval(() => {
-        this.setState({
-          position:
-            this.state.position === this.state.dataSource.length
-              ? 0
-              : this.state.position + 1,
-        });
-      }, 4000),
-    });
+ 
+    this.loadData()
   }
+  
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
+  async loadData(){
+    const url = `${apiUrl}/getNews`
+    const data = {token:"HW3DgGnn73CIfdHtOZaViXYBN4H32z7NT63Q5r6sm7vBL77spcGx0mEWSmTYla+hKoK0zi02oo/NmBniuMI0kYIveDwIJABedVILkDhDPnA="}
+    const headers = {
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjcyODUwMTUsImV4cCI6MTYyNzI4ODYxNSwibmJmIjoxNjI3Mjg1MDE1LCJqdGkiOiJOSWFKUER1NzA3U09Da3RNIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.Z8RvcLL-tjsJ2qTOXoD5Om2REXUpSrlLEIxoYwj3_jY'
+    }
+    try{
+      const res = await axios.post(url,data,{headers:headers});
+      const result = await res.data.Data
+      this.intialData(result)
+    }
+    
+    catch(err){
+      alert(`api error :${err}`)
+      console.log(`api error :${err}`)
+    }
+  }
+  intialData(data){
+
+    this.setState({dataSource:data.sildeNews[0].map(silde=>{silde.url = silde.banner; return silde}),newsList:data.newsList},() => {
+      this.setState({
+        interval: setInterval(() => {
+          this.setState({
+            position:
+              this.state.position === this.state.dataSource.length
+                ? 0
+                : this.state.position + 1,
+          });
+        }, 5000),
+      });
+  });
+   
+  }
   render() {
    const renderNewsList = () => {
-      return listNews.map((data, index) => (
+      return this.state.newsList.map((data, index) => (
           <Card key={'news'+index} onPress={() =>  this.props.navigation.navigate("NewsDetailScreen", { detail: data })} thumbnail={data.banner} text={data.header} date={data.publicDate}/>
       ));
     };
@@ -195,7 +83,7 @@ class Screen extends Component {
           </View>
 
           <View style={Style.sliderGroup}>
-            <Slideshow
+           {this.state.dataSource.length>0&& <Slideshow
               dataSource={this.state.dataSource}
               position={this.state.position}
               height={deviceHeight / 3}
@@ -207,7 +95,7 @@ class Screen extends Component {
               onPress={(item) => {
                 this.props.navigation.navigate("NewsDetailScreen", { detail: item.image });
               }}
-            />
+            />} 
             <View style={{ height: 5 }}></View>
           </View>
           <View
