@@ -35,7 +35,7 @@ class Screen extends Component {
     const url = `${apiUrl}/getNews`
     const data = {token:"HW3DgGnn73CIfdHtOZaViXYBN4H32z7NT63Q5r6sm7vBL77spcGx0mEWSmTYla+hKoK0zi02oo/NmBniuMI0kYIveDwIJABedVILkDhDPnA="}
     const headers = {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjcyODUwMTUsImV4cCI6MTYyNzI4ODYxNSwibmJmIjoxNjI3Mjg1MDE1LCJqdGkiOiJOSWFKUER1NzA3U09Da3RNIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.Z8RvcLL-tjsJ2qTOXoD5Om2REXUpSrlLEIxoYwj3_jY'
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjcyOTc4NzksImV4cCI6MTYyNzMwMTQ3OSwibmJmIjoxNjI3Mjk3ODc5LCJqdGkiOiJlMW1leUNESnZOdFNCZlVWIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.YbzIZecvBbMrt8guIIvGe5SH4vPRNAGKmtR1KdPpHyI'
     }
     try{
       const res = await axios.post(url,data,{headers:headers});
@@ -50,7 +50,7 @@ class Screen extends Component {
   }
   intialData(data){
 
-    this.setState({dataSource:data.sildeNews[0].map(silde=>{silde.url = silde.banner; return silde}),newsList:data.newsList},() => {
+    this.setState({dataSource:data.slideNews.map(slide=>({...slide,url:slide.banner})),newsList:data.newsList},() => {
       this.setState({
         interval: setInterval(() => {
           this.setState({
