@@ -10,7 +10,7 @@ export default StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   titleLabel:{
-    fontFamily: "Prompt-Medium",
+    // fontFamily: "Prompt-Medium",
     color: "#010979",
     fontSize: 26,
   },

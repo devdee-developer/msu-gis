@@ -9,8 +9,9 @@ import React, { Component } from "react";
 import Card from '../../components/CardCustomComponent/Screen'
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
-import axios from "axios";
 import { apiUrl } from "../../constants/config";
+import axios from "axios";
+
 const deviceHeight = Dimensions.get("window").height;
 
 class Screen extends Component {
@@ -33,9 +34,9 @@ class Screen extends Component {
   }
   async loadData(){
     const url = `${apiUrl}/getNews`
-    const data = {token:"HW3DgGnn73CIfdHtOZaViXYBN4H32z7NT63Q5r6sm7vBL77spcGx0mEWSmTYla+hKoK0zi02oo/NmBniuMI0kYIveDwIJABedVILkDhDPnA="}
+    const data = {token:"tmBuEi2P2jGObC+3CGWVP/76gSbDFstOqten9UuHZbslBMVEcntSnGcTTN0ifeOvYfLLI09f2MoVGAA6ey7OjOuRLUo1N9761hyKZKBvTBU="}
     const headers = {
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjcyOTc4NzksImV4cCI6MTYyNzMwMTQ3OSwibmJmIjoxNjI3Mjk3ODc5LCJqdGkiOiJlMW1leUNESnZOdFNCZlVWIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.YbzIZecvBbMrt8guIIvGe5SH4vPRNAGKmtR1KdPpHyI'
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjczNzMxMjQsImV4cCI6MTYyNzM3NjcyNCwibmJmIjoxNjI3MzczMTI0LCJqdGkiOiJUWGdmeXZiZXlVSXE4NGNtIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.1AfHdSrS0P5bOYqKaOzKs8UHIwXhDonr-Q_3dK0IuII'
     }
     try{
       const res = await axios.post(url,data,{headers:headers});
@@ -91,7 +92,10 @@ class Screen extends Component {
               indicatorColor={"rgba(0, 9, 121, 1)"}
               indicatorSelectedColor={"rgba(118,118,255,1)"}
               onPositionChanged={(position) => this.setState({ position })}
-              containerStyle={Style.sliderContainer}
+              containerStyle={{flex: 1,
+                backgroundColor: "#FFFFFF",
+                paddingBottom: 30,
+                justifyContent: "space-between",}}
               onPress={(item) => {
                 this.props.navigation.navigate("NewsDetailScreen", { detail: item.image });
               }}
