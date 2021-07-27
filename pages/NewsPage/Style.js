@@ -18,10 +18,5 @@ export default StyleSheet.create({
     height: deviceHeight / 3,
     backgroundColor: "#FFFFFF",
   },
-  sliderContainer: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    paddingBottom: 30,
-    justifyContent: "space-between",
-  },
+
 });
