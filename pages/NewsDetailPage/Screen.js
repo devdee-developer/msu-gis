@@ -5,9 +5,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Share
 } from "react-native";
 import React, { Component } from "react";
-import RenderHtml, { defaultSystemFonts } from "react-native-render-html";
+import RenderHtml from "react-native-render-html";
 
 import CalendarIcon from "../../assets/calendar_icon.png";
 import Style from "./Style";
@@ -15,23 +16,10 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import iconShare from "../../assets/icon_share.png";
 import logoGIS from "../../assets/logo_with_label.png";
 
-const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
-const ratio = deviceWidth / 640;
-const ShareButton = () => (
-  <TouchableOpacity
-    style={{
-      width: 91,
-      height: 40,
-      backgroundColor: "#7676FF",
-      borderRadius: 7,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-evenly",
-      padding: 10,
-    }}
-    onPress={() => {}}
-  >
+
+const ShareButton = ({ onPress }) => (
+  <TouchableOpacity style={Style.shareButton} onPress={onPress}>
     <Text style={{ color: "#FFFFFF", fontSize: 16 }}>แชร์</Text>
     <Image source={iconShare} style={{ width: 16.58, height: 19.91 }} />
   </TouchableOpacity>
@@ -47,7 +35,7 @@ class Screen extends Component {
   }
 
   render() {
-    const { header, publicDate, banner, detail,vdoLink } = this.state;
+    const { header, publicDate, banner, detail, vdoLink } = this.state;
     const renderVideo = () => {
       return (
         vdoLink &&
@@ -70,14 +58,32 @@ class Screen extends Component {
         })
       );
     };
-
+    const onShare = async () => {
+      try {
+        const result = await Share.share({
+          message:
+            "React Native | A framework for building native apps using React"
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    };
     return (
       <View style={Style.container}>
         <ScrollView style={Style.scrollView}>
           <View
             style={{
               padding: 15,
-              paddingBottom: 0,
+              paddingBottom: 0
             }}
           >
             <Text style={Style.titleLabel}>{header}</Text>
@@ -87,26 +93,16 @@ class Screen extends Component {
               flexDirection: "row",
               alignItems: "flex-end",
               marginBottom: 15,
-              marginHorizontal: 15,
+              marginHorizontal: 15
             }}
           >
             <View style={Style.date}>
               <Image source={CalendarIcon} style={Style.dateIcon} />
               <Text style={Style.dateLabel}>{publicDate}</Text>
             </View>
-            <ShareButton />
+            <ShareButton onPress={() => onShare()} />
           </View>
-          {banner && (
-            <Image
-              source={{ uri: banner }}
-              style={{
-                height: 420 * ratio,
-                width: deviceWidth,
-                resizeMode: "cover",
-                marginTop: 10,
-              }}
-            />
-          )}
+          {banner && <Image source={{ uri: banner }} style={Style.banner} />}
 
           <View style={{ padding: 15 }}>
             {detail && (
@@ -121,26 +117,12 @@ class Screen extends Component {
             {renderVideo()}
           </View>
           <View style={{ padding: 15 }}>
-            <View
-              style={{
-                borderWidth: 1,
-                width: deviceWidth * 0.9,
-                borderColor: "#3B3D48",
-                marginVertical: 25,
-              }}
-            />
+            <View style={Style.line} />
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <Image
-                source={logoGIS}
-                style={{
-                  height: 39,
-                  width: 195,
-                  resizeMode: "contain",
-                }}
-              />
-              <ShareButton />
+              <Image source={logoGIS} style={Style.imageFooter} />
+              <ShareButton onPress={() => onShare(header)} />
             </View>
             <View
               style={[Style.date, { marginTop: 20, alignSelf: "flex-end" }]}

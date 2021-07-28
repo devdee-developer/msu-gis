@@ -58,13 +58,13 @@ class App extends Component {
             component={ContactScreen}
           />
           <Stack.Screen
-            options={{ headerShown: true }}
-            options={{
-              headerRight: (props) => <HeaderWithSearch {...props} />,
-              headerTitle: () => null,
-              headerBackTitleVisible: false,
-              headerBackImage: (props) => <Back {...props} />,
-            }}
+            options={{ headerShown: false }}
+            // options={{
+            //   headerRight: (props) => <HeaderWithSearch {...props} />,
+            //   headerTitle: () => null,
+            //   headerBackTitleVisible: false,
+            //   headerBackImage: (props) => <Back {...props} />,
+            // }}
             name="NewsScreen"
             component={NewsScreen}
           />
