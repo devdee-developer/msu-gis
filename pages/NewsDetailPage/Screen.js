@@ -17,6 +17,7 @@ import iconShare from "../../assets/icon_share.png";
 import logoGIS from "../../assets/logo_with_label.png";
 
 const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 const ShareButton = ({ onPress }) => (
   <TouchableOpacity style={Style.shareButton} onPress={onPress}>
@@ -50,7 +51,7 @@ class Screen extends Component {
           return (
             <YoutubePlayer
               key={`video${index}`}
-              height={220}
+              height={deviceWidth*(9/16)}
               play={false}
               videoId={videoId}
             />

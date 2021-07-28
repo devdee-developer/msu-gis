@@ -19,7 +19,7 @@ const deviceWidth = Dimensions.get("window").width;
 class Screen extends Component {
   constructor(props) {
     super(props);
-    this.state = { search: "" ,onFocus:false};
+    this.state = { onFocus:false};
    
   }
   width = new Animated.Value(90);
@@ -32,7 +32,7 @@ class Screen extends Component {
   };
   animateOut = () => {
     this.setState({onFocus:false})
-    if (this.state.search.length == 0) {
+    if (this.props.value.length == 0) {
       Animated.timing(this.width, {
         toValue: 90,
         duration: 300
@@ -40,7 +40,6 @@ class Screen extends Component {
     }
   };
   onChange = (text) => {
-    this.setState({ search: text });
     this.props.onChangeText(text);
   };
   render() {
