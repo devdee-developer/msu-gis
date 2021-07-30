@@ -41,18 +41,4 @@ export default StyleSheet.create({
     width: 11,
     height: 7,
   },
-  date: {
-    flexDirection: "row",
-    flex: 1,
-    alignItems: "center",
-  },
-  dateIcon: {
-    width: 13.84,
-    height: 13.84,
-  },
-  dateLabel: {
-    marginLeft: 5,
-    fontSize: 12,
-    color: "#97989B",
-  },
 });

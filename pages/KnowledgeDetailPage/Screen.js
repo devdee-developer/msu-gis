@@ -5,10 +5,11 @@ import {
   Share,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import React, { Component } from "react";
 
+import BookIcon from "../../assets/icon_book.png";
 import CalendarIcon from "../../assets/calendar_icon.png";
 import RenderHtml from "react-native-render-html";
 import Style from "./Style";
@@ -36,7 +37,7 @@ class Screen extends Component {
   }
 
   render() {
-    const { header, publicDate, banner, detail, vdoLink } = this.state;
+    const { header, publicDate, subHead, banner, detail, vdoLink } = this.state;
     const renderVideo = () => {
       return (
         vdoLink &&
@@ -51,7 +52,7 @@ class Screen extends Component {
           return (
             <YoutubePlayer
               key={`video${index}`}
-              height={deviceWidth*(9/16)}
+              height={deviceWidth * (9 / 16)}
               play={false}
               videoId={videoId}
             />
@@ -63,7 +64,7 @@ class Screen extends Component {
       try {
         const result = await Share.share({
           message:
-            "React Native | A framework for building native apps using React"
+            "React Native | A framework for building native apps using React",
         });
         if (result.action === Share.sharedAction) {
           if (result.activityType) {
@@ -84,7 +85,7 @@ class Screen extends Component {
           <View
             style={{
               padding: 15,
-              paddingBottom: 0
+              paddingBottom: 0,
             }}
           >
             <Text style={Style.titleLabel}>{header}</Text>
@@ -94,12 +95,12 @@ class Screen extends Component {
               flexDirection: "row",
               alignItems: "flex-end",
               marginBottom: 15,
-              marginHorizontal: 15
+              marginHorizontal: 15,
             }}
           >
-            <View style={Style.date}>
-              <Image source={CalendarIcon} style={Style.dateIcon} />
-              <Text style={Style.dateLabel}>{publicDate}</Text>
+            <View style={Style.subHead}>
+              <Image source={BookIcon} style={Style.subTextIcon} />
+              <Text style={Style.subTextLabel}>{subHead}</Text>
             </View>
             <ShareButton onPress={() => onShare()} />
           </View>
@@ -125,12 +126,14 @@ class Screen extends Component {
               <Image source={logoGIS} style={Style.imageFooter} />
               <ShareButton onPress={() => onShare(header)} />
             </View>
-            <View
-              style={[Style.date, { marginTop: 20, alignSelf: "flex-end" }]}
-            >
-              <Image source={CalendarIcon} style={Style.dateIcon} />
-              <Text style={Style.dateLabel}>{publicDate}</Text>
-            </View>
+            {publicDate && (
+              <View
+                style={[Style.date, { marginTop: 20, alignSelf: "flex-end" }]}
+              >
+                <Image source={CalendarIcon} style={Style.dateIcon} />
+                <Text style={Style.dateLabel}>{publicDate}</Text>
+              </View>
+            )}
           </View>
         </ScrollView>
       </View>

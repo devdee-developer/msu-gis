@@ -2,7 +2,6 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import React, { Component } from "react";
 
 import ArrowRight from "../../assets/arrow-r-yellow.png";
-import CalendarIcon from "../../assets/calendar_icon.png";
 import Style from "./Style";
 
 class Screen extends Component {
@@ -10,16 +9,17 @@ class Screen extends Component {
     super(props);
   }
   render() {
-    const {thumbnail,text,date,onPress}= this.props;
+    const {cardStyle,thumbnail,text,footer,onPress}= this.props;
+    const customStyle = {...cardStyle}
     return (
-      <TouchableOpacity style={Style.card} onPress={onPress}>
+      <TouchableOpacity style={[Style.card,customStyle]} onPress={onPress}>
         <View style={{ width: 115 }}>
           <View style={{ flex: 4, padding: 5 }}>
             <Image
               source={{ uri: thumbnail }}
               style={Style.cardImg}
               resizeMode="contain"
-            ></Image>
+            />
           </View>
           <View style={{ flex: 1 }}></View>
         </View>
@@ -34,12 +34,7 @@ class Screen extends Component {
               <Text style={Style.buttonDetailLabel}>รายละเอียด</Text>
               <Image source={ArrowRight} style={Style.buttonDetailIcon} />
             </View>
-            {date && (
-              <View style={Style.date}>
-                <Image source={CalendarIcon} style={Style.dateIcon} />
-                <Text style={Style.dateLabel}>{date}</Text>
-              </View>
-            )}
+            {footer}
           </View>
         </View>
       </TouchableOpacity>

@@ -12,7 +12,9 @@ export default StyleSheet.create({
   titleGroup: {
     paddingHorizontal: 20,
     paddingVertical: 15,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#F5C761",
+    height: 98,
+    flexDirection: "row",
   },
   sliderGroup: {
     height: deviceHeight / 3,
@@ -20,15 +22,17 @@ export default StyleSheet.create({
   },
   cardFooter: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    flex: 1,
+    marginBottom: 15,
   },
   cardFooterIcon: {
-    width: 13.84,
-    height: 13.84,
+    width: 13,
+    height: 11,
+    marginTop: 5,
   },
   cardFooterLabel: {
     marginLeft: 5,
-    fontSize: 16,
-    color: "#97989B",
+    fontSize: 14,
+    color: "#6F63FD",
   },
 });

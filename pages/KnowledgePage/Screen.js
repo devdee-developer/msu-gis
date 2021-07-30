@@ -1,18 +1,20 @@
 import {
   Dimensions,
+  FlatList,
   Image,
   RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
-  View
+  TouchableOpacity,
+  View,
 } from "react-native";
 import React, { Component } from "react";
 
-import CalendarIcon from "../../assets/calendar_icon.png";
+import BookIcon from "../../assets/icon_book.png";
 import Card from "../../components/CardCustomComponent/Screen";
 import HeaderWithSearch from "../../components/HeaderWithSearchComponent/Screen";
-import Slideshow from "react-native-image-slider-show";
+import KnowledgeImage from "../../assets/knowledge.png";
 import Style from "./Style";
 import { apiUrl } from "../../constants/config";
 import axios from "axios";
@@ -32,11 +34,10 @@ class Screen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      position: 2,
-      interval: null,
-      dataSource: [],
-      newsList: [],
-      newsListFromSearch: [],
+      knowledgeListAll:[],
+      knowledgeList: [],
+      knowledgeListFromSearch: [],
+      category:'',
       refreshing: false,
       search: "",
     };
@@ -51,7 +52,7 @@ class Screen extends Component {
   }
   async loadData() {
     this.setState({ refreshing: true });
-    const url = `${apiUrl}/getNews`;
+    const url = `${apiUrl}/getKm`;
     const data = {
       token:
         "MeeElCz/poyagBzgnnS1ReKQJOhARSnwOgVvg8m0I/TDB70i8XFTL3DOT/pFNjqvKKzjj1VnE0KZ8gRU0kHxFGZnlEUw0mBnom0kcVCnNk8=",
@@ -71,84 +72,87 @@ class Screen extends Component {
     }
   }
   intialData(data) {
-    this.setState(
-      {
-        position: 2,
-        dataSource: data.slideNews.map((slide) => ({
-          ...slide,
-          url: slide.banner,
-        })),
-        newsList: data.newsList,
-      },
-      () => {
-        this.setState({
-          interval: setInterval(() => {
-            this.setState({
-              position:
-                this.state.position === this.state.dataSource.length
-                  ? 0
-                  : this.state.position + 1,
-            });
-          }, 5000),
-        });
-      }
-    );
+    this.setState({
+      knowledgeListAll:data.data,
+      knowledgeList: data.data,
+      categoryList: data.categoryList,
+      category:data.categoryList?data.categoryList[0]:''
+    });
   }
   onRefresh = () => {
-    clearInterval(this.state.interval);
     this.loadData();
   };
   onSearch = (e) => {
     this.setState({ search: e });
     let text = e.toLowerCase();
-    let listItem = this.state.newsList;
+    let listItem = this.state.knowledgeListAll;
     let filteredHeader = listItem.filter((item) => {
       return item.header.toLowerCase().match(text);
     });
     if (!text || text === "") {
     } else if (!Array.isArray(filteredHeader) && !filteredHeader.length) {
     } else if (Array.isArray(filteredHeader)) {
-      this.setState({ newsListFromSearch: filteredHeader });
+      this.setState({ knowledgeListFromSearch: filteredHeader });
     }
   };
   debounceSearch = debounce(this.onSearch, 500);
   render() {
     const FooterCard = ({ label }) => (
       <View style={Style.cardFooter}>
-        <Image source={CalendarIcon} style={Style.cardFooterIcon} />
+        <Image source={BookIcon} style={Style.cardFooterIcon} />
         <Text style={Style.cardFooterLabel}>{label}</Text>
       </View>
     );
-    const renderNewsList = () => {
-      return this.state.newsList.map((data, index) => (
+    const renderKnowledgeList = () => {
+      return this.state.knowledgeList.map((data, index) => (
         <Card
-          key={"news" + index}
+          key={"knowledge" + index}
           onPress={() =>
-            this.props.navigation.navigate("NewsDetailScreen", { detail: data })
+            this.props.navigation.navigate("KnowledgeDetailScreen", {
+              detail: data,
+            })
           }
-          thumbnail={data.banner}
+          thumbnail={data.thumbnail}
           text={data.header}
-          footer={
-            <FooterCard label={data.publicDate}/>
-          }
+          cardStyle={{ height: 100 }}
+          footer={<FooterCard label={data.subHead} />}
         />
       ));
     };
-    const renderNewsListFilter = () => {
-      return this.state.newsListFromSearch.map((data, index) => (
+    const renderKnowledgeListFilter = () => {
+      return this.state.knowledgeListFromSearch.map((data, index) => (
         <Card
-          key={"newsSearch" + index}
+          key={"knowledge" + index}
           onPress={() =>
-            this.props.navigation.navigate("NewsDetailScreen", { detail: data })
+            this.props.navigation.navigate("KnowledgeDetailScreen", {
+              detail: data,
+            })
           }
-          thumbnail={data.banner}
+          thumbnail={data.thumbnail}
           text={data.header}
-          footer={
-            <FooterCard label={data.publicDate}/>
-          }
+          cardStyle={{ height: 100 }}
+          footer={<FooterCard label={data.subHead} />}
         />
       ));
     };
+
+    const renderCategory = ({ item }) => <CategoryButton label={item} />;
+    const CategoryButton = ({ label }) => (
+      <TouchableOpacity
+        style={{
+          backgroundColor: this.state.category == label?"#6F63FD":"#DCCFFE",
+          height: 40,
+          paddingVertical: 6,
+          paddingHorizontal: 18,
+          marginLeft: 13,
+          borderRadius: 8,
+          alignItems:'center'
+        }}
+        onPress={()=>this.setState({category:label, knowledgeList: this.state.knowledgeListAll.filter(item=>item.category==label)})}
+      >
+        <Text style={{fontSize:18,color: this.state.category == label?"#FFFFFF":'#3B3D48'}}>{label}</Text>
+      </TouchableOpacity>
+    );
     return (
       <>
         <HeaderWithSearch
@@ -165,9 +169,10 @@ class Screen extends Component {
               ]}
             >
               <Text style={{ color: "#010979", fontSize: 18, margin: 20 }}>
-                ตรงกับคำที่ค้นหา {this.state.newsListFromSearch.length} รายการ
+                ตรงกับคำที่ค้นหา {this.state.knowledgeListFromSearch.length}{" "}
+                รายการ
               </Text>
-              <ScrollView>{renderNewsListFilter()}</ScrollView>
+              <ScrollView>{renderKnowledgeListFilter()}</ScrollView>
             </View>
           )}
           <ScrollView
@@ -180,52 +185,43 @@ class Screen extends Component {
             }
           >
             <View style={Style.titleGroup}>
-              <Text style={{ fontSize: 30, color: "#010979" }}>
-                ข่าวสารและกิจกรรม
-              </Text>
-              <Text style={{ fontSize: 16, color: "#3B3D48" }}>
-                แจ้งข่าว กิจกรรมและการปฏิบัติหน้าที่อาสาสมัครชุมชน{" "}
-              </Text>
+              <View style={{ width: 100 }}>
+                <Image
+                  source={KnowledgeImage}
+                  style={{ height: 60.47, width: 75.94 }}
+                  resizeMode="contain"
+                />
+              </View>
+              <View style={{ flex: 3 }}>
+                <Text style={{ fontSize: 30, color: "#010979" }}>
+                  คลังความรู้
+                </Text>
+                <Text style={{ fontSize: 16, color: "#3B3D48" }}>
+                  รวบรวมองค์ความรู้ด้านต่างๆ ไว้ที่นี่
+                </Text>
+              </View>
+            </View>
+            <View style={{ height: 76 ,paddingVertical:18,backgroundColor:'#FFFFFF'}}>
+              <FlatList
+                horizontal={true}
+                data={this.state.categoryList}
+                renderItem={renderCategory}
+                keyExtractor={(item) => item}
+                showsHorizontalScrollIndicator={false}
+              />
             </View>
 
-            <View style={Style.sliderGroup}>
-              {this.state.dataSource.length > 0 && (
-                <Slideshow
-                  dataSource={this.state.dataSource}
-                  position={this.state.position}
-                  height={deviceHeight / 3}
-                  arrowSize={0}
-                  indicatorColor={"rgba(0, 9, 121, 1)"}
-                  indicatorSelectedColor={"rgba(118,118,255,1)"}
-                  onPositionChanged={(position) => this.setState({ position })}
-                  containerStyle={{
-                    flex: 1,
-                    backgroundColor: "#FFFFFF",
-                    paddingBottom: 30,
-                    justifyContent: "space-between",
-                  }}
-                  onPress={(item) => {
-                    this.props.navigation.navigate("NewsDetailScreen", {
-                      detail: item.image,
-                    });
-                  }}
-                />
-              )}
-              <View style={{ height: 5 }}></View>
-            </View>
             <View
               style={{
                 paddingHorizontal: 20,
-                paddingVertical: 15,
+                paddingVertical: 23,
                 flexDirection: "row",
               }}
             >
-              <View>
-                <Text style={{ fontSize: 30, color: "#010979" }}>
-                  ข่าวทั้งหมด
-                </Text>
-                <Text style={{ fontSize: 16, color: "#3B3D48" }}>
-                  เพื่อไม่พลาดทุกเรื่องราวที่เกิดขึ้น
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ fontSize: 18, color: "#010979" }}>ทั้งหมด </Text>
+                <Text style={{ fontSize: 18, color: "#6F63FD" }}>
+                  {this.state.knowledgeList.length} รายการ
                 </Text>
               </View>
               <View
@@ -238,7 +234,7 @@ class Screen extends Component {
                 {/* for button  */}
               </View>
             </View>
-            {renderNewsList()}
+            {renderKnowledgeList()}
           </ScrollView>
         </View>
       </>

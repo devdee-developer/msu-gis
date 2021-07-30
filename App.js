@@ -7,6 +7,8 @@ import { HeaderBackButton } from "@react-navigation/stack";
 import HeaderWithSearch from "./components/HeaderWithSearchComponent/Screen";
 import HomeScreen from "./pages/HomePage/Screen";
 import IconBack from "./assets/icon_back.png";
+import KnowledgeDetailScreen from "./pages/KnowledgeDetailPage/Screen";
+import KnowledgeScreen from "./pages/KnowledgePage/Screen";
 import LoginScreen from "./pages/LoginPage/Screen";
 import { NavigationContainer } from "@react-navigation/native";
 import NewsDetailScreen from "./pages/NewsDetailPage/Screen";
@@ -32,7 +34,7 @@ class App extends Component {
     }
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="NewsScreen">
+        <Stack.Navigator initialRouteName="KnowledgeScreen">
           <Stack.Screen
             options={{ headerShown: false }}
             name="SplashScreen"
@@ -78,6 +80,22 @@ class App extends Component {
             }}
             name="NewsDetailScreen"
             component={NewsDetailScreen}
+          />
+             <Stack.Screen
+            options={{ headerShown: false }}
+            name="KnowledgeScreen"
+            component={KnowledgeScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: true }}
+            options={{
+              headerRight: () => null,
+              headerTitle: () => null,
+              headerBackTitleVisible: false,
+              headerBackImage: (props) => <Back {...props} />,
+            }}
+            name="KnowledgeDetailScreen"
+            component={KnowledgeDetailScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
