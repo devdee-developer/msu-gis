@@ -4,6 +4,9 @@ export default StyleSheet.create({
  container:{
     flexDirection:'row',height: 54 ,justifyContent:'space-between',alignItems:'center',borderBottomWidth:1
  },
+ back:{
+   width: 21.93, height: 17.31, marginLeft: 15 
+ },
  iconSearch:{
     position: "absolute",
     height: 15.79,

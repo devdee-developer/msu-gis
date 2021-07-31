@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   Platform,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Keyboard
 } from "react-native";
 import React, { Component } from "react";
 
@@ -25,40 +26,51 @@ class Screen extends Component {
   animate = () => {
     this.setState({ onFocus: true });
     Animated.timing(this.width, {
-      toValue: deviceWidth - 30,
-      duration: 300
+      toValue: deviceWidth - 65,
+      duration: 200
     }).start();
     this.props.onSearchFocus();
   };
   animateOut = () => {
-    this.setState({ onFocus: false });
+
     if (this.props.value.length == 0) {
+      this.setState({ onFocus: false });
       Animated.timing(this.width, {
         toValue: 90,
-        duration: 300
+        duration: 250
       }).start();
       this.props.onSearchBlur();
     }
   };
+  cancel=()=>{
+    Keyboard.dismiss()
+    this.textInput.clear()
+    this.setState({ onFocus: false });
+    Animated.timing(this.width, {
+      toValue: 90,
+      duration: 250
+    }).start();
+    this.props.onSearchBlur();
+  }
   onChange = (text) => {
     this.props.onChangeText(text);
   };
   render() {
     const { navigation } = this.props;
     const textInputBackgroundColor = this.width.interpolate({
-      inputRange: [90, deviceWidth - 30],
+      inputRange: [90, deviceWidth - 65],
       outputRange: ["#EEEAFD", "#FFFFFF"]
     });
     const textInputBorderColor = this.width.interpolate({
-      inputRange: [90, deviceWidth - 30],
+      inputRange: [90, deviceWidth - 65],
       outputRange: ["#EEEAFD", "#7676FF"]
     });
     const headerBackgroundColor = this.width.interpolate({
-      inputRange: [90, deviceWidth - 30],
+      inputRange: [90, deviceWidth - 65],
       outputRange: ["#FFFFFF", "#F7F5FC"]
     });
     const headerBorderColor = this.width.interpolate({
-      inputRange: [90, deviceWidth - 30],
+      inputRange: [90, deviceWidth - 65],
       outputRange: ["#EEEAFD", "#F7F5FC"]
     });
     const animatedContainerStyle = {
@@ -84,12 +96,20 @@ class Screen extends Component {
             {navigation.canGoBack() && !this.state.onFocus ? (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Image
-                  style={{ width: 21.93, height: 17.31, marginLeft: 15 }}
+                  style={Style.back}
                   source={IconBack}
                 />
               </TouchableOpacity>
             ) : (
               <View></View>
+            )}
+            {this.state.onFocus && (
+              <TouchableOpacity style={{position:'absolute'}} onPress={()=>this.cancel()}>
+                <Image
+                  style={Style.back}
+                  source={IconBack}
+                />
+              </TouchableOpacity>
             )}
             <Animated.View
               style={{
@@ -103,6 +123,7 @@ class Screen extends Component {
             >
               <Image source={IconSearch} style={Style.iconSearch} />
               <TextInput
+                ref={input => { this.textInput = input }}
                 onFocus={() => this.animate()}
                 onBlur={() => this.animateOut()}
                 style={Style.textInputSearch}

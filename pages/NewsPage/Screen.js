@@ -157,7 +157,6 @@ class Screen extends Component {
           onSearchFocus={()=>this.setState({onSearch:true})}
           onSearchBlur={()=>this.setState({onSearch:false,newsListFromSearch:[]})}
           onChangeText={(e) => this.debounceSearch(e)}
-          onChangeText={(e) => this.debounceSearch(e)}
           value={this.state.search}
           
         />
