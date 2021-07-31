@@ -39,6 +39,7 @@ class Screen extends Component {
       newsListFromSearch: [],
       refreshing: false,
       search: "",
+      onSearch:false
     };
     console.log(props);
   }
@@ -54,11 +55,11 @@ class Screen extends Component {
     const url = `${apiUrl}/getNews`;
     const data = {
       token:
-        "MeeElCz/poyagBzgnnS1ReKQJOhARSnwOgVvg8m0I/TDB70i8XFTL3DOT/pFNjqvKKzjj1VnE0KZ8gRU0kHxFGZnlEUw0mBnom0kcVCnNk8=",
+        "JijXEcrg7K7SN3/DMO+Duhce3tzV51XpThrlIbApG04vZkRMocVzu57bpL2gG07P7N5Y8nwYLoLJN8eRbQX7T199PxnyusTntsKiGTHMT2c=",
     };
     const headers = {
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc2MTUzNzYsImV4cCI6MTYyNzk3NTM3NiwibmJmIjoxNjI3NjE1Mzc2LCJqdGkiOiI4bll3VEVvS091WjJjbW1iIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.wDsj9zTVf0OxJHhqSTYQMtcXGbW0SU1j-doOm1QvfKE",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc3MTA4NTIsImV4cCI6MTYyODA3MDg1MiwibmJmIjoxNjI3NzEwODUyLCJqdGkiOiJsOHl5Z2Vod0xrdVBFU081Iiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.iWp1qLPX2UQmP4JZpHndaym3CPtLB1i-GybUw1VzY9Q",
     };
     try {
       const res = await axios.post(url, data, { headers: headers });
@@ -153,11 +154,15 @@ class Screen extends Component {
       <>
         <HeaderWithSearch
           navigation={this.props.navigation}
+          onSearchFocus={()=>this.setState({onSearch:true})}
+          onSearchBlur={()=>this.setState({onSearch:false,newsListFromSearch:[]})}
+          onChangeText={(e) => this.debounceSearch(e)}
           onChangeText={(e) => this.debounceSearch(e)}
           value={this.state.search}
+          
         />
         <View style={Style.container}>
-          {this.state.search.length > 0 && (
+          {this.state.onSearch && (
             <View
               style={[
                 StyleSheet.absoluteFill,

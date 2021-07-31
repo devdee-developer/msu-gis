@@ -39,6 +39,7 @@ class Screen extends Component {
       category:'',
       refreshing: false,
       search: "",
+      onSearchFocus:false,
     };
   }
   componentDidMount() {
@@ -148,11 +149,13 @@ class Screen extends Component {
       <>
         <HeaderWithSearch
           navigation={this.props.navigation}
+          onSearchFocus={()=>this.setState({onSearch:true})}
+          onSearchBlur={()=>this.setState({onSearch:false,knowledgeListFromSearch:[]})}
           onChangeText={(e) => this.debounceSearch(e)}
           value={this.state.search}
         />
         <View style={Style.container}>
-          {this.state.search.length > 0 && (
+          {this.state.onSearch && (
             <View
               style={[
                 StyleSheet.absoluteFill,
