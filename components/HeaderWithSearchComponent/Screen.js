@@ -20,7 +20,6 @@ class Screen extends Component {
   constructor(props) {
     super(props);
     this.state = { onFocus:false};
-   
   }
   width = new Animated.Value(90);
   animate = () => {
@@ -60,7 +59,9 @@ class Screen extends Component {
       inputRange: [90, deviceWidth - 30],
       outputRange: ["#EEEAFD", "#F7F5FC"]
     });
-   
+   const animatedContainerStyle={
+    borderBottomColor:headerBorderColor,backgroundColor:headerBackgroundColor
+   }
     const animatedTextInputStyle = {
       backgroundColor: textInputBackgroundColor,
       borderColor: textInputBorderColor,
@@ -71,8 +72,9 @@ class Screen extends Component {
       elevation: 5
     };
     return (
-      <SafeAreaView style={{backgroundColor:'#F7F5FC',paddingTop: Platform.OS === 'android' ? 25 : 0}}>
-        <Animated.View style={{ flexDirection:'row',height: 54 ,justifyContent:'space-between',alignItems:'center',borderBottomWidth:1,borderBottomColor:headerBorderColor,backgroundColor:headerBackgroundColor}} >
+      <Animated.View style={animatedContainerStyle}>
+      <SafeAreaView style={{paddingTop: Platform.OS === 'android' ? 25 : 0}}>
+        <Animated.View style={[Style.container,animatedContainerStyle]} >
         {navigation.canGoBack()&&!this.state.onFocus?<TouchableOpacity onPress={() => navigation.goBack()}><Image style={{ width: 21.93, height: 17.31 ,marginLeft:15}} source={IconBack} /></TouchableOpacity>:<View></View>}
           <Animated.View
             style={{
@@ -86,25 +88,12 @@ class Screen extends Component {
           >
             <Image
               source={IconSearch}
-              style={{
-                position: "absolute",
-                height: 15.79,
-                width: 15.35,
-                left: 15,
-                top: 12.73,
-                resizeMode: "contain"
-              }}
+              style={Style.iconSearch}
             />
             <TextInput
               onFocus={() => this.animate()}
               onBlur={() => this.animateOut()}
-              style={{
-                paddingLeft: 40,
-                paddingRight: 15,
-                textAlign: "left",
-                height: 40,
-                borderRadius: 20
-              }}
+              style={Style.textInputSearch}
               onChangeText={(text) => this.onChange(text)}
               placeholder={"ค้นหา"}
               placeholderTextColor={"#010979"}
@@ -112,6 +101,7 @@ class Screen extends Component {
           </Animated.View>
         </Animated.View>
       </SafeAreaView>
+      </Animated.View>
     );
   }
 }

@@ -34,14 +34,12 @@ class Screen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      knowledgeListAll:[],
-      knowledgeList: [],
+      knowledgeList:[],
       knowledgeListFromSearch: [],
       category:'',
       refreshing: false,
       search: "",
     };
-    console.log(props);
   }
   componentDidMount() {
     this.loadData();
@@ -55,11 +53,11 @@ class Screen extends Component {
     const url = `${apiUrl}/getKm`;
     const data = {
       token:
-        "MeeElCz/poyagBzgnnS1ReKQJOhARSnwOgVvg8m0I/TDB70i8XFTL3DOT/pFNjqvKKzjj1VnE0KZ8gRU0kHxFGZnlEUw0mBnom0kcVCnNk8=",
+        "JijXEcrg7K7SN3/DMO+Duhce3tzV51XpThrlIbApG04vZkRMocVzu57bpL2gG07P7N5Y8nwYLoLJN8eRbQX7T199PxnyusTntsKiGTHMT2c=",
     };
     const headers = {
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc2MTUzNzYsImV4cCI6MTYyNzk3NTM3NiwibmJmIjoxNjI3NjE1Mzc2LCJqdGkiOiI4bll3VEVvS091WjJjbW1iIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.wDsj9zTVf0OxJHhqSTYQMtcXGbW0SU1j-doOm1QvfKE",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc3MTA4NTIsImV4cCI6MTYyODA3MDg1MiwibmJmIjoxNjI3NzEwODUyLCJqdGkiOiJsOHl5Z2Vod0xrdVBFU081Iiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.iWp1qLPX2UQmP4JZpHndaym3CPtLB1i-GybUw1VzY9Q",
     };
     try {
       const res = await axios.post(url, data, { headers: headers });
@@ -73,7 +71,6 @@ class Screen extends Component {
   }
   intialData(data) {
     this.setState({
-      knowledgeListAll:data.data,
       knowledgeList: data.data,
       categoryList: data.categoryList,
       category:data.categoryList?data.categoryList[0]:''
@@ -85,7 +82,7 @@ class Screen extends Component {
   onSearch = (e) => {
     this.setState({ search: e });
     let text = e.toLowerCase();
-    let listItem = this.state.knowledgeListAll;
+    let listItem = this.state.knowledgeList;
     let filteredHeader = listItem.filter((item) => {
       return item.header.toLowerCase().match(text);
     });
@@ -97,6 +94,8 @@ class Screen extends Component {
   };
   debounceSearch = debounce(this.onSearch, 500);
   render() {
+    const {category,knowledgeList,knowledgeListFromSearch} = this.state;
+    const total =  knowledgeList.filter(item=>item.category==category).length
     const FooterCard = ({ label }) => (
       <View style={Style.cardFooter}>
         <Image source={BookIcon} style={Style.cardFooterIcon} />
@@ -104,7 +103,7 @@ class Screen extends Component {
       </View>
     );
     const renderKnowledgeList = () => {
-      return this.state.knowledgeList.map((data, index) => (
+      return knowledgeList.filter(item=>item.category==category).map((data, index) => (
         <Card
           key={"knowledge" + index}
           onPress={() =>
@@ -119,8 +118,8 @@ class Screen extends Component {
         />
       ));
     };
-    const renderKnowledgeListFilter = () => {
-      return this.state.knowledgeListFromSearch.map((data, index) => (
+    const renderKnowledgeListSearch = () => {
+      return knowledgeListFromSearch.map((data, index) => (
         <Card
           key={"knowledge" + index}
           onPress={() =>
@@ -139,18 +138,10 @@ class Screen extends Component {
     const renderCategory = ({ item }) => <CategoryButton label={item} />;
     const CategoryButton = ({ label }) => (
       <TouchableOpacity
-        style={{
-          backgroundColor: this.state.category == label?"#6F63FD":"#DCCFFE",
-          height: 40,
-          paddingVertical: 6,
-          paddingHorizontal: 18,
-          marginLeft: 13,
-          borderRadius: 8,
-          alignItems:'center'
-        }}
-        onPress={()=>this.setState({category:label, knowledgeList: this.state.knowledgeListAll.filter(item=>item.category==label)})}
+        style={[ Style.buttonCategory,category == label&&Style.buttonCategorySelected]}
+        onPress={()=>this.setState({category:label})}
       >
-        <Text style={{fontSize:18,color: this.state.category == label?"#FFFFFF":'#3B3D48'}}>{label}</Text>
+        <Text style={[Style.buttonLabelCategory,category == label&&Style.buttonLabelCategorySelected]}>{label}</Text>
       </TouchableOpacity>
     );
     return (
@@ -169,10 +160,10 @@ class Screen extends Component {
               ]}
             >
               <Text style={{ color: "#010979", fontSize: 18, margin: 20 }}>
-                ตรงกับคำที่ค้นหา {this.state.knowledgeListFromSearch.length}{" "}
+                ตรงกับคำที่ค้นหา {knowledgeListFromSearch.length}{" "}
                 รายการ
               </Text>
-              <ScrollView>{renderKnowledgeListFilter()}</ScrollView>
+              <ScrollView>{renderKnowledgeListSearch()}</ScrollView>
             </View>
           )}
           <ScrollView
@@ -221,7 +212,7 @@ class Screen extends Component {
               <View style={{ flexDirection: "row" }}>
                 <Text style={{ fontSize: 18, color: "#010979" }}>ทั้งหมด </Text>
                 <Text style={{ fontSize: 18, color: "#6F63FD" }}>
-                  {this.state.knowledgeList.length} รายการ
+                  {total} รายการ
                 </Text>
               </View>
               <View
