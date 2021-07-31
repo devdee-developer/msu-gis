@@ -93,7 +93,7 @@ class Screen extends Component {
           style={{ paddingTop: Platform.OS === "android" ? 25 : 0 }}
         >
           <Animated.View style={[Style.container, animatedContainerStyle]}>
-            {navigation.canGoBack() && !this.state.onFocus ? (
+            {navigation.canGoBack()&&!this.state.onFocus && !this.state.onFocus ? (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Image
                   style={Style.back}
