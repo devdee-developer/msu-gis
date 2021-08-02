@@ -107,6 +107,7 @@ class Screen extends Component {
       return item.header.toLowerCase().match(text);
     });
     if (!text || text === "") {
+      this.setState({ newsListFromSearch: [] });
     } else if (!Array.isArray(filteredHeader) && !filteredHeader.length) {
     } else if (Array.isArray(filteredHeader)) {
       this.setState({ newsListFromSearch: filteredHeader });
