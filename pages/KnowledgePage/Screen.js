@@ -39,7 +39,6 @@ class Screen extends Component {
       category:'',
       refreshing: false,
       search: "",
-      onSearchFocus:false,
     };
   }
   componentDidMount() {
@@ -120,8 +119,7 @@ class Screen extends Component {
         />
       ));
     };
-    const renderKnowledgeListSearch = () => {
-      return knowledgeListFromSearch.map((data, index) => (
+    const renderKnowledgeListSearch = (data, index)  => (
         <Card
           key={"knowledge" + index}
           onPress={() =>
@@ -134,8 +132,7 @@ class Screen extends Component {
           cardStyle={{ height: 100 }}
           footer={<FooterCard label={data.subHead} />}
         />
-      ));
-    };
+      )
 
     const renderCategory = ({ item }) => <CategoryButton label={item} />;
     const CategoryButton = ({ label }) => (
@@ -150,27 +147,14 @@ class Screen extends Component {
       <>
         <HeaderWithSearch
           navigation={this.props.navigation}
-          onSearchFocus={()=>this.setState({onSearch:true})}
-          onSearchBlur={()=>this.setState({onSearch:false,knowledgeListFromSearch:[]})}
+          data={knowledgeListFromSearch}
+          renderItem={renderKnowledgeListSearch}
+          onSearchFocus={()=>{}}
+          onSearchBlur={()=>this.setState({knowledgeListFromSearch:[]})}
           onChangeText={(e) => this.debounceSearch(e)}
           value={this.state.search}
         />
         <View style={Style.container}>
-          {this.state.onSearch && (
-            <View
-              style={[
-                StyleSheet.absoluteFill,
-                { backgroundColor: "#F7F5FC", zIndex: 1 },
-              ]}
-            >
-              <Text style={{ color: "#010979", fontSize: 18, margin: 20 }}>
-                ตรงกับคำที่ค้นหา {knowledgeListFromSearch.length}{" "}
-                รายการ
-              </Text>
-              <ScrollView>{renderKnowledgeListSearch()}</ScrollView>
-            </View>
-          )}
-       
           <ScrollView
             style={Style.scrollView}
             refreshControl={

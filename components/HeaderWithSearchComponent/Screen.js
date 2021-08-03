@@ -8,7 +8,10 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  StyleSheet,
+  Text,
+  ScrollView
 } from "react-native";
 import React, { Component } from "react";
 
@@ -32,7 +35,6 @@ class Screen extends Component {
     this.props.onSearchFocus();
   };
   animateOut = () => {
-
     if (this.props.value.length == 0) {
       this.setState({ onFocus: false });
       Animated.timing(this.width, {
@@ -42,16 +44,16 @@ class Screen extends Component {
       this.props.onSearchBlur();
     }
   };
-  cancel=()=>{
-    Keyboard.dismiss()
-    this.textInput.clear()
+  cancel = () => {
+    Keyboard.dismiss();
+    this.textInput.clear();
     this.setState({ onFocus: false });
     Animated.timing(this.width, {
       toValue: 90,
       duration: 250
     }).start();
     this.props.onSearchBlur();
-  }
+  };
   onChange = (text) => {
     this.props.onChangeText(text);
   };
@@ -75,7 +77,8 @@ class Screen extends Component {
     });
     const animatedContainerStyle = {
       borderBottomColor: headerBorderColor,
-      backgroundColor: headerBackgroundColor
+      backgroundColor: headerBackgroundColor,
+      zIndex: 2
     };
     const animatedTextInputStyle = {
       backgroundColor: textInputBackgroundColor,
@@ -87,54 +90,88 @@ class Screen extends Component {
       elevation: 5
     };
     return (
-      <Animated.View style={animatedContainerStyle}>
-          <StatusBar barStyle={Platform.OS === "android"?'default':"dark-content"} />
-        <SafeAreaView
-          style={{ paddingTop: Platform.OS === "android" ? 0 : 0 }}
-        >
-          <Animated.View style={[Style.container, animatedContainerStyle]}>
-            {navigation.canGoBack()&&!this.state.onFocus && !this.state.onFocus ? (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image
-                  style={Style.back}
-                  source={IconBack}
+      <>
+        <Animated.View style={animatedContainerStyle}>
+          <StatusBar
+            barStyle={Platform.OS === "android" ? "default" : "dark-content"}
+          />
+          <SafeAreaView
+            style={{ paddingTop: Platform.OS === "android" ? 0 : 0 }}
+          >
+            <Animated.View style={[Style.container, animatedContainerStyle]}>
+              {navigation.canGoBack() &&
+              !this.state.onFocus &&
+              !this.state.onFocus ? (
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Image style={Style.back} source={IconBack} />
+                </TouchableOpacity>
+              ) : (
+                <View></View>
+              )}
+              {this.state.onFocus && (
+                <TouchableOpacity
+                  style={{ position: "absolute" }}
+                  onPress={() => this.cancel()}
+                >
+                  <Image style={Style.back} source={IconBack} />
+                </TouchableOpacity>
+              )}
+              <Animated.View
+                style={{
+                  height: 40,
+                  width: this.width,
+                  borderRadius: 20,
+                  borderWidth: 1,
+                  marginRight: 15,
+                  ...animatedTextInputStyle
+                }}
+              >
+                <Image source={IconSearch} style={Style.iconSearch} />
+                <TextInput
+                  ref={(input) => {
+                    this.textInput = input;
+                  }}
+                  onFocus={() => this.animate()}
+                  onBlur={() => this.animateOut()}
+                  style={Style.textInputSearch}
+                  onChangeText={(text) => this.onChange(text)}
+                  placeholder={"ค้นหา"}
+                  placeholderTextColor={"#010979"}
                 />
-              </TouchableOpacity>
-            ) : (
-              <View></View>
-            )}
-            {this.state.onFocus && (
-              <TouchableOpacity style={{position:'absolute'}} onPress={()=>this.cancel()}>
-                <Image
-                  style={Style.back}
-                  source={IconBack}
-                />
-              </TouchableOpacity>
-            )}
-            <Animated.View
-              style={{
-                height: 40,
-                width: this.width,
-                borderRadius: 20,
-                borderWidth: 1,
-                marginRight: 15,
-                ...animatedTextInputStyle
-              }}
-            >
-              <Image source={IconSearch} style={Style.iconSearch} />
-              <TextInput
-                ref={input => { this.textInput = input }}
-                onFocus={() => this.animate()}
-                onBlur={() => this.animateOut()}
-                style={Style.textInputSearch}
-                onChangeText={(text) => this.onChange(text)}
-                placeholder={"ค้นหา"}
-                placeholderTextColor={"#010979"}
-              />
+              </Animated.View>
             </Animated.View>
-          </Animated.View>
-        </SafeAreaView>
-      </Animated.View>
+          </SafeAreaView>
+        </Animated.View>
+        {this.state.onFocus && (
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              { backgroundColor: "#F7F5FC", zIndex: 1 }
+            ]}
+          >
+            <SafeAreaView
+              style={{ paddingTop: Platform.OS === "android" ? 0 : 0 }}
+            >
+              <ScrollView>
+              <Text
+                style={{
+                  color: "#010979",
+                  fontSize: 18,
+                  marginTop: 75,
+                  marginBottom:25,
+                  marginHorizontal: 20,
+                  zIndex: 2
+                }}
+              >
+                ตรงกับคำที่ค้นหา {this.props.data.length} รายการ
+              </Text>
+              
+                {this.props.data.map(this.props.renderItem)}
+              </ScrollView>
+            </SafeAreaView>
+          </View>
+        )}
+      </>
     );
   }
 }

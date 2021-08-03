@@ -38,8 +38,7 @@ class Screen extends Component {
       newsList: [],
       newsListFromSearch: [],
       refreshing: false,
-      search: "",
-      onSearch:false
+      search: ""
     };
     console.log(props);
   }
@@ -55,11 +54,11 @@ class Screen extends Component {
     const url = `${apiUrl}/getNews`;
     const data = {
       token:
-        "XgnpfzCHre17tCfLuP6LziW8XFonkMBdEieBGAGL/CixVMNd2obDwJMLsp/87yBqpPj355LgkYQ2q4yaB12JK21IXs6XY3qzrve8r1y947s=",
+        "XgnpfzCHre17tCfLuP6LziW8XFonkMBdEieBGAGL/CixVMNd2obDwJMLsp/87yBqpPj355LgkYQ2q4yaB12JK21IXs6XY3qzrve8r1y947s="
     };
     const headers = {
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODE2MDYsImV4cCI6MTYyODM0MTYwNiwibmJmIjoxNjI3OTgxNjA2LCJqdGkiOiIwR3JmWGdXVTV2RThFWjJaIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.jzT6NdnR7h8AHBl1Glijr7Z2nvvxsVCRM-XaIVbpR0o",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODE2MDYsImV4cCI6MTYyODM0MTYwNiwibmJmIjoxNjI3OTgxNjA2LCJqdGkiOiIwR3JmWGdXVTV2RThFWjJaIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.jzT6NdnR7h8AHBl1Glijr7Z2nvvxsVCRM-XaIVbpR0o"
     };
     try {
       const res = await axios.post(url, data, { headers: headers });
@@ -77,9 +76,9 @@ class Screen extends Component {
         position: 2,
         dataSource: data.slideNews.map((slide) => ({
           ...slide,
-          url: slide.banner,
+          url: slide.banner
         })),
-        newsList: data.newsList,
+        newsList: data.newsList
       },
       () => {
         this.setState({
@@ -88,9 +87,9 @@ class Screen extends Component {
               position:
                 this.state.position === this.state.dataSource.length
                   ? 0
-                  : this.state.position + 1,
+                  : this.state.position + 1
             });
-          }, 5000),
+          }, 5000)
         });
       }
     );
@@ -130,51 +129,34 @@ class Screen extends Component {
           }
           thumbnail={data.banner}
           text={data.header}
-          footer={
-            <FooterCard label={data.publicDate}/>
-          }
+          footer={<FooterCard label={data.publicDate} />}
         />
       ));
     };
-    const renderNewsListFilter = () => {
-      return this.state.newsListFromSearch.map((data, index) => (
-        <Card
-          key={"newsSearch" + index}
-          onPress={() =>
-            this.props.navigation.navigate("NewsDetailScreen", { detail: data })
-          }
-          thumbnail={data.banner}
-          text={data.header}
-          footer={
-            <FooterCard label={data.publicDate}/>
-          }
-        />
-      ));
-    };
+    const renderNewsListSearch = (data, index) => (
+      <Card
+        key={"newsSearch" + index}
+        onPress={() =>
+          this.props.navigation.navigate("NewsDetailScreen", { detail: data })
+        }
+        thumbnail={data.banner}
+        text={data.header}
+        footer={<FooterCard label={data.publicDate} />}
+      />
+    );
+
     return (
       <>
         <HeaderWithSearch
           navigation={this.props.navigation}
-          onSearchFocus={()=>this.setState({onSearch:true})}
-          onSearchBlur={()=>this.setState({onSearch:false,newsListFromSearch:[]})}
+          data={this.state.newsListFromSearch}
+          renderItem={renderNewsListSearch}
+          onSearchFocus={() => {}}
+          onSearchBlur={() => this.setState({ newsListFromSearch: [] })}
           onChangeText={(e) => this.debounceSearch(e)}
           value={this.state.search}
-          
         />
         <View style={Style.container}>
-          {this.state.onSearch && (
-            <View
-              style={[
-                StyleSheet.absoluteFill,
-                { backgroundColor: "#F7F5FC", zIndex: 1 },
-              ]}
-            >
-              <Text style={{ color: "#010979", fontSize: 18, margin: 20 }}>
-                ตรงกับคำที่ค้นหา {this.state.newsListFromSearch.length} รายการ
-              </Text>
-              <ScrollView>{renderNewsListFilter()}</ScrollView>
-            </View>
-          )}
           <ScrollView
             style={Style.scrollView}
             refreshControl={
@@ -207,11 +189,11 @@ class Screen extends Component {
                     flex: 1,
                     backgroundColor: "#FFFFFF",
                     paddingBottom: 30,
-                    justifyContent: "space-between",
+                    justifyContent: "space-between"
                   }}
                   onPress={(item) => {
                     this.props.navigation.navigate("NewsDetailScreen", {
-                      detail: item.image,
+                      detail: item.image
                     });
                   }}
                 />
@@ -222,7 +204,7 @@ class Screen extends Component {
               style={{
                 paddingHorizontal: 20,
                 paddingVertical: 15,
-                flexDirection: "row",
+                flexDirection: "row"
               }}
             >
               <View>
@@ -237,7 +219,7 @@ class Screen extends Component {
                 style={{
                   justifyContent: "center",
                   alignItems: "flex-end",
-                  flex: 1,
+                  flex: 1
                 }}
               >
                 {/* for button  */}
