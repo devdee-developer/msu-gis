@@ -2,13 +2,13 @@ import {
   Animated,
   Dimensions,
   Image,
-  TextInput,
-  View,
-  SafeAreaView,
+  Keyboard,
   Platform,
-  TouchableOpacity,
+  SafeAreaView,
   StatusBar,
-  Keyboard
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
 import React, { Component } from "react";
 
@@ -88,9 +88,9 @@ class Screen extends Component {
     };
     return (
       <Animated.View style={animatedContainerStyle}>
-        <StatusBar barStyle={"dark-content"} />
+          <StatusBar barStyle={Platform.OS === "android"?'default':"dark-content"} />
         <SafeAreaView
-          style={{ paddingTop: Platform.OS === "android" ? 25 : 0 }}
+          style={{ paddingTop: Platform.OS === "android" ? 0 : 0 }}
         >
           <Animated.View style={[Style.container, animatedContainerStyle]}>
             {navigation.canGoBack()&&!this.state.onFocus && !this.state.onFocus ? (
