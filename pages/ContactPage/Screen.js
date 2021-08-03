@@ -26,7 +26,6 @@ import health_1_icon from "../../assets/health_1_icon.png";
 import health_2_icon from "../../assets/health_2_icon.png";
 import health_3_icon from "../../assets/health_3_icon.png";
 import icon_time from "../../assets/icon_time.png";
-import older from "../../assets/older.png";
 import user_icon from "../../assets/user_icon.png";
 import visit_green from "../../assets/visit_green.png";
 import visit_icon_black from "../../assets/visit_icon_black.png";
@@ -80,12 +79,12 @@ class Screen extends Component {
   getOlders() {
     var data = JSON.stringify({
       token:
-        "DOE5IN/miB1iGMe8ysn3tG4tXbrlH3zYteYFqU644MSOneGpDChP0KsrXrbOuxnD/ECLhFHD2xjKBcTfm9tW3CDYnGzJKlaj7z2xQ6D6oYA=",
+        "wpYssuEHGWyr3Q7gFReibkMR6ZlrOEz6HJXbNOgQ9/EQeBlH6V8xmZi2YnRo1oqfBP6aeXUbKkJKxhTng0VcRg8dWtJlYb8H4ZRtK6i7kVA=",
     });
     var headers = {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc2MzEyNjIsImV4cCI6MTYyNzk5MTI2MiwibmJmIjoxNjI3NjMxMjYyLCJqdGkiOiJnSkdRSjJmNmlZUFF2bVZzIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.YT8Br84hkPeT5xUqfLHsoqTmzdlv2SsYytc2rM6BKIY",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5NjQ0MTIsImV4cCI6MTYyODMyNDQxMiwibmJmIjoxNjI3OTY0NDEyLCJqdGkiOiJ0VGw0S3h4M1h5Y1ZrUWd1Iiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.GxMrVInXSjA1cLJCpESr5uyJeJBzYPfkQtNMxyNzLQc",
     };
     var config = {
       method: "post",
@@ -529,70 +528,72 @@ class Screen extends Component {
 
   render() {
     return (
-      <>
-        <ScrollView style={Style.container}>
-          <View style={Style.containerFilterHead}>
-            <Image
-              source={contact_icon_head}
-              style={Style.imageContactIconHead}
-            />
-            <Text style={Style.textHeadFilter}>{this.state.titleFilter}</Text>
-            <TouchableOpacity onPress={() => this.toggleshowFilterContent()}>
-              <Image source={arrow_d} style={Style.arrow_d} />
-            </TouchableOpacity>
-          </View>
-          {this.state.showFilterContent ? (
-            <View style={Style.containerFilterContent}>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "flex-start",
-                  backgroundColor: "#010979",
-                }}
-              >
-                <TextInput
-                  style={Style.inputProvince}
-                  value={this.state.FilterModel.Province}
-                  disableFullscreenUI={true}
-                  editable={false}
-                />
+      <View style={{ flex: 1 }}>
+        {this.state.modalVisible ? this.renderModal() : <></>}
+        <View style={{ flex: 1 }}>
+          <ScrollView style={Style.container}>
+            <View style={Style.containerFilterHead}>
+              <Image
+                source={contact_icon_head}
+                style={Style.imageContactIconHead}
+              />
+              <Text style={Style.textHeadFilter}>{this.state.titleFilter}</Text>
+              <TouchableOpacity onPress={() => this.toggleshowFilterContent()}>
+                <Image source={arrow_d} style={Style.arrow_d} />
+              </TouchableOpacity>
+            </View>
+            {this.state.showFilterContent ? (
+              <View style={Style.containerFilterContent}>
                 <View
                   style={{
                     flex: 1,
-                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    backgroundColor: "#010979",
                   }}
                 >
                   <TextInput
-                    style={Style.inputDistrict}
-                    disableFullscreenUI={true}
-                    editable={false}
-                    value={this.state.FilterModel.District}
-                  />
-                  <TextInput
-                    style={Style.inputMoo}
-                    value={this.state.FilterModel.Moo}
+                    style={Style.inputProvince}
+                    value={this.state.FilterModel.Province}
                     disableFullscreenUI={true}
                     editable={false}
                   />
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: "row",
+                    }}
+                  >
+                    <TextInput
+                      style={Style.inputDistrict}
+                      disableFullscreenUI={true}
+                      editable={false}
+                      value={this.state.FilterModel.District}
+                    />
+                    <TextInput
+                      style={Style.inputMoo}
+                      value={this.state.FilterModel.Moo}
+                      disableFullscreenUI={true}
+                      editable={false}
+                    />
+                  </View>
                 </View>
               </View>
+            ) : (
+              <></>
+            )}
+            <View style={Style.containerOlderQty}>
+              <Text style={Style.textOlderQty}>จำนวณผู้สูงอายุ</Text>
+              <Text style={Style.textNumberOlderQty}>
+                {this.state.olderQty} คน
+              </Text>
+              <View style={{ flex: 1 }}></View>
             </View>
-          ) : (
-            <></>
-          )}
-          <View style={Style.containerOlderQty}>
-            <Text style={Style.textOlderQty}>จำนวณผู้สูงอายุ</Text>
-            <Text style={Style.textNumberOlderQty}>
-              {this.state.olderQty} คน
-            </Text>
-            <View style={{ flex: 1 }}></View>
-          </View>
-          {this.state.olderLists.map((item, index) => {
-            return this.renderItemOlder(item, index);
-          })}
-          {this.state.modalVisible ? this.renderModal() : <></>}
-        </ScrollView>
-      </>
+            {this.state.olderLists.map((item, index) => {
+              return this.renderItemOlder(item, index);
+            })}
+          </ScrollView>
+        </View>
+      </View>
     );
   }
 }

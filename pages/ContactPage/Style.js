@@ -75,17 +75,21 @@ export default StyleSheet.create({
     flexDirection: "row",
   },
   containerBgModal: {
+    flex: 1,
     width: "100%",
     height: "100%",
     position: "absolute",
     backgroundColor: "rgba(192,192,192,0.5);",
+    zIndex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   containerModal: {
     width: 355,
     height: 550,
     position: "absolute",
     backgroundColor: "#FFFFFF",
-    margin: 10,
+    margin: 22,
     borderRadius: 20,
     shadowColor: "#000",
     shadowOffset: {
@@ -227,7 +231,7 @@ export default StyleSheet.create({
     flex: 10,
     // fontFamily: 'Prompt',
     color: "#0D0E12",
-    fontStyle: 'normal',
+    fontStyle: "normal",
     fontSize: 12,
     marginVertical: 4,
   },
@@ -235,7 +239,7 @@ export default StyleSheet.create({
     flex: 10,
     // fontFamily: 'Prompt',
     color: "#FFFFFF",
-    fontStyle: 'normal',
+    fontStyle: "normal",
     fontSize: 20,
     marginVertical: 4,
   },
@@ -243,7 +247,7 @@ export default StyleSheet.create({
     flex: 10,
     // fontFamily: 'Prompt',
     color: "#FDEBC1",
-    fontStyle: 'normal',
+    fontStyle: "normal",
     fontSize: 14,
     marginVertical: 4,
   },
@@ -260,7 +264,7 @@ export default StyleSheet.create({
     flex: 10,
     // fontFamily: 'Prompt',
     color: "#0D0E12",
-    fontStyle: 'normal',
+    fontStyle: "normal",
     fontSize: 12,
     marginVertical: 4,
   },
@@ -368,13 +372,12 @@ export default StyleSheet.create({
     margin: 4,
   },
   btn_arrow_r: {
-    flex:1,
+    flex: 1,
     width: 30,
     height: 70,
     resizeMode: "contain",
     // margin: 4,
   },
-
 
   //input
   inputProvince: {
