@@ -151,9 +151,8 @@ class Screen extends Component {
           navigation={this.props.navigation}
           data={this.state.newsListFromSearch}
           renderItem={renderNewsListSearch}
-          onSearchFocus={() => {}}
-          onSearchBlur={() => this.setState({ newsListFromSearch: [] })}
           onChangeText={(e) => this.debounceSearch(e)}
+          onSearchCancel={() => this.setState({ newsListFromSearch: [] })}
           value={this.state.search}
         />
         <View style={Style.container}>

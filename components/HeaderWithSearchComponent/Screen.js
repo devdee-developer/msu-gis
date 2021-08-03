@@ -32,7 +32,7 @@ class Screen extends Component {
       toValue: deviceWidth - 65,
       duration: 200
     }).start();
-    this.props.onSearchFocus();
+    // this.props.onSearchFocus();
   };
   animateOut = () => {
     if (this.props.value.length == 0) {
@@ -41,7 +41,8 @@ class Screen extends Component {
         toValue: 90,
         duration: 250
       }).start();
-      this.props.onSearchBlur();
+      this.props.onSearchCancel();
+      // this.props.onSearchBlur();
     }
   };
   cancel = () => {
@@ -52,7 +53,7 @@ class Screen extends Component {
       toValue: 90,
       duration: 250
     }).start();
-    this.props.onSearchBlur();
+    this.props.onSearchCancel();
   };
   onChange = (text) => {
     this.props.onChangeText(text);
