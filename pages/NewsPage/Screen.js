@@ -55,11 +55,11 @@ class Screen extends Component {
     const url = `${apiUrl}/getNews`;
     const data = {
       token:
-        "d7JRS6jN8PRcBxRM7sIm6HbGDVteR2FQyZIfFQ5t23tOz/fROqn2TaPAlkeqldoDVUFXQ98wAKU0KAuEjAifYMpjWo1w/THNC/4f/z3ypsg=",
+        "XgnpfzCHre17tCfLuP6LziW8XFonkMBdEieBGAGL/CixVMNd2obDwJMLsp/87yBqpPj355LgkYQ2q4yaB12JK21IXs6XY3qzrve8r1y947s=",
     };
     const headers = {
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc4OTg1NDYsImV4cCI6MTYyODI1ODU0NiwibmJmIjoxNjI3ODk4NTQ2LCJqdGkiOiJFdUtaYXVrdENuZkZqM3dhIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.hNbhuWni8AwMXcf38eDhA-iz1HNTKeOa4pxMxA5Oe4Q",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODE2MDYsImV4cCI6MTYyODM0MTYwNiwibmJmIjoxNjI3OTgxNjA2LCJqdGkiOiIwR3JmWGdXVTV2RThFWjJaIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.jzT6NdnR7h8AHBl1Glijr7Z2nvvxsVCRM-XaIVbpR0o",
     };
     try {
       const res = await axios.post(url, data, { headers: headers });

@@ -28,7 +28,7 @@ export default StyleSheet.create({
   cardFooterIcon: {
     width: 13,
     height: 11,
-    marginTop: 5
+    marginTop:5
   },
   cardFooterLabel: {
     marginLeft: 5,
