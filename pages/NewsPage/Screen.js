@@ -4,7 +4,7 @@ import {
   RefreshControl,
   ScrollView,
   Text,
-  View
+  View,
 } from "react-native";
 import React, { Component } from "react";
 
@@ -37,7 +37,7 @@ class Screen extends Component {
       newsList: [],
       newsListFromSearch: [],
       refreshing: false,
-      search: ""
+      search: "",
     };
     console.log(props);
   }
@@ -53,11 +53,11 @@ class Screen extends Component {
     const url = `${apiUrl}/getNews`;
     const data = {
       token:
-        "J3lr+BD92j6HNl/dRCMwDgUMId48kmUwn/hjakOOTWsHLmPo4tBCjn7bPIOyaEPt6pnEkVjeJhFSLYt3L2cd/SG3u+IZTyYcx6sQ7djBVZw="
+        "J3lr+BD92j6HNl/dRCMwDgUMId48kmUwn/hjakOOTWsHLmPo4tBCjn7bPIOyaEPt6pnEkVjeJhFSLYt3L2cd/SG3u+IZTyYcx6sQ7djBVZw=",
     };
     const headers = {
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODE2MDYsImV4cCI6MTYyODM0MTYwNiwibmJmIjoxNjI3OTgxNjA2LCJqdGkiOiIwR3JmWGdXVTV2RThFWjJaIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.jzT6NdnR7h8AHBl1Glijr7Z2nvvxsVCRM-XaIVbpR0o"
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODE2MDYsImV4cCI6MTYyODM0MTYwNiwibmJmIjoxNjI3OTgxNjA2LCJqdGkiOiIwR3JmWGdXVTV2RThFWjJaIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.jzT6NdnR7h8AHBl1Glijr7Z2nvvxsVCRM-XaIVbpR0o",
     };
     try {
       const res = await axios.post(url, data, { headers: headers });
@@ -75,9 +75,9 @@ class Screen extends Component {
         position: 2,
         dataSource: data.slideNews.map((slide) => ({
           ...slide,
-          url: slide.banner
+          url: slide.banner,
         })),
-        newsList: data.newsList
+        newsList: data.newsList,
       },
       () => {
         this.setState({
@@ -86,9 +86,9 @@ class Screen extends Component {
               position:
                 this.state.position === this.state.dataSource.length
                   ? 0
-                  : this.state.position + 1
+                  : this.state.position + 1,
             });
-          }, 5000)
+          }, 5000),
         });
       }
     );
@@ -187,11 +187,11 @@ class Screen extends Component {
                     flex: 1,
                     backgroundColor: "#FFFFFF",
                     paddingBottom: 30,
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
                   }}
                   onPress={(item) => {
                     this.props.navigation.navigate("NewsDetailScreen", {
-                      detail: item.image
+                      detail: item.image,
                     });
                   }}
                 />
@@ -202,7 +202,7 @@ class Screen extends Component {
               style={{
                 paddingHorizontal: 20,
                 paddingVertical: 15,
-                flexDirection: "row"
+                flexDirection: "row",
               }}
             >
               <View>
@@ -217,7 +217,7 @@ class Screen extends Component {
                 style={{
                   justifyContent: "center",
                   alignItems: "flex-end",
-                  flex: 1
+                  flex: 1,
                 }}
               >
                 {/* for button  */}

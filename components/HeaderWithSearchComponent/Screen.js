@@ -5,13 +5,13 @@ import {
   Keyboard,
   Platform,
   SafeAreaView,
+  ScrollView,
   StatusBar,
+  StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
-  StyleSheet,
-  Text,
-  ScrollView
 } from "react-native";
 import React, { Component } from "react";
 
@@ -30,7 +30,7 @@ class Screen extends Component {
     this.setState({ onFocus: true });
     Animated.timing(this.width, {
       toValue: deviceWidth - 65,
-      duration: 200
+      duration: 200,
     }).start();
     // this.props.onSearchFocus();
   };
@@ -39,7 +39,7 @@ class Screen extends Component {
       this.setState({ onFocus: false });
       Animated.timing(this.width, {
         toValue: 90,
-        duration: 250
+        duration: 250,
       }).start();
       this.props.onSearchCancel();
       // this.props.onSearchBlur();
@@ -51,7 +51,7 @@ class Screen extends Component {
     this.setState({ onFocus: false });
     Animated.timing(this.width, {
       toValue: 90,
-      duration: 250
+      duration: 250,
     }).start();
     this.props.onSearchCancel();
   };
@@ -62,24 +62,24 @@ class Screen extends Component {
     const { navigation } = this.props;
     const textInputBackgroundColor = this.width.interpolate({
       inputRange: [90, deviceWidth - 65],
-      outputRange: ["#EEEAFD", "#FFFFFF"]
+      outputRange: ["#EEEAFD", "#FFFFFF"],
     });
     const textInputBorderColor = this.width.interpolate({
       inputRange: [90, deviceWidth - 65],
-      outputRange: ["#EEEAFD", "#7676FF"]
+      outputRange: ["#EEEAFD", "#7676FF"],
     });
     const headerBackgroundColor = this.width.interpolate({
       inputRange: [90, deviceWidth - 65],
-      outputRange: ["#FFFFFF", "#F7F5FC"]
+      outputRange: ["#FFFFFF", "#F7F5FC"],
     });
     const headerBorderColor = this.width.interpolate({
       inputRange: [90, deviceWidth - 65],
-      outputRange: ["#EEEAFD", "#F7F5FC"]
+      outputRange: ["#EEEAFD", "#F7F5FC"],
     });
     const animatedContainerStyle = {
       borderBottomColor: headerBorderColor,
       backgroundColor: headerBackgroundColor,
-      zIndex: 2
+      zIndex: 2,
     };
     const animatedTextInputStyle = {
       backgroundColor: textInputBackgroundColor,
@@ -88,7 +88,7 @@ class Screen extends Component {
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.4,
       shadowRadius: 2,
-      elevation: 5
+      elevation: 5,
     };
     return (
       <>
@@ -107,7 +107,19 @@ class Screen extends Component {
                   <Image style={Style.back} source={IconBack} />
                 </TouchableOpacity>
               ) : (
-                <View></View>
+                <View style={Style.back}></View>
+              )}
+              {this.props.title && !this.state.onFocus && (
+                <View style={{ position: "absolute",width:deviceWidth,alignItems:"center",justifyContent:"center" }}>
+                  <Text
+                    style={{
+                      fontSize: 23,
+                      color: "#010979",
+                    }}
+                  >
+                    {this.props.title}
+                  </Text>
+                </View>
               )}
               {this.state.onFocus && (
                 <TouchableOpacity
@@ -117,6 +129,7 @@ class Screen extends Component {
                   <Image style={Style.back} source={IconBack} />
                 </TouchableOpacity>
               )}
+
               <Animated.View
                 style={{
                   height: 40,
@@ -124,7 +137,7 @@ class Screen extends Component {
                   borderRadius: 20,
                   borderWidth: 1,
                   marginRight: 15,
-                  ...animatedTextInputStyle
+                  ...animatedTextInputStyle,
                 }}
               >
                 <Image source={IconSearch} style={Style.iconSearch} />
@@ -147,26 +160,26 @@ class Screen extends Component {
           <View
             style={[
               StyleSheet.absoluteFill,
-              { backgroundColor: "#F7F5FC", zIndex: 1 }
+              { backgroundColor: "#F7F5FC", zIndex: 1 },
             ]}
           >
             <SafeAreaView
               style={{ paddingTop: Platform.OS === "android" ? 0 : 0 }}
             >
               <ScrollView>
-              <Text
-                style={{
-                  color: "#010979",
-                  fontSize: 18,
-                  marginTop: 75,
-                  marginBottom:25,
-                  marginHorizontal: 20,
-                  zIndex: 2
-                }}
-              >
-                ตรงกับคำที่ค้นหา {this.props.data.length} รายการ
-              </Text>
-              
+                <Text
+                  style={{
+                    color: "#010979",
+                    fontSize: 18,
+                    marginTop: 75,
+                    marginBottom: 25,
+                    marginHorizontal: 20,
+                    zIndex: 2,
+                  }}
+                >
+                  ตรงกับคำที่ค้นหา {this.props.data.length} รายการ
+                </Text>
+
                 {this.props.data.map(this.props.renderItem)}
               </ScrollView>
             </SafeAreaView>
