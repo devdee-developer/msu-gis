@@ -3,7 +3,6 @@ import {
   Image,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   Text,
   View
 } from "react-native";
@@ -54,7 +53,7 @@ class Screen extends Component {
     const url = `${apiUrl}/getNews`;
     const data = {
       token:
-        "XgnpfzCHre17tCfLuP6LziW8XFonkMBdEieBGAGL/CixVMNd2obDwJMLsp/87yBqpPj355LgkYQ2q4yaB12JK21IXs6XY3qzrve8r1y947s="
+        "J3lr+BD92j6HNl/dRCMwDgUMId48kmUwn/hjakOOTWsHLmPo4tBCjn7bPIOyaEPt6pnEkVjeJhFSLYt3L2cd/SG3u+IZTyYcx6sQ7djBVZw="
     };
     const headers = {
       Authorization:
@@ -121,27 +120,27 @@ class Screen extends Component {
       </View>
     );
     const renderNewsList = () => {
-      return this.state.newsList.map((data, index) => (
+      return this.state.newsList.map((item, index) => (
         <Card
           key={"news" + index}
           onPress={() =>
-            this.props.navigation.navigate("NewsDetailScreen", { detail: data })
+            this.props.navigation.navigate("NewsDetailScreen", { detail: item })
           }
-          thumbnail={data.banner}
-          text={data.header}
-          footer={<FooterCard label={data.publicDate} />}
+          thumbnail={item.banner}
+          text={item.header}
+          footer={<FooterCard label={item.publicDate} />}
         />
       ));
     };
-    const renderNewsListSearch = (data, index) => (
+    const renderNewsListSearch = (item, index) => (
       <Card
         key={"newsSearch" + index}
         onPress={() =>
-          this.props.navigation.navigate("NewsDetailScreen", { detail: data })
+          this.props.navigation.navigate("NewsDetailScreen", { detail: item })
         }
-        thumbnail={data.banner}
-        text={data.header}
-        footer={<FooterCard label={data.publicDate} />}
+        thumbnail={item.banner}
+        text={item.header}
+        footer={<FooterCard label={item.publicDate} />}
       />
     );
 

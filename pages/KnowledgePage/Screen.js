@@ -4,7 +4,6 @@ import {
   Image,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -53,11 +52,11 @@ class Screen extends Component {
     const url = `${apiUrl}/getKm`;
     const data = {
       token:
-        "XgnpfzCHre17tCfLuP6LziW8XFonkMBdEieBGAGL/CixVMNd2obDwJMLsp/87yBqpPj355LgkYQ2q4yaB12JK21IXs6XY3qzrve8r1y947s=",
+        "J3lr+BD92j6HNl/dRCMwDgUMId48kmUwn/hjakOOTWsHLmPo4tBCjn7bPIOyaEPt6pnEkVjeJhFSLYt3L2cd/SG3u+IZTyYcx6sQ7djBVZw="
     };
     const headers = {
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODE2MDYsImV4cCI6MTYyODM0MTYwNiwibmJmIjoxNjI3OTgxNjA2LCJqdGkiOiIwR3JmWGdXVTV2RThFWjJaIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.jzT6NdnR7h8AHBl1Glijr7Z2nvvxsVCRM-XaIVbpR0o",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODE2MDYsImV4cCI6MTYyODM0MTYwNiwibmJmIjoxNjI3OTgxNjA2LCJqdGkiOiIwR3JmWGdXVTV2RThFWjJaIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.jzT6NdnR7h8AHBl1Glijr7Z2nvvxsVCRM-XaIVbpR0o"
     };
     try {
       const res = await axios.post(url, data, { headers: headers });
@@ -104,33 +103,33 @@ class Screen extends Component {
       </View>
     );
     const renderKnowledgeList = () => {
-      return knowledgeList.filter(item=>item.category==category).map((data, index) => (
+      return knowledgeList.filter(item=>item.category==category).map((item, index) => (
         <Card
           key={"knowledge" + index}
           onPress={() =>
             this.props.navigation.navigate("KnowledgeDetailScreen", {
-              detail: data,
+              detail: item,
             })
           }
-          thumbnail={data.thumbnail}
-          text={data.header}
+          thumbnail={item.thumbnail}
+          text={item.header}
           cardStyle={{ height: 100 }}
-          footer={<FooterCard label={data.subHead} />}
+          footer={<FooterCard label={item.subHead} />}
         />
       ));
     };
-    const renderKnowledgeListSearch = (data, index)  => (
+    const renderKnowledgeListSearch = (item, index)  => (
         <Card
           key={"knowledge" + index}
           onPress={() =>
             this.props.navigation.navigate("KnowledgeDetailScreen", {
-              detail: data,
+              detail: item,
             })
           }
-          thumbnail={data.thumbnail}
-          text={data.header}
+          thumbnail={item.thumbnail}
+          text={item.header}
           cardStyle={{ height: 100 }}
-          footer={<FooterCard label={data.subHead} />}
+          footer={<FooterCard label={item.subHead} />}
         />
       )
 

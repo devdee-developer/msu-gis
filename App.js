@@ -1,4 +1,4 @@
-import { Button, Image } from "react-native";
+import { Button, Image, Text } from "react-native";
 import React, { Component } from "react";
 
 import AppStyles from "./AppStyle";
@@ -14,6 +14,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import NewsDetailScreen from "./pages/NewsDetailPage/Screen";
 import NewsScreen from "./pages/NewsPage/Screen";
 import SplashScreen from "./pages/SplashPage/Screen";
+import StatisticScreen from "./pages/StatisticPage/Screen"
 import { createStackNavigator } from "@react-navigation/stack";
 
 class App extends Component {
@@ -34,7 +35,7 @@ class App extends Component {
     }
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="NewsScreen">
+        <Stack.Navigator initialRouteName="StatisticScreen">
           <Stack.Screen
             options={{ headerShown: false }}
             name="SplashScreen"
@@ -90,12 +91,23 @@ class App extends Component {
             options={{ headerShown: true }}
             options={{
               headerRight: () => null,
-              headerTitle: () => null,
+              headerTitle: () =>null,
               headerBackTitleVisible: false,
               headerBackImage: (props) => <Back {...props} />,
             }}
             name="KnowledgeDetailScreen"
             component={KnowledgeDetailScreen}
+          />
+            <Stack.Screen
+            options={{ headerShown: true }}
+            options={{
+              headerRight: () => null,
+              headerTitle: () =>  <Text style={{fontSize:23,color:'#010979',alignSelf:'center'}}> สถิติสำรวจ</Text>,
+              headerBackTitleVisible: false,
+              headerBackImage: (props) => <Back {...props} />,
+            }}
+            name="StatisticScreen"
+            component={StatisticScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
