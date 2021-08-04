@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 
+import Modal from "../../components/ModalCustomComponent/Screen";
 import Style from "./Style";
 import arrow_d from "../../assets/arrow_d.png";
 import arrow_right from "../../assets/arrow_right.png";
@@ -79,12 +80,12 @@ class Screen extends Component {
   getOlders() {
     var data = JSON.stringify({
       token:
-        "wpYssuEHGWyr3Q7gFReibkMR6ZlrOEz6HJXbNOgQ9/EQeBlH6V8xmZi2YnRo1oqfBP6aeXUbKkJKxhTng0VcRg8dWtJlYb8H4ZRtK6i7kVA=",
+        "YkvKiFY6D/YpiLUx6NmBT7c8iD5/W1jLlGGood2Jt/8TJV04TKRJBd7Q30/Wrf9kVn/V4g3iU4bi4k5XmigQFwjkz0HVVQAUIe0XEWKT3w4=",
     });
     var headers = {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5NjQ0MTIsImV4cCI6MTYyODMyNDQxMiwibmJmIjoxNjI3OTY0NDEyLCJqdGkiOiJ0VGw0S3h4M1h5Y1ZrUWd1Iiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.GxMrVInXSjA1cLJCpESr5uyJeJBzYPfkQtNMxyNzLQc",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjgwNDgwMDksImV4cCI6MTYyODQwODAwOSwibmJmIjoxNjI4MDQ4MDA5LCJqdGkiOiJJWUFwQjRneU83QXhrVElxIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.-ejPb9Em6DQo-1TnsC9CgOGLrKsSlmrdA5a_OoIr_7U",
     };
     var config = {
       method: "post",
@@ -306,230 +307,228 @@ class Screen extends Component {
 
   renderModal = () => {
     return (
-      <View style={Style.containerBgModal}>
-        <View style={Style.containerModal}>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "flex-end",
-              justifyContent: "center",
-            }}
-          >
-            <TouchableOpacity onPress={() => this.setModalVisible(false)}>
-              <Image source={close} style={Style.imagecloseIconModal} />
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flex: 6,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Image
-              source={this.state.ModalItemModel.avatar}
-              style={{ width: 190, height: 190 }}
-            />
-            <View style={Style.containerOlderStatusHealthModal}>
-              <View style={{ flex: 1.5, marginLeft: 10 }}>
-                <Image
-                  source={this.state.ModalItemModel.imgOlderStatus}
-                  style={Style.imageHealthIcon_1}
-                />
-              </View>
-              <View style={{ flex: 5, marginLeft: 10 }}>
-                <Text style={Style.textOlderhealth}>
-                  {this.state.ModalItemModel.textOlderStatus}
-                </Text>
-              </View>
+      <>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "flex-end",
+            justifyContent: "center",
+          }}
+        >
+          <TouchableOpacity onPress={() => this.setModalVisible(false)}>
+            <Image source={close} style={Style.imagecloseIconModal} />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flex: 6,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            source={this.state.ModalItemModel.avatar}
+            style={{ width: 190, height: 190 }}
+          />
+          <View style={Style.containerOlderStatusHealthModal}>
+            <View style={{ flex: 1.5, marginLeft: 10 }}>
+              <Image
+                source={this.state.ModalItemModel.imgOlderStatus}
+                style={Style.imageHealthIcon_1}
+              />
             </View>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={Style.textOlderName}>
-              {this.state.ModalItemModel.name}
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "row",
-            }}
-          >
-            <View style={{ flex: 4 }}></View>
-            <Image source={user_icon} style={Style.imageFlagIconModal} />
-            <Text style={Style.textOlderAgeModal}>
-              {this.state.ModalItemModel.secondLine}
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "row",
-            }}
-          >
-            <View style={{ flex: 4 }}></View>
-            <Image source={flag_icon_blue} style={Style.imageFlagIconModal} />
-            <Text style={Style.textOlderAddressModal_1}>ระยะห่างจากคุณ</Text>
-            <Text style={Style.textOlderAddressModal_2}>
-              {this.state.ModalItemModel.thridLineDistance}
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 3,
-              flexDirection: "column",
-              margin: 10,
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: this.state.ModalItemModel.docBgHead,
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "row",
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}
-            >
-              <Text style={Style.textDocStatus_1}>สถานะการประเมิน :</Text>
-              <Text style={Style.textDocStatus_2}>
-                {this.state.ModalItemModel.docStatusText}
+            <View style={{ flex: 5, marginLeft: 10 }}>
+              <Text style={Style.textOlderhealth}>
+                {this.state.ModalItemModel.textOlderStatus}
               </Text>
-              {this.state.ModalItemModel.docStatus == 2 ? (
-                <View style={{ flex: 1, marginRight: 7 }}>
-                  <Image source={check_icon} style={Style.imageDocIconModal} />
-                </View>
-              ) : (
-                <>
-                  <View style={{ flex: 1, marginRight: 7 }}></View>
-                </>
-              )}
-            </View>
-            <View
-              style={{
-                flex: 3,
-                backgroundColor: this.state.ModalItemModel.docBgBody,
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "row",
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10,
-              }}
-            >
-              <Image
-                source={this.state.ModalItemModel.imgDoc}
-                style={Style.imageDocModal}
-              />
-              <View style={{ flex: 10, flexDirection: "column" }}>
-                <Text style={Style.textDocStatusModalLine1}>
-                  {this.state.ModalItemModel.docTextLine1}
-                </Text>
-                <View style={{ flex: 1, flexDirection: "row" }}>
-                  <Image source={icon_time} style={Style.icon_time} />
-                  <Text style={Style.textDocStatusModalLine2}>
-                    {this.state.ModalItemModel.docTextLine2}
-                  </Text>
-                </View>
-              </View>
-              <Image
-                source={this.state.ModalItemModel.btnDocArrowRight}
-                style={Style.btn_arrow_r}
-              />
-            </View>
-          </View>
-          <View
-            style={{
-              flex: 3,
-              flexDirection: "column",
-              margin: 10,
-            }}
-          >
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: this.state.ModalItemModel.visitBgHead,
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "row",
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}
-            >
-              <Text style={Style.textVisitStatus_1}>สถานะออกเยี่ยม :</Text>
-              <Text style={Style.textVisitStatus_2}>
-                {this.state.ModalItemModel.visitStatusText}
-              </Text>
-              {this.state.ModalItemModel.visitStatus == 2 ? (
-                <View style={{ flex: 1, marginRight: 7 }}>
-                  <Image source={check_icon} style={Style.imageDocIconModal} />
-                </View>
-              ) : (
-                <>
-                  <View style={{ flex: 1, marginRight: 7 }}></View>
-                </>
-              )}
-            </View>
-            <View
-              style={{
-                flex: 3,
-                backgroundColor: this.state.ModalItemModel.visitBgBody,
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "row",
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10,
-              }}
-            >
-              <Image
-                source={this.state.ModalItemModel.imgVisit}
-                style={Style.imageDocModal}
-              />
-              <View style={{ flex: 10, flexDirection: "column" }}>
-                <Text
-                  style={{
-                    flex: 10,
-                    // fontFamily: 'Prompt',
-                    color: this.state.ModalItemModel.visitColorText,
-                    fontStyle: "normal",
-                    fontSize: 20,
-                    marginVertical: 4,
-                  }}
-                >
-                  {this.state.ModalItemModel.visitTextLine1}
-                </Text>
-                <View style={{ flex: 1, flexDirection: "row" }}>
-                  <Image source={icon_time} style={Style.icon_time} />
-                  <Text style={Style.textDocStatusModalLine2}>
-                    {this.state.ModalItemModel.visitTextLine2}
-                  </Text>
-                </View>
-              </View>
-              <Image
-                source={this.state.ModalItemModel.btnVisitArrowRight}
-                style={Style.btn_arrow_r}
-              />
             </View>
           </View>
         </View>
-      </View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text style={Style.textOlderName}>
+            {this.state.ModalItemModel.name}
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "row",
+          }}
+        >
+          <View style={{ flex: 4 }}></View>
+          <Image source={user_icon} style={Style.imageFlagIconModal} />
+          <Text style={Style.textOlderAgeModal}>
+            {this.state.ModalItemModel.secondLine}
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "row",
+          }}
+        >
+          <View style={{ flex: 4 }}></View>
+          <Image source={flag_icon_blue} style={Style.imageFlagIconModal} />
+          <Text style={Style.textOlderAddressModal_1}>ระยะห่างจากคุณ</Text>
+          <Text style={Style.textOlderAddressModal_2}>
+            {this.state.ModalItemModel.thridLineDistance}
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 3,
+            flexDirection: "column",
+            margin: 10,
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: this.state.ModalItemModel.docBgHead,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
+          >
+            <Text style={Style.textDocStatus_1}>สถานะการประเมิน :</Text>
+            <Text style={Style.textDocStatus_2}>
+              {this.state.ModalItemModel.docStatusText}
+            </Text>
+            {this.state.ModalItemModel.docStatus == 2 ? (
+              <View style={{ flex: 1, marginRight: 7 }}>
+                <Image source={check_icon} style={Style.imageDocIconModal} />
+              </View>
+            ) : (
+              <>
+                <View style={{ flex: 1, marginRight: 7 }}></View>
+              </>
+            )}
+          </View>
+          <View
+            style={{
+              flex: 3,
+              backgroundColor: this.state.ModalItemModel.docBgBody,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              borderBottomLeftRadius: 10,
+              borderBottomRightRadius: 10,
+            }}
+          >
+            <Image
+              source={this.state.ModalItemModel.imgDoc}
+              style={Style.imageDocModal}
+            />
+            <View style={{ flex: 10, flexDirection: "column" }}>
+              <Text style={Style.textDocStatusModalLine1}>
+                {this.state.ModalItemModel.docTextLine1}
+              </Text>
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <Image source={icon_time} style={Style.icon_time} />
+                <Text style={Style.textDocStatusModalLine2}>
+                  {this.state.ModalItemModel.docTextLine2}
+                </Text>
+              </View>
+            </View>
+            <Image
+              source={this.state.ModalItemModel.btnDocArrowRight}
+              style={Style.btn_arrow_r}
+            />
+          </View>
+        </View>
+        <View
+          style={{
+            flex: 3,
+            flexDirection: "column",
+            margin: 10,
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: this.state.ModalItemModel.visitBgHead,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+            }}
+          >
+            <Text style={Style.textVisitStatus_1}>สถานะออกเยี่ยม :</Text>
+            <Text style={Style.textVisitStatus_2}>
+              {this.state.ModalItemModel.visitStatusText}
+            </Text>
+            {this.state.ModalItemModel.visitStatus == 2 ? (
+              <View style={{ flex: 1, marginRight: 7 }}>
+                <Image source={check_icon} style={Style.imageDocIconModal} />
+              </View>
+            ) : (
+              <>
+                <View style={{ flex: 1, marginRight: 7 }}></View>
+              </>
+            )}
+          </View>
+          <View
+            style={{
+              flex: 3,
+              backgroundColor: this.state.ModalItemModel.visitBgBody,
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row",
+              borderBottomLeftRadius: 10,
+              borderBottomRightRadius: 10,
+            }}
+          >
+            <Image
+              source={this.state.ModalItemModel.imgVisit}
+              style={Style.imageDocModal}
+            />
+            <View style={{ flex: 10, flexDirection: "column" }}>
+              <Text
+                style={{
+                  flex: 10,
+                  // fontFamily: 'Prompt',
+                  color: this.state.ModalItemModel.visitColorText,
+                  fontStyle: "normal",
+                  fontSize: 20,
+                  marginVertical: 4,
+                }}
+              >
+                {this.state.ModalItemModel.visitTextLine1}
+              </Text>
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <Image source={icon_time} style={Style.icon_time} />
+                <Text style={Style.textDocStatusModalLine2}>
+                  {this.state.ModalItemModel.visitTextLine2}
+                </Text>
+              </View>
+            </View>
+            <Image
+              source={this.state.ModalItemModel.btnVisitArrowRight}
+              style={Style.btn_arrow_r}
+            />
+          </View>
+        </View>
+      </>
     );
   };
 
   render() {
     return (
       <View style={{ flex: 1 }}>
-        {this.state.modalVisible ? this.renderModal() : <></>}
+        {this.state.modalVisible ? <Modal view={this.renderModal()} /> : <></>}
         <View style={{ flex: 1 }}>
           <ScrollView style={Style.container}>
             <View style={Style.containerFilterHead}>
