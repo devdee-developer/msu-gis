@@ -115,6 +115,7 @@ class Screen extends Component {
                     style={{
                       fontSize: 23,
                       color: "#010979",
+                      fontWeight:'bold'
                     }}
                   >
                     {this.props.title}

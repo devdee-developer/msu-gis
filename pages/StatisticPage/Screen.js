@@ -1,13 +1,16 @@
 import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
 import React, { Component } from "react";
 
+import { BarChart } from "react-native-chart-kit";
+import CloseIcon from "../../assets/close.png";
 import DataImage from "../../assets/statistic_icon_data.png";
 import { Entypo } from "@expo/vector-icons";
-import HealthImage from '../../assets/health.png'
+import HealthImage from "../../assets/health.png";
 import HeartImage from "../../assets/statistic_icon_heart.png";
+import Model from "../../components/ModalCustomComponent/Screen";
 import RadioGroup from "react-native-radio-buttons-group";
 import Style from "./Style";
-import VisitImage from '../../assets/visit_green.png'
+import VisitImage from "../../assets/visit_green.png";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -17,12 +20,13 @@ class Screen extends Component {
     this.state = {
       groupData: [],
       selectedItem: {},
+      onSelectOptionOpen: false,
     };
   }
   componentDidMount() {
-   this.initialData()
+    this.initialData();
   }
-  initialData=()=>{
+  initialData = () => {
     const radioStyle = {
       borderColor: "#E4E1F0",
       color: "#7676FF",
@@ -34,19 +38,20 @@ class Screen extends Component {
       borderBottomWidth: 1,
       height: 50,
       width: "100%",
-    }
+      paddingLeft: 30,
+    };
     const labelRadioStyle = {
       fontSize: 20,
       color: "#010979",
       marginBottom: 4,
-    }
+    };
     const groupData = [
       {
         id: "1",
         label: "ผลประเมินพฤติกรรมสุขภาพ",
         value: "ผลประเมินพฤติกรรมสุขภาพ",
-        image:HeartImage,
-        imageStyle:{
+        image: HeartImage,
+        imageStyle: {
           width: 27,
           height: 30.3,
           marginHorizontal: 5,
@@ -54,20 +59,20 @@ class Screen extends Component {
         },
         selected: true,
         ...radioStyle,
-        labelStyle: {...labelRadioStyle,color: "#6F63FD"},
-        containerStyle:containerRadioStyle,
+        labelStyle: { ...labelRadioStyle, color: "#6F63FD" },
+        containerStyle: containerRadioStyle,
       },
       {
         id: "2",
         label: "ผลการประเมิน",
         value: "ผลการประเมิน",
-        image:HealthImage,
-        imageStyle:{
+        image: HealthImage,
+        imageStyle: {
           width: 46.56,
-          height:37.96,
+          height: 37.96,
           marginHorizontal: 5,
         },
-        labelStyle:labelRadioStyle,
+        labelStyle: labelRadioStyle,
         ...radioStyle,
         containerStyle: containerRadioStyle,
       },
@@ -75,22 +80,23 @@ class Screen extends Component {
         id: "3",
         label: "ผลการออกเยี่ยม",
         value: "ผลการออกเยี่ยม",
-        image:VisitImage,
-        imageStyle:{
+        image: VisitImage,
+        imageStyle: {
           width: 42.27,
           height: 36.39,
           marginHorizontal: 5,
         },
-        labelStyle:labelRadioStyle,
+        labelStyle: labelRadioStyle,
         ...radioStyle,
-        containerStyle: {...containerRadioStyle,borderBottomWidth:0},
+        containerStyle: { ...containerRadioStyle, borderBottomWidth: 0 },
       },
     ];
-    this.setState({ groupData: groupData ,selectedItem:groupData[0]});
-  }
+    this.setState({ groupData: groupData, selectedItem: groupData[0] });
+  };
   onPressRadioButton = (data) => {
     this.setState(
       {
+        onSelectOptionOpen: false,
         groupData: data,
         selectedItem: data.find((item) => item.selected),
       },
@@ -98,9 +104,17 @@ class Screen extends Component {
         this.setState({
           groupData: this.state.groupData.map((item) => {
             if (item.selected) {
-              item.labelStyle={ fontSize: 20, color: "#6F63FD", marginBottom: 4 }
+              item.labelStyle = {
+                fontSize: 20,
+                color: "#6F63FD",
+                marginBottom: 4,
+              };
             } else {
-              item.labelStyle={ fontSize: 20, color: "#010979", marginBottom: 4 }
+              item.labelStyle = {
+                fontSize: 20,
+                color: "#010979",
+                marginBottom: 4,
+              };
             }
             return item;
           }),
@@ -109,7 +123,15 @@ class Screen extends Component {
     );
   };
   render() {
-    const {selectedItem,groupData} = this.state
+    const data = {
+      labels: ["January", "February", "March", "April", "May", "June"],
+      datasets: [
+        {
+          data: [20, 45, 28, 80, 99, 43]
+        }
+      ]
+    };
+    const { selectedItem, groupData, onSelectOptionOpen } = this.state;
     return (
       <View style={Style.container}>
         <View
@@ -154,7 +176,7 @@ class Screen extends Component {
               paddingVertical: 8,
             }}
             activeOpacity={0.8}
-            onPress={() => alert(1)}
+            onPress={() => this.setState({ onSelectOptionOpen: true })}
           >
             <Text numberOfLines={1} style={{ color: "#010979", fontSize: 16 }}>
               {selectedItem.label} (ภาพรวมทั้งหมด)
@@ -196,13 +218,63 @@ class Screen extends Component {
             <Text style={{ fontSize: 14, color: "#97989B" }}>
               อัพเดทเมื่อ : 18 ม.ค. 64, เวลา 14:28 น.
             </Text>
+            {/* <BarChart
+              style={{backgroundColor:'#fff'}}
+              data={data}
+              width={deviceWidth-50}
+              height={347}
+              chartConfig={{
+                backgroundColor: "#e26a00",
+                backgroundGradientFrom: "#fb8c00",
+                backgroundGradientTo: "#ffa726",
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                style: {
+                  borderRadius: 16
+                },
+              }}
+              verticalLabelRotation={30}
+            /> */}
+          </View>
+        </View>
+        <Model
+          Visible={onSelectOptionOpen}
+          Style={{ top: 56, width: 370, height: 404 }}
+        >
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => this.setState({ onSelectOptionOpen: false })}
+            style={{}}
+          >
+            <Image
+              source={CloseIcon}
+              style={{
+                width: 12.54,
+                height: 12.54,
+                position: "absolute",
+                right: 25.65,
+                top: 25.73,
+              }}
+            />
+          </TouchableOpacity>
+          <View style={{ marginLeft: 50, marginTop: 50, marginBottom: 30 }}>
+            <Text
+              style={{ color: "#010979", fontSize: 30, fontWeight: "bold" }}
+            >
+              เลือกข้อมูลสถิติ
+            </Text>
+            <Text style={{ color: "#3B3D48", fontSize: 20 }}>
+              ท่านสามารถเลือกได้ตามต้องการ
+            </Text>
+          </View>
+          <View style={{ padding: 15 }}>
             <RadioGroup
               containerStyle={{ alignItems: "flex-start" }}
               radioButtons={groupData}
               onPress={this.onPressRadioButton}
             />
           </View>
-        </View>
+        </Model>
       </View>
     );
   }

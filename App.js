@@ -102,7 +102,7 @@ class App extends Component {
             options={{ headerShown: true }}
             options={{
               headerRight: () => null,
-              headerTitle: () =>  <Text style={{fontSize:23,color:'#010979',alignSelf:'center'}}> สถิติสำรวจ</Text>,
+              headerTitle: () =>  <Text style={{fontSize:23,color:'#010979',alignSelf:'center',fontWeight:'bold'}}> สถิติสำรวจ</Text>,
               headerBackTitleVisible: false,
               headerBackImage: (props) => <Back {...props} />,
             }}
