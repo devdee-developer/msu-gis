@@ -1,9 +1,10 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   // container
   container: {
-    flex: 1,
+    // flex: 1,
+    height: Dimensions.get("window").height,
     backgroundColor: "#F7F5FC",
     flexDirection: "column",
   },
@@ -193,7 +194,7 @@ export default StyleSheet.create({
     flex: 7,
     // fontFamily: 'Prompt',
     color: "#0D0E12",
-    fontStyle: "bold",
+    // fontStyle: "bold",
     fontSize: 14,
     marginVertical: 4,
     paddingLeft: 20,
@@ -207,7 +208,7 @@ export default StyleSheet.create({
     marginVertical: 4,
   },
   textDocStatusModalLine1: {
-    flex: 10,
+    flex: 1,
     // fontFamily: 'Prompt',
     color: "#FFFFFF",
     fontStyle: "normal",
@@ -215,7 +216,7 @@ export default StyleSheet.create({
     marginVertical: 4,
   },
   textDocStatusModalLine2: {
-    flex: 10,
+    flex: 8,
     // fontFamily: 'Prompt',
     color: "#FDEBC1",
     fontStyle: "normal",
@@ -226,7 +227,7 @@ export default StyleSheet.create({
     flex: 7,
     // fontFamily: 'Prompt',
     color: "#0D0E12",
-    fontStyle: "bold",
+    // fontStyle: "bold",
     fontSize: 14,
     marginVertical: 4,
     paddingLeft: 20,
@@ -310,8 +311,8 @@ export default StyleSheet.create({
   },
   imageDocModal: {
     flex: 1,
-    width: 74,
-    height: 60,
+    width: 100,
+    height: 100,
     resizeMode: "center",
     margin: 10,
   },
@@ -337,10 +338,10 @@ export default StyleSheet.create({
     margin: 10,
   },
   icon_time: {
-    width: 20,
-    height: 20,
+    width: 30,
+    height: 30,
     resizeMode: "center",
-    margin: 4,
+    // margin: 2,
   },
   btn_arrow_r: {
     flex: 1,

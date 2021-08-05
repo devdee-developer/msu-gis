@@ -92,10 +92,10 @@ export default StyleSheet.create({
   },
   containerFooter: {
     height: 90,
-    position: "fixed",
-    bottom: "0px",
-    left: "0px",
-    right: "0px",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   containerBgFooter: {
     flexDirection: "row",

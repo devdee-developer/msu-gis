@@ -80,12 +80,12 @@ class Screen extends Component {
   getOlders() {
     var data = JSON.stringify({
       token:
-        "dQPVwzwBO45KvwMhHD3a5kYn0/jfouTalfrGcIYGpnqjlZ1ujzOQbkItI1/K6NX5dc+Fp8DffoPxJzZqseVwlbOjANLZE3FYf3/6h983Dc0=",
+        "+dW3vsDsorhJhRCvQBBR3LA7D+N46RlpE22hXO71fHsy2c2Ppxke/KWrFRMWoNPZjKk6waFVE7uGEs5pYcDXUVCSYZdgEm2hpZWOjEQhmKg=",
     });
     var headers = {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjgxNDM0NTMsImV4cCI6MTYyODUwMzQ1MywibmJmIjoxNjI4MTQzNDUzLCJqdGkiOiJyM0h5TnVZRnlOUEU4T3FCIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.roatKJZwi-LPAI_k720qQPhBuW2SNIkh8FoXk34jE_4",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjgxNTA5ODEsImV4cCI6MTYyODUxMDk4MSwibmJmIjoxNjI4MTUwOTgxLCJqdGkiOiJTczhsd1hOY040aUE5UXZIIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.DWXb3rxOo0VrJDphbuDmu1R1idnE_2STDN3mwl-yQa4",
     };
     var config = {
       method: "post",
@@ -151,6 +151,7 @@ class Screen extends Component {
       showFilterContent: !this.state.showFilterContent,
     });
   }
+
   setModalVisible = (visible, item) => {
     if (visible) {
       var ModalItemModel = {
@@ -202,7 +203,7 @@ class Screen extends Component {
       <View style={Style.containerBgOlderList} key={index}>
         <View style={Style.containerOlderList}>
           <View style={Style.containerImageOlder}>
-            <Image source={item.avatar} style={Style.imageOlder} />
+            <Image source={{ uri: item.avatar }} style={Style.imageOlder} />
           </View>
           <View style={Style.containerOlderDetail}>
             <Text style={Style.textOlderName}>{item.name}</Text>
@@ -327,7 +328,7 @@ class Screen extends Component {
           }}
         >
           <Image
-            source={this.state.ModalItemModel.avatar}
+            source={{ uri: this.state.ModalItemModel.avatar }}
             style={{ width: 190, height: 190 }}
           />
           <View style={Style.containerOlderStatusHealthModal}>
@@ -431,7 +432,12 @@ class Screen extends Component {
               source={this.state.ModalItemModel.imgDoc}
               style={Style.imageDocModal}
             />
-            <View style={{ flex: 10, flexDirection: "column" }}>
+            <View
+              style={{
+                flex: 5,
+                flexDirection: "column",
+              }}
+            >
               <Text style={Style.textDocStatusModalLine1}>
                 {this.state.ModalItemModel.docTextLine1}
               </Text>
@@ -495,10 +501,10 @@ class Screen extends Component {
               source={this.state.ModalItemModel.imgVisit}
               style={Style.imageDocModal}
             />
-            <View style={{ flex: 10, flexDirection: "column" }}>
+            <View style={{ flex: 5, flexDirection: "column" }}>
               <Text
                 style={{
-                  flex: 10,
+                  flex: 1,
                   // fontFamily: 'Prompt',
                   color: this.state.ModalItemModel.visitColorText,
                   fontStyle: "normal",
@@ -508,7 +514,12 @@ class Screen extends Component {
               >
                 {this.state.ModalItemModel.visitTextLine1}
               </Text>
-              <View style={{ flex: 1, flexDirection: "row" }}>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                }}
+              >
                 <Image source={icon_time} style={Style.icon_time} />
                 <Text style={Style.textDocStatusModalLine2}>
                   {this.state.ModalItemModel.visitTextLine2}
@@ -529,7 +540,6 @@ class Screen extends Component {
     return (
       <View style={{ flex: 1 }}>
         <Modal Visible={this.state.modalVisible}>{this.renderModal()}</Modal>
-        {/* {this.state.modalVisible ? <Modal view={this.renderModal()} /> : <></>} */}
         <View style={{ flex: 1 }}>
           <ScrollView style={Style.container}>
             <View style={Style.containerFilterHead}>
