@@ -6,6 +6,8 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#F7F5FC",
     flexDirection: "column",
+    height: "100%",
+    position: "relative",
   },
   containerContactListBar: {
     height: 50,
@@ -88,41 +90,12 @@ export default StyleSheet.create({
     marginTop: 20,
     alignItems: "center",
   },
-  containerBgModal: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    backgroundColor: "rgba(192,192,192,0.5);",
-    zIndex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
-  containerModal: {
-    width: 355,
-    height: 550,
-    position: "absolute",
-    backgroundColor: "#FFFFFF",
-    margin: 22,
-    borderRadius: 20,
-    shadowColor: "#000",
-    alignItems: "center",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-    flex: 1,
-    flexDirection: "column",
-  },
   containerFooter: {
-    width: "100%",
     height: 90,
-    backgroundColor: "rgba(192,192,192,0.5);",
-    alignItems: "center",
+    position: "fixed",
+    bottom: "0px",
+    left: "0px",
+    right: "0px",
   },
   containerBgFooter: {
     flexDirection: "row",
@@ -131,6 +104,63 @@ export default StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#FFFFFF",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  containerBrowseImg: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    marginHorizontal: 30,
+  },
+  containerImgCamera: {
+    width: 55,
+    height: 50,
+    backgroundColor: "#010979",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  containerOlderList: {
+    backgroundColor: "#FFFFFF",
+    flex: 1,
+    flexDirection: "row",
+    borderRadius: 10,
+  },
+  containerBgOlderList: {
+    backgroundColor: "#FFFFFF",
+    margin: 5,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+  containerImageOlder: {
+    flex: 2,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  containerOlderDetailList: {
+    flex: 6,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+  },
+  containerOlderDetailLine2: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
 
   // image
@@ -152,6 +182,12 @@ export default StyleSheet.create({
     backgroundColor: "#010979",
     resizeMode: "center",
     marginVertical: 30,
+  },
+  imageOlder: {
+    width: 66,
+    height: 66,
+    resizeMode: "center",
+    margin: 10,
   },
 
   // text
@@ -262,6 +298,31 @@ export default StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 26,
   },
+  textOlderNameList: {
+    flex: 1,
+    // fontFamily: 'Prompt',
+    color: "#0D0E12",
+    fontStyle: "normal",
+    fontSize: 22,
+    marginVertical: 4,
+    paddingLeft: 7,
+  },
+  textOlderAddressModal_1: {
+    flex: 4,
+    // fontFamily: 'Prompt',
+    color: "#0D0E12",
+    fontStyle: "normal",
+    fontSize: 14,
+    marginVertical: 4,
+  },
+  textOlderAddressModal_2: {
+    flex: 8,
+    // fontFamily: 'Prompt',
+    color: "#6F63FD",
+    fontStyle: "normal",
+    fontSize: 14,
+    marginVertical: 4,
+  },
 
   //icon
   arrow_right_white: {
@@ -300,6 +361,18 @@ export default StyleSheet.create({
     width: 32,
     height: 20,
     resizeMode: "center",
+  },
+  crosshairs_icon: {
+    flex: 2,
+    height: 30,
+    resizeMode: "center",
+    margin: 2,
+  },
+  pin: {
+    width: 20,
+    height: 30,
+    resizeMode: "center",
+    margin: 10,
   },
 
   // button
