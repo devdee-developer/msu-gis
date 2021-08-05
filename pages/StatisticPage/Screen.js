@@ -1,7 +1,6 @@
 import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
 import React, { Component } from "react";
 
-import { BarChart } from "react-native-chart-kit";
 import CloseIcon from "../../assets/close.png";
 import DataImage from "../../assets/statistic_icon_data.png";
 import { Entypo } from "@expo/vector-icons";
@@ -123,14 +122,6 @@ class Screen extends Component {
     );
   };
   render() {
-    const data = {
-      labels: ["January", "February", "March", "April", "May", "June"],
-      datasets: [
-        {
-          data: [20, 45, 28, 80, 99, 43]
-        }
-      ]
-    };
     const { selectedItem, groupData, onSelectOptionOpen } = this.state;
     return (
       <View style={Style.container}>
@@ -218,42 +209,27 @@ class Screen extends Component {
             <Text style={{ fontSize: 14, color: "#97989B" }}>
               อัพเดทเมื่อ : 18 ม.ค. 64, เวลา 14:28 น.
             </Text>
-            {/* <BarChart
-              style={{backgroundColor:'#fff'}}
-              data={data}
-              width={deviceWidth-50}
-              height={347}
-              chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#fb8c00",
-                backgroundGradientTo: "#ffa726",
-                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                style: {
-                  borderRadius: 16
-                },
-              }}
-              verticalLabelRotation={30}
-            /> */}
           </View>
         </View>
-        <Model
-          Visible={onSelectOptionOpen}
-          Style={{ top: 56, width: 370, height: 404 }}
-        >
+        <Model Visible={onSelectOptionOpen} Style={{ width: 370, height: 404 }}>
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => this.setState({ onSelectOptionOpen: false })}
-            style={{}}
+            style={{
+              position: "absolute",
+              right: 10,
+              top: 10,
+              width: 50,
+              height: 50,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <Image
               source={CloseIcon}
               style={{
                 width: 12.54,
                 height: 12.54,
-                position: "absolute",
-                right: 25.65,
-                top: 25.73,
               }}
             />
           </TouchableOpacity>
