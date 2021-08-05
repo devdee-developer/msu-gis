@@ -35,7 +35,7 @@ class App extends Component {
     }
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="NewsScreen">
+        <Stack.Navigator initialRouteName="StatisticScreen">
           <Stack.Screen
             options={{ headerShown: false }}
             name="SplashScreen"
