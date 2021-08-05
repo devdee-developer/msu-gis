@@ -39,15 +39,15 @@ class Screen extends Component {
       olderLists: [],
     };
   }
-  toggleshowContentList() {
+  toggleshowOlderList() {
     var data = JSON.stringify({
       token:
-        "TwBPqvpbLSvylLYAjNd1xcQ/9tkIqmkyjWIzlpuMVtllKDJaS+dF5V/dVqHon1I1rUoOGNiesHODpenMm+qibGuXtBrUN1rZi4lwqSRwGNs=",
+        "dQPVwzwBO45KvwMhHD3a5kYn0/jfouTalfrGcIYGpnqjlZ1ujzOQbkItI1/K6NX5dc+Fp8DffoPxJzZqseVwlbOjANLZE3FYf3/6h983Dc0=",
     });
     var headers = {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODAzODIsImV4cCI6MTYyODM0MDM4MiwibmJmIjoxNjI3OTgwMzgyLCJqdGkiOiJFV2owU3hmQnFvWHlJbTNhIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.2-Uo5yeJ5rStYN5ZN_AWu0hDV5M7-QcI-LY7qgo-Zdc",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjgxNDM0NTMsImV4cCI6MTYyODUwMzQ1MywibmJmIjoxNjI4MTQzNDUzLCJqdGkiOiJyM0h5TnVZRnlOUEU4T3FCIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.roatKJZwi-LPAI_k720qQPhBuW2SNIkh8FoXk34jE_4",
     };
     var config = {
       method: "post",
@@ -110,28 +110,26 @@ class Screen extends Component {
     return (
       <>
         <View style={Style.container}>
-          {this.state.showTutorial ? (
-            <Modal
-              view={
-                <View style={{alignItems:'center'}}>
-                  <Image source={tutorial} style={Style.tutorial} />
-                  <TouchableOpacity
-                    style={Style.btnhideTutorial}
-                    onPress={() => this.toggleshowTutorial()}
-                  >
-                    <Text style={Style.textBtnClose}>ปิด</Text>
-                  </TouchableOpacity>
-                </View>
-              }
-            />
-          ) : (
-            // <View style={Style.containerBgModal}>
-            //   <View style={Style.containerModal}>
-
-            //   </View>
-            // </View>
-            <></>
-          )}
+          <Modal Visible={this.state.showTutorial}>
+            <View style={{ alignItems: "center", flex: 1 }}>
+              <Image source={tutorial} style={Style.tutorial} />
+              <View
+                style={{
+                  alignItems: "center",
+                  flex: 1,
+                  justifyContent: "flex-end",
+                }}
+              >
+                <TouchableOpacity
+                  style={Style.btnhideTutorial}
+                  onPress={() => this.toggleshowTutorial()}
+                >
+                  <Text style={Style.textBtnClose}>ปิด</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ alignItems: "center", flex: 1 }}></View>
+            </View>
+          </Modal>
 
           <ScrollView style={Style.container}>
             <View style={{ height: 250 }}>
@@ -144,7 +142,9 @@ class Screen extends Component {
               />
               <Text style={Style.textContactAll}>แสดงรายชื่อผู้สูงอายุ</Text>
               <Text style={Style.textAll}>ทั้งหมด</Text>
-              <TouchableOpacity onPress={() => this.toggleshowContentList()}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("OlderListPage")}
+              >
                 <Image
                   source={arrow_right_white}
                   style={Style.arrow_right_white}
@@ -295,15 +295,16 @@ class Screen extends Component {
               return this.renderItemOlder(item, index);
             })}
           </ScrollView>
-        </View>
-        <View style={Style.containerFooter}>
-          <View style={Style.containerBgFooter}>
-            <TouchableOpacity style={Style.btnCancle}>
-              <Text style={Style.textBtnClose}>ยกเลิก</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={Style.btnSubmit}>
-              <Text style={Style.textBtnClose}>ส่งเรื่อง</Text>
-            </TouchableOpacity>
+          <View style={{ height: 90 }}></View>
+          <View style={Style.containerFooter}>
+            <View style={Style.containerBgFooter}>
+              <TouchableOpacity style={Style.btnCancle}>
+                <Text style={Style.textBtnClose}>ยกเลิก</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={Style.btnSubmit}>
+                <Text style={Style.textBtnClose}>ส่งเรื่อง</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </>

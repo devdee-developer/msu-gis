@@ -80,12 +80,12 @@ class Screen extends Component {
   getOlders() {
     var data = JSON.stringify({
       token:
-        "YkvKiFY6D/YpiLUx6NmBT7c8iD5/W1jLlGGood2Jt/8TJV04TKRJBd7Q30/Wrf9kVn/V4g3iU4bi4k5XmigQFwjkz0HVVQAUIe0XEWKT3w4=",
+        "dQPVwzwBO45KvwMhHD3a5kYn0/jfouTalfrGcIYGpnqjlZ1ujzOQbkItI1/K6NX5dc+Fp8DffoPxJzZqseVwlbOjANLZE3FYf3/6h983Dc0=",
     });
     var headers = {
       "Content-Type": "application/json",
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjgwNDgwMDksImV4cCI6MTYyODQwODAwOSwibmJmIjoxNjI4MDQ4MDA5LCJqdGkiOiJJWUFwQjRneU83QXhrVElxIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.-ejPb9Em6DQo-1TnsC9CgOGLrKsSlmrdA5a_OoIr_7U",
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MjgxNDM0NTMsImV4cCI6MTYyODUwMzQ1MywibmJmIjoxNjI4MTQzNDUzLCJqdGkiOiJyM0h5TnVZRnlOUEU4T3FCIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.roatKJZwi-LPAI_k720qQPhBuW2SNIkh8FoXk34jE_4",
     };
     var config = {
       method: "post",
@@ -528,7 +528,8 @@ class Screen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        {this.state.modalVisible ? <Modal view={this.renderModal()} /> : <></>}
+        <Modal Visible={this.state.modalVisible}>{this.renderModal()}</Modal>
+        {/* {this.state.modalVisible ? <Modal view={this.renderModal()} /> : <></>} */}
         <View style={{ flex: 1 }}>
           <ScrollView style={Style.container}>
             <View style={Style.containerFilterHead}>
