@@ -1,5 +1,7 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
+const window = Dimensions.get("window");
+console.log(window);
 export default StyleSheet.create({
   containerBgModal: {
     flex: 1,
@@ -14,8 +16,8 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   containerModal: {
-    width: 355,
-    height: 550,
+    width: (window.width * 95) / 100,
+    height: (window.height * 85) / 100,
     position: "absolute",
     backgroundColor: "#FFFFFF",
     marginTop: 70,
