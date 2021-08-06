@@ -10,10 +10,10 @@ import {
 } from "victory-native";
 
 import CloseIcon from "../../assets/close.png";
-import DataImage from "../../assets/statistic_icon_data.png";
+import DataImage from "../../assets/analytics_icon_data.png";
 import { Entypo } from "@expo/vector-icons";
 import HealthImage from "../../assets/health.png";
-import HeartImage from "../../assets/statistic_icon_heart.png";
+import HeartImage from "../../assets/analytics_icon_heart.png";
 import Model from "../../components/ModalCustomComponent/Screen";
 import RadioGroup from "react-native-radio-buttons-group";
 import Style from "./Style";
