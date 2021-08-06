@@ -1,5 +1,13 @@
 import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
 import React, { Component } from "react";
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryGroup,
+  VictoryLabel,
+  VictoryPie,
+} from "victory-native";
 
 import CloseIcon from "../../assets/close.png";
 import DataImage from "../../assets/statistic_icon_data.png";
@@ -13,6 +21,27 @@ import VisitImage from "../../assets/visit_green.png";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+
+DatasetLabel = ({ label, color }) => (
+  <View
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      marginBottom: 5,
+    }}
+  >
+    <View
+      style={{
+        width: 16,
+        height: 16,
+        borderRadius: 8,
+        marginRight: 9,
+        backgroundColor: color,
+      }}
+    />
+    <Text style={{ fontSize: 16, color: "#0D0E12" }}>{label}</Text>
+  </View>
+);
 class Screen extends Component {
   constructor(props) {
     super(props);
@@ -121,8 +150,210 @@ class Screen extends Component {
       }
     );
   };
+  renderChart = () => {
+    let chart;
+    if (this.state.selectedItem.id == 1) {
+      chart = this.renderBarChart();
+    } else if(this.state.selectedItem.id == 2) {
+      chart = this.renderPieChartEstimate();
+    }else{
+      chart = this.renderPieChartVisit();
+    }
+    return chart;
+  };
+
+  renderBarChart = () => {
+    const data1 = {
+      label: "ระดับความเครียด",
+      color: "#F26E4F",
+      data: [
+        { x: "ชาย", y: 4 },
+        { x: "หญิง", y: 8 },
+      ],
+    };
+    const data2 = {
+      label: "ระดับคุณภาพชีวิต",
+      color: "#54D5BB",
+      data: [
+        { x: "ชาย", y: 6.2 },
+        { x: "หญิง", y: 3 },
+      ],
+    };
+    const data3 = {
+      label: "ระดับพฤติกรรมการบริโภค",
+      color: "#F5C761",
+      data: [
+        { x: "ชาย", y: 5 },
+        { x: "หญิง", y: 4 },
+      ],
+    };
+    const data4 = {
+      label: "ระดับพฤติกรรมการออกกำลังกาย",
+      color: "#F73F94",
+      data: [
+        { x: "ชาย", y: 2 },
+        { x: "หญิง", y: 1 },
+      ],
+    };
+    const pointStyle = {
+      width: 16,
+      height: 16,
+      borderRadius: 8,
+      marginRight: 9,
+    };
+    return (
+      <>
+        <VictoryChart
+          width={deviceWidth - 50}
+          height={258}
+          domainPadding={{ x: 100 }}
+        >
+          <VictoryGroup offset={20} colorScale={"qualitative"}>
+            <VictoryBar
+              style={{ data: { fill: data1.color } }}
+              data={data1.data}
+            />
+            <VictoryBar
+              style={{ data: { fill: data2.color } }}
+              data={data2.data}
+            />
+            <VictoryBar
+              style={{ data: { fill: data3.color } }}
+              data={data3.data}
+            />
+            <VictoryBar
+              style={{ data: { fill: data4.color } }}
+              data={data4.data}
+            />
+          </VictoryGroup>
+          <VictoryAxis dependentAxis label="คน" />
+          <VictoryAxis label="เพศ" />
+        </VictoryChart>
+        <View style={{ marginTop: 20, marginLeft: 40 }}>
+          <DatasetLabel label={data1.label} color={data1.color} />
+          <DatasetLabel label={data2.label} color={data2.color} />
+          <DatasetLabel label={data3.label} color={data3.color} />
+          <DatasetLabel label={data4.label} color={data4.color} />
+        </View>
+      </>
+    );
+  };
+  renderPieChartEstimate = () => {
+    return (
+      <>
+        <View style={{ flexDirection: "row", marginTop: 20 }}>
+          <View style={{ alignItems: "center" }}>
+            <VictoryPie
+              colorScale={["#010979", "#54D5BB"]}
+              width={deviceWidth / 2.4}
+              height={deviceWidth / 2.4}
+              data={[
+                { x: 2, y: 2 },
+                { x: 3, y: 3 },
+              ]}
+              innerRadius={deviceWidth/6}
+              labelRadius={deviceWidth/9}
+              style={{ labels: { fontSize: 16, fill: "#ffffff" }, margin: 0 }}
+            />
+            <Text
+              style={{ fontSize: 23, fontWeight: "bold", color: "#010979" }}
+            >
+              ชาย
+            </Text>
+            <Text style={{ fontSize: 16, color: "#7F7FA8" }}>
+              (จากจำนวน 5 คน)
+            </Text>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <VictoryPie
+              colorScale={["#010979", "#54D5BB"]}
+              width={deviceWidth / 2.4}
+              height={deviceWidth / 2.4}
+              data={[
+                { x: 2, y: 2 },
+                { x: 5, y: 5 },
+              ]}
+              innerRadius={deviceWidth/6}
+              labelRadius={deviceWidth/9}
+              style={{ labels: { fontSize: 16, fill: "#ffffff" }, margin: 0 }}
+            />
+            <Text
+              style={{ fontSize: 23, fontWeight: "bold", color: "#010979" }}
+            >
+              หญิง
+            </Text>
+            <Text style={{ fontSize: 16, color: "#7F7FA8" }}>
+              (จากจำนวน 7 คน)
+            </Text>
+          </View>
+        </View>
+        <View style={{ marginTop: 50, marginLeft: 40 }}>
+          <DatasetLabel label={"ยังไม่ได้ออกเยี่ยม"} color={"#010979"} />
+          <DatasetLabel label={"ออกเยี่ยมแล้ว"} color={"#54D5BB"} />
+        </View>
+      </>
+    );
+  };
+  renderPieChartVisit = () => {
+    return (
+      <>
+        <View style={{ flexDirection: "row", marginTop: 20 }}>
+          <View style={{ alignItems: "center" }}>
+            <VictoryPie
+              colorScale={["#010979", "#54D5BB"]}
+              width={deviceWidth / 2.4}
+              height={deviceWidth / 2.4}
+              data={[
+                { x: 3, y: 3 },
+                { x: 2, y: 2 },
+              ]}
+              innerRadius={deviceWidth/6}
+              labelRadius={deviceWidth/9}
+              style={{ labels: { fontSize: 16, fill: "#ffffff" }, margin: 0 }}
+            />
+            <Text
+              style={{ fontSize: 23, fontWeight: "bold", color: "#010979" }}
+            >
+              ชาย
+            </Text>
+            <Text style={{ fontSize: 16, color: "#7F7FA8" }}>
+              (จากจำนวน 5 คน)
+            </Text>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <VictoryPie
+              colorScale={["#010979", "#54D5BB"]}
+              width={deviceWidth / 2.4}
+              height={deviceWidth / 2.4}
+              data={[
+                { x: 4, y: 4 },
+                { x: 3, y: 3 },
+              ]}
+              innerRadius={deviceWidth/6}
+              labelRadius={deviceWidth/9}
+              style={{ labels: { fontSize: 16, fill: "#ffffff" }, margin: 0 }}
+            />
+            <Text
+              style={{ fontSize: 23, fontWeight: "bold", color: "#010979" }}
+            >
+              หญิง
+            </Text>
+            <Text style={{ fontSize: 16, color: "#7F7FA8" }}>
+              (จากจำนวน 7 คน)
+            </Text>
+          </View>
+        </View>
+        <View style={{ marginTop: 50, marginLeft: 40 }}>
+          <DatasetLabel label={"ยังไม่ถูกปะเมิน"} color={"#010979"} />
+          <DatasetLabel label={"ถูกประเมินแล้ว"} color={"#54D5BB"} />
+        </View>
+      </>
+    );
+  };
+
   render() {
     const { selectedItem, groupData, onSelectOptionOpen } = this.state;
+
     return (
       <View style={Style.container}>
         <View
@@ -163,7 +394,8 @@ class Screen extends Component {
               height: 40,
               width: deviceWidth - 36,
               borderRadius: 8,
-              paddingHorizontal: 12,
+              paddingLeft: 12,
+              paddingRight: 35,
               paddingVertical: 8,
             }}
             activeOpacity={0.8}
@@ -172,7 +404,12 @@ class Screen extends Component {
             <Text numberOfLines={1} style={{ color: "#010979", fontSize: 16 }}>
               {selectedItem.label} (ภาพรวมทั้งหมด)
             </Text>
-            <Entypo name="chevron-down" size={24} color="#010979" />
+            <Entypo
+              name="chevron-down"
+              size={24}
+              color="#010979"
+              style={{ position: "absolute", top: 8, right: 10 }}
+            />
           </TouchableOpacity>
         </View>
         <View
@@ -209,9 +446,14 @@ class Screen extends Component {
             <Text style={{ fontSize: 14, color: "#97989B" }}>
               อัพเดทเมื่อ : 18 ม.ค. 64, เวลา 14:28 น.
             </Text>
+            {this.renderChart()}
           </View>
         </View>
-        <Model Visible={onSelectOptionOpen} Style={{ width: 370, height: 404 }}>
+
+        <Model
+          Visible={onSelectOptionOpen}
+          Style={{ top: 70, width: 370, height: 404 }}
+        >
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => this.setState({ onSelectOptionOpen: false })}
