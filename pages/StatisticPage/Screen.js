@@ -206,7 +206,7 @@ class Screen extends Component {
         <VictoryChart
           width={deviceWidth - 50}
           height={258}
-          domainPadding={{ x: 100 }}
+          domainPadding={{ x: deviceWidth/4.6 }}
         >
           <VictoryGroup offset={20} colorScale={"qualitative"}>
             <VictoryBar
