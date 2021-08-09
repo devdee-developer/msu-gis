@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+
       },
     bgImage:{
       position: "absolute",
@@ -23,11 +24,11 @@ export default StyleSheet.create({
     },
     btnSubmitLogin:{
       width:"80%",
-      height:50,
+      height:53,
       backgroundColor:"#9596f3",
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius:50,
+      borderRadius:27,
       marginTop:30
       
     },

@@ -111,8 +111,8 @@ class Screen extends Component {
               <RenderHtml
                 contentWidth={deviceWidth}
                 source={{ html: detail }}
-                systemFonts={["Prompt"]}
-                baseStyle={{ fontFamily: "Prompt" }}
+                // systemFonts={["Prompt"]}
+                // baseStyle={{ fontFamily: "Prompt" }}
                 ignoredStyles={["font-family", "letter-spacing"]}
               />
             )}

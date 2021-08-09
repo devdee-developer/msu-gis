@@ -1,11 +1,8 @@
-import { Button, Image, Text } from "react-native";
+import { Button, Image, Text, View } from "react-native";
 import React, { Component } from "react";
 
-import AnalyticsScreen from "./pages/AnalyticsPage/Screen"
-import AppStyles from "./AppStyle";
+import AnalyticsScreen from "./pages/AnalyticsPage/Screen";
 import ContactScreen from "./pages/ContactPage/Screen";
-import { HeaderBackButton } from "@react-navigation/stack";
-import HeaderWithSearch from "./components/HeaderWithSearchComponent/Screen";
 import HomeScreen from "./pages/HomePage/Screen";
 import IconBack from "./assets/icon_back.png";
 import KnowledgeDetailScreen from "./pages/KnowledgeDetailPage/Screen";
@@ -23,19 +20,47 @@ class App extends Component {
     function LogoTitle() {
       return (
         <Image
-          style={{ width: 176, height: 40}}
+          style={{ width: 176, height: 40 }}
           source={require("./assets/header_image.png")}
         />
       );
     }
+    function Profile() {
+      return (
+        <View>
+          <View
+            style={{
+              height: 18,
+              width: 18,
+              backgroundColor: "#F53F4D",
+              position: "absolute",
+              left: -9,
+              top: 0,
+              borderRadius:9,
+              zIndex:1,
+              justifyContent:'center'
+            }}
+          >
+            <Image source={require("./assets/notification.png")} style={{width:7.32,height:8.79,position:'absolute', alignSelf: 'center'}}/>
+          </View>
+          <Image
+            style={{ width: 39, height: 39, borderRadius: 20, marginRight: 13 }}
+            source={require("./assets/older.png")}
+          />
+        </View>
+      );
+    }
     function Back(props) {
       return (
-        <Image style={{ width: 21.93, height: 17.31 ,marginLeft:15}} source={IconBack} />
+        <Image
+          style={{ width: 21.93, height: 17.31, marginLeft: 15 }}
+          source={IconBack}
+        />
       );
     }
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="AnalyticsScreen">
+        <Stack.Navigator initialRouteName="SplashScreen">
           <Stack.Screen
             options={{ headerShown: false }}
             name="SplashScreen"
@@ -49,8 +74,10 @@ class App extends Component {
           <Stack.Screen
             options={{ headerShown: true }}
             options={{
-              headerTitle: (props) => <LogoTitle {...props} />,
-              headerLeft: () => null,
+              headerLeft: (props) => <LogoTitle {...props} />,
+              headerTitle: () => null,
+              headerBackTitleVisible: false,
+              headerRight: (props) => <Profile {...props} />,
             }}
             name="HomeScreen"
             component={HomeScreen}
@@ -82,7 +109,7 @@ class App extends Component {
             name="NewsDetailScreen"
             component={NewsDetailScreen}
           />
-             <Stack.Screen
+          <Stack.Screen
             options={{ headerShown: false }}
             name="KnowledgeScreen"
             component={KnowledgeScreen}
@@ -91,18 +118,30 @@ class App extends Component {
             options={{ headerShown: true }}
             options={{
               headerRight: () => null,
-              headerTitle: () =>null,
+              headerTitle: () => null,
               headerBackTitleVisible: false,
               headerBackImage: (props) => <Back {...props} />,
             }}
             name="KnowledgeDetailScreen"
             component={KnowledgeDetailScreen}
           />
-            <Stack.Screen
+          <Stack.Screen
             options={{ headerShown: true }}
             options={{
               headerRight: () => null,
-              headerTitle: () =>  <Text style={{fontSize:23,color:'#010979',alignSelf:'center',fontWeight:'bold'}}> สถิติสำรวจ</Text>,
+              headerTitle: () => (
+                <Text
+                  style={{
+                    fontSize: 23,
+                    color: "#010979",
+                    alignSelf: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {" "}
+                  สถิติสำรวจ
+                </Text>
+              ),
               headerBackTitleVisible: false,
               headerBackImage: (props) => <Back {...props} />,
             }}

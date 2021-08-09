@@ -15,15 +15,16 @@ export default StyleSheet.create({
     },
     btnSplashLogin:{
       width:"80%",
-      height:50,
+      height:53,
       backgroundColor:"#1bc3a2",
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius:50
+      borderRadius:50,
+      padding:5 ,
     },
     imageLogoSplash:{
-      width:150,
-      height:150
+      width:180,
+      height:180
     },
     containerBtnLoginSplash:{
       flex:1,

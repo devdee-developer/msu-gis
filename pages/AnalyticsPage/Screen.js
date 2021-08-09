@@ -1,27 +1,69 @@
-import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
-import React, { Component } from "react";
 import {
-  VictoryAxis,
-  VictoryBar,
-  VictoryChart,
-  VictoryGroup,
-  VictoryLabel,
-  VictoryPie,
-} from "victory-native";
+  Dimensions,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { Component } from "react";
+import Svg, { Image as ImageSVG } from "react-native-svg";
 
 import CloseIcon from "../../assets/close.png";
 import DataImage from "../../assets/analytics_icon_data.png";
 import { Entypo } from "@expo/vector-icons";
 import HealthImage from "../../assets/health.png";
-import HeartImage from "../../assets/analytics_icon_heart.png";
 import Model from "../../components/ModalCustomComponent/Screen";
 import RadioGroup from "react-native-radio-buttons-group";
 import Style from "./Style";
-import VisitImage from "../../assets/visit_green.png";
+import { VictoryPie } from "victory-native";
+import { apiUrl } from "../../constants/config";
+import axios from "axios";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
+const option = [
+  {
+    title: "ประเมินโรคเบาหวาน",
+  },
+  {
+    title: "ประเมินโรคความดันโลหิตสูง",
+  },
+  {
+    title: "โรคหัวใจและหลอดเลือด",
+  },
+  {
+    title: "สมองเสื่อม",
+  },
+  {
+    title: "โรคซึมเศร้า",
+  },
+  {
+    title: "โรคข้อเข่าเสื่อม",
+  },
+  {
+    title: "ภาวะหกล้ม",
+  },
+  {
+    title: "สุขภาวะทางตา",
+  },
+  {
+    title: "การได้ยิน",
+  },
+  {
+    title: "การประเมินปัญหาการนอน",
+  },
+  {
+    title: "การประเมินสุขภาพช่องปาก",
+  },
+  {
+    title: "ภาวะโภชนาการ",
+  },
+  {
+    title: "การทำกิจวัตรประจำวัน",
+  },
+];
 DatasetLabel = ({ label, color }) => (
   <View
     style={{
@@ -31,17 +73,17 @@ DatasetLabel = ({ label, color }) => (
     }}
   >
     <View
-      style={{
-        width: 16,
-        height: 16,
-        borderRadius: 8,
-        marginRight: 9,
-        backgroundColor: color,
-      }}
+      style={[
+        Style.datasetLabel,
+        {
+          backgroundColor: color,
+        },
+      ]}
     />
     <Text style={{ fontSize: 16, color: "#0D0E12" }}>{label}</Text>
   </View>
 );
+
 class Screen extends Component {
   constructor(props) {
     super(props);
@@ -49,12 +91,56 @@ class Screen extends Component {
       groupData: [],
       selectedItem: {},
       onSelectOptionOpen: false,
+      updateDate: "",
+      refreshing: false,
     };
   }
   componentDidMount() {
-    this.initialData();
+    const groupData = option.map(this.setGroupData);
+    this.setState({
+      groupData: groupData,
+      selectedItem: groupData[0],
+    });
+    this.loadData();
   }
-  initialData = () => {
+  async loadData() {
+    this.setState({ refreshing: true });
+    console.log("test");
+    const url = `${apiUrl}/getStatic`;
+    const data = {
+      token:
+        "Zr5Uv4Y+oc3NTcRNLQFTJKjLzGl8qDCR1R5Z4BAifBl5gy8XUHqHJ+0vfQm55uy8UrzV2zpuUhjdXGUMvO3vYho+urUpg+PrYyPMa8fPrt4=",
+    };
+    const headers = {
+      Authorization:
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjg0OTA0MzIsImV4cCI6MTYyODg1MDQzMiwibmJmIjoxNjI4NDkwNDMyLCJqdGkiOiI2R0JzVmRZQ1FuZ1RvOUNxIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.MWY9lrAos1GN65eyhtiCgYGF46LSj_bw-xRN4MFjH9g",
+    };
+    try {
+      const res = await axios.post(url, data, { headers: headers });
+      const result = await res.data.Data;
+      this.setState({ refreshing: false });
+      this.initialData(result);
+    } catch (err) {
+      alert(`api error :${err}`);
+      console.log(`api error :${err}`);
+    }
+  }
+  initialData = (result) => {
+    const groupData = result.map(this.setGroupData);
+    this.setState({
+      groupData: groupData,
+      selectedItem: groupData[0],
+      updateDate:
+        new Date().toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }) +
+        " " +
+        new Date().toLocaleTimeString("th-TH"),
+    });
+  };
+  setGroupData = (item, index, array) => {
     const radioStyle = {
       borderColor: "#E4E1F0",
       color: "#7676FF",
@@ -65,61 +151,32 @@ class Screen extends Component {
       borderBottomColor: "#E4E1F0",
       borderBottomWidth: 1,
       height: 50,
-      width: "100%",
+      width: "95%",
       paddingLeft: 30,
+      paddingRight: 30,
     };
     const labelRadioStyle = {
       fontSize: 20,
       color: "#010979",
       marginBottom: 4,
     };
-    const groupData = [
-      {
-        id: "1",
-        label: "ผลประเมินพฤติกรรมสุขภาพ",
-        value: "ผลประเมินพฤติกรรมสุขภาพ",
-        image: HeartImage,
-        imageStyle: {
-          width: 27,
-          height: 30.3,
-          marginHorizontal: 5,
-          marginTop: 12,
-        },
-        selected: true,
-        ...radioStyle,
-        labelStyle: { ...labelRadioStyle, color: "#6F63FD" },
-        containerStyle: containerRadioStyle,
+
+    const data = {
+      id: index + 1,
+      label: item.title,
+      data: item.data,
+      selected: index == 0 ? true : false,
+      labelStyle: {
+        ...labelRadioStyle,
+        color: index == 0 ? "#6F63FD" : "#010979",
       },
-      {
-        id: "2",
-        label: "ผลการประเมิน",
-        value: "ผลการประเมิน",
-        image: HealthImage,
-        imageStyle: {
-          width: 46.56,
-          height: 37.96,
-          marginHorizontal: 5,
-        },
-        labelStyle: labelRadioStyle,
-        ...radioStyle,
-        containerStyle: containerRadioStyle,
+      ...radioStyle,
+      containerStyle: {
+        ...containerRadioStyle,
+        borderBottomWidth: array.length == index + 1 ? 0 : 1,
       },
-      {
-        id: "3",
-        label: "ผลการออกเยี่ยม",
-        value: "ผลการออกเยี่ยม",
-        image: VisitImage,
-        imageStyle: {
-          width: 42.27,
-          height: 36.39,
-          marginHorizontal: 5,
-        },
-        labelStyle: labelRadioStyle,
-        ...radioStyle,
-        containerStyle: { ...containerRadioStyle, borderBottomWidth: 0 },
-      },
-    ];
-    this.setState({ groupData: groupData, selectedItem: groupData[0] });
+    };
+    return data;
   };
   onPressRadioButton = (data) => {
     this.setState(
@@ -152,200 +209,88 @@ class Screen extends Component {
   };
   renderChart = () => {
     let chart;
-    if (this.state.selectedItem.id == 1) {
-      chart = this.renderBarChart();
-    } else if(this.state.selectedItem.id == 2) {
-      chart = this.renderPieChartEstimate();
-    }else{
-      chart = this.renderPieChartVisit();
+    if (this.state.selectedItem) {
+      chart = this.renderPieChartEstimate(this.state.selectedItem);
     }
+
     return chart;
   };
 
-  renderBarChart = () => {
-    const data1 = {
-      label: "ระดับความเครียด",
-      color: "#F26E4F",
-      data: [
-        { x: "ชาย", y: 4 },
-        { x: "หญิง", y: 8 },
-      ],
-    };
-    const data2 = {
-      label: "ระดับคุณภาพชีวิต",
-      color: "#54D5BB",
-      data: [
-        { x: "ชาย", y: 6.2 },
-        { x: "หญิง", y: 3 },
-      ],
-    };
-    const data3 = {
-      label: "ระดับพฤติกรรมการบริโภค",
-      color: "#F5C761",
-      data: [
-        { x: "ชาย", y: 5 },
-        { x: "หญิง", y: 4 },
-      ],
-    };
-    const data4 = {
-      label: "ระดับพฤติกรรมการออกกำลังกาย",
-      color: "#F73F94",
-      data: [
-        { x: "ชาย", y: 2 },
-        { x: "หญิง", y: 1 },
-      ],
-    };
-    const pointStyle = {
-      width: 16,
-      height: 16,
-      borderRadius: 8,
-      marginRight: 9,
-    };
-    return (
-      <>
-        <VictoryChart
-          width={deviceWidth - 50}
-          height={258}
-          domainPadding={{ x: deviceWidth/4.6 }}
-        >
-          <VictoryGroup offset={20} colorScale={"qualitative"}>
-            <VictoryBar
-              style={{ data: { fill: data1.color } }}
-              data={data1.data}
-            />
-            <VictoryBar
-              style={{ data: { fill: data2.color } }}
-              data={data2.data}
-            />
-            <VictoryBar
-              style={{ data: { fill: data3.color } }}
-              data={data3.data}
-            />
-            <VictoryBar
-              style={{ data: { fill: data4.color } }}
-              data={data4.data}
-            />
-          </VictoryGroup>
-          <VictoryAxis dependentAxis label="คน" />
-          <VictoryAxis label="เพศ" />
-        </VictoryChart>
-        <View style={{ marginTop: 20, marginLeft: 40 }}>
-          <DatasetLabel label={data1.label} color={data1.color} />
-          <DatasetLabel label={data2.label} color={data2.color} />
-          <DatasetLabel label={data3.label} color={data3.color} />
-          <DatasetLabel label={data4.label} color={data4.color} />
-        </View>
-      </>
-    );
-  };
-  renderPieChartEstimate = () => {
+  renderPieChartEstimate = (selectedItem) => {
+    const male = selectedItem.data.find((item) => item.sex == "male");
+    const female = selectedItem.data.find((item) => item.sex == "female");
     return (
       <>
         <View style={{ flexDirection: "row", marginTop: 20 }}>
-          <View style={{ alignItems: "center" }}>
-            <VictoryPie
-              colorScale={["#010979", "#54D5BB"]}
-              width={deviceWidth / 2.4}
-              height={deviceWidth / 2.4}
-              data={[
-                { x: 2, y: 2 },
-                { x: 3, y: 3 },
-              ]}
-              innerRadius={deviceWidth/6}
-              labelRadius={deviceWidth/9}
-              style={{ labels: { fontSize: 16, fill: "#ffffff" }, margin: 0 }}
-            />
-            <Text
-              style={{ fontSize: 23, fontWeight: "bold", color: "#010979" }}
-            >
-              ชาย
-            </Text>
+          <View style={Style.containerChart}>
+            <Svg width={deviceWidth / 1.7} height={deviceWidth / 1.7}>
+              <ImageSVG
+                x="37.5%"
+                y="37.5%"
+                width="25%"
+                height="25%"
+                href={require("../../assets/male.png")}
+              />
+              <VictoryPie
+                colorScale={["#54D5BB", "#F53F4D"]}
+                width={deviceWidth / 1.7}
+                height={deviceWidth / 1.7}
+                data={[
+                  { x: male.normal, y: male.normal },
+                  { x: male.problem, y: male.problem },
+                ]}
+                innerRadius={deviceWidth / 10}
+                labelRadius={deviceWidth / 1.7 / 3}
+                style={{
+                  labels: {
+                    fontSize: 16,
+                    fill: ({ text, index }) =>
+                      index == 0 ? "#54D5BB" : "#F53F4D",
+                  },
+                  margin: 0,
+                }}
+              />
+            </Svg>
+
+            <Text style={Style.chartTitleLabel}>ชาย</Text>
             <Text style={{ fontSize: 16, color: "#7F7FA8" }}>
-              (จากจำนวน 5 คน)
+              (จากจำนวน {male.normal + male.problem} คน)
             </Text>
           </View>
-          <View style={{ alignItems: "center" }}>
-            <VictoryPie
-              colorScale={["#010979", "#54D5BB"]}
-              width={deviceWidth / 2.4}
-              height={deviceWidth / 2.4}
-              data={[
-                { x: 2, y: 2 },
-                { x: 5, y: 5 },
-              ]}
-              innerRadius={deviceWidth/6}
-              labelRadius={deviceWidth/9}
-              style={{ labels: { fontSize: 16, fill: "#ffffff" }, margin: 0 }}
-            />
-            <Text
-              style={{ fontSize: 23, fontWeight: "bold", color: "#010979" }}
-            >
-              หญิง
-            </Text>
+          <View style={Style.containerChart}>
+            <Svg width={deviceWidth / 1.7} height={deviceWidth / 1.7}>
+              <ImageSVG
+                x="37.5%"
+                y="37.5%"
+                width="25%"
+                height="25%"
+                href={require("../../assets/female.png")}
+              />
+              <VictoryPie
+                colorScale={["#54D5BB", "#F53F4D"]}
+                width={deviceWidth / 1.7}
+                height={deviceWidth / 1.7}
+                data={[
+                  { x: female.normal, y: female.normal },
+                  { x: female.problem, y: female.problem },
+                ]}
+                innerRadius={deviceWidth / 10}
+                labelRadius={deviceWidth / 1.7 / 3}
+                style={{
+                  labels: {
+                    fontSize: 16,
+                    fill: ({ text, index }) =>
+                      index == 0 ? "#54D5BB" : "#F53F4D",
+                  },
+                  margin: 0,
+                }}
+              />
+            </Svg>
+            <Text style={Style.chartTitleLabel}>หญิง</Text>
             <Text style={{ fontSize: 16, color: "#7F7FA8" }}>
-              (จากจำนวน 7 คน)
+              (จากจำนวน {female.normal + female.problem} คน)
             </Text>
           </View>
-        </View>
-        <View style={{ marginTop: 50, marginLeft: 40 }}>
-          <DatasetLabel label={"ยังไม่ได้ออกเยี่ยม"} color={"#010979"} />
-          <DatasetLabel label={"ออกเยี่ยมแล้ว"} color={"#54D5BB"} />
-        </View>
-      </>
-    );
-  };
-  renderPieChartVisit = () => {
-    return (
-      <>
-        <View style={{ flexDirection: "row", marginTop: 20 }}>
-          <View style={{ alignItems: "center" }}>
-            <VictoryPie
-              colorScale={["#010979", "#54D5BB"]}
-              width={deviceWidth / 2.4}
-              height={deviceWidth / 2.4}
-              data={[
-                { x: 3, y: 3 },
-                { x: 2, y: 2 },
-              ]}
-              innerRadius={deviceWidth/6}
-              labelRadius={deviceWidth/9}
-              style={{ labels: { fontSize: 16, fill: "#ffffff" }, margin: 0 }}
-            />
-            <Text
-              style={{ fontSize: 23, fontWeight: "bold", color: "#010979" }}
-            >
-              ชาย
-            </Text>
-            <Text style={{ fontSize: 16, color: "#7F7FA8" }}>
-              (จากจำนวน 5 คน)
-            </Text>
-          </View>
-          <View style={{ alignItems: "center" }}>
-            <VictoryPie
-              colorScale={["#010979", "#54D5BB"]}
-              width={deviceWidth / 2.4}
-              height={deviceWidth / 2.4}
-              data={[
-                { x: 4, y: 4 },
-                { x: 3, y: 3 },
-              ]}
-              innerRadius={deviceWidth/6}
-              labelRadius={deviceWidth/9}
-              style={{ labels: { fontSize: 16, fill: "#ffffff" }, margin: 0 }}
-            />
-            <Text
-              style={{ fontSize: 23, fontWeight: "bold", color: "#010979" }}
-            >
-              หญิง
-            </Text>
-            <Text style={{ fontSize: 16, color: "#7F7FA8" }}>
-              (จากจำนวน 7 คน)
-            </Text>
-          </View>
-        </View>
-        <View style={{ marginTop: 50, marginLeft: 40 }}>
-          <DatasetLabel label={"ยังไม่ถูกปะเมิน"} color={"#010979"} />
-          <DatasetLabel label={"ถูกประเมินแล้ว"} color={"#54D5BB"} />
         </View>
       </>
     );
@@ -356,22 +301,9 @@ class Screen extends Component {
 
     return (
       <View style={Style.container}>
-        <View
-          style={{
-            height: 112,
-            backgroundColor: "#010979",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 18,
-          }}
-        >
+        <View style={Style.containerHeader}>
           <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              height: 40,
-              width: deviceWidth - 36,
-            }}
+            style={Style.selectLabel}
           >
             <Image
               source={DataImage}
@@ -383,89 +315,66 @@ class Screen extends Component {
               resizeMode={"contain"}
             />
             <Text style={{ color: "#FFFFFF", fontSize: 16 }}>
-              กรุณา เลือกดูข้อมูลสถิติที่ท่านต้องการ
+              สถิติด้านการประเมินสุขภาพ (ในพื้นที่รับผิดชอบ)
             </Text>
           </View>
           <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              backgroundColor: "#FFFFFF",
-              height: 40,
-              width: deviceWidth - 36,
-              borderRadius: 8,
-              paddingLeft: 12,
-              paddingRight: 35,
-              paddingVertical: 8,
-            }}
+            style={Style.selectBox}
             activeOpacity={0.8}
             onPress={() => this.setState({ onSelectOptionOpen: true })}
           >
             <Text numberOfLines={1} style={{ color: "#010979", fontSize: 16 }}>
-              {selectedItem.label} (ภาพรวมทั้งหมด)
+              {selectedItem.label}
             </Text>
             <Entypo
               name="chevron-down"
               size={24}
               color="#010979"
-              style={{ position: "absolute", top: 8, right: 10 }}
+              style={Style.selectBoxIconDown}
             />
           </TouchableOpacity>
         </View>
         <View
-          style={{
-            flex: 1,
-            backgroundColor: "#FFFFFF",
-            marginHorizontal: 10,
-            marginTop: 10,
-            borderRadius: 10,
-          }}
+          style={Style.containerContent}
         >
           <View
-            style={{
-              flex: 1,
-              borderBottomWidth: 1,
-              borderBottomColor: "#E4E1F0",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-            }}
+            style={Style.selectedTitle}
           >
             <Image
-              source={selectedItem.image}
-              style={selectedItem.imageStyle}
+              source={HealthImage}
+              style={Style.selectedTitleImage}
               resizeMode={"contain"}
             />
             <Text
-              style={{ fontSize: 23, color: "#010979", marginHorizontal: 5 }}
+              style={Style.selectedTitleLabel}
             >
               {selectedItem.label}
             </Text>
           </View>
-          <View style={{ flex: 6, padding: 20 }}>
-            <Text style={{ fontSize: 14, color: "#97989B" }}>
-              อัพเดทเมื่อ : 18 ม.ค. 64, เวลา 14:28 น.
+          <View style={{ flex: 6, paddingVertical: 20 }}>
+            <Text
+              style={Style.updateDateLabel}
+            >
+              อัพเดทเมื่อ : {this.state.updateDate}
             </Text>
-            {this.renderChart()}
+            {selectedItem.data && this.renderChart()}
+            <View
+              style={Style.containerDatasetLabel}
+            >
+              <DatasetLabel label={"มีปัญหา"} color={"#F53F4D"} />
+              <DatasetLabel label={"ปกติ"} color={"#54D5BB"} />
+            </View>
           </View>
         </View>
 
         <Model
           Visible={onSelectOptionOpen}
-          Style={{ top: 70, width: 370, height: 404 }}
+          Style={{top: 70, bottom: 49, width: 370, paddingBottom: 50 }}
         >
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => this.setState({ onSelectOptionOpen: false })}
-            style={{
-              position: "absolute",
-              right: 10,
-              top: 10,
-              width: 50,
-              height: 50,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+            style={Style.iconCloseModal}
           >
             <Image
               source={CloseIcon}
@@ -485,13 +394,13 @@ class Screen extends Component {
               ท่านสามารถเลือกได้ตามต้องการ
             </Text>
           </View>
-          <View style={{ padding: 15 }}>
+          <ScrollView style={{ padding: 15 }}>
             <RadioGroup
               containerStyle={{ alignItems: "flex-start" }}
               radioButtons={groupData}
               onPress={this.onPressRadioButton}
             />
-          </View>
+          </ScrollView>
         </Model>
       </View>
     );

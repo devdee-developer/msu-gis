@@ -17,8 +17,8 @@ export default StyleSheet.create({
     paddingTop: 30,
   },
   containerModal: {
-    width: (window.width * 95) / 100,
-    height: (window.height * 85) / 100,
+    // width: (window.width * 95) / 100,
+    // height: (window.height * 85) / 100,
     position: "absolute",
     backgroundColor: "#FFFFFF",
     // marginTop: 70,
