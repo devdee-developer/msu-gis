@@ -120,7 +120,18 @@ class App extends Component {
     function MainApp() {
       return (
         <Tab.Navigator initialRouteName="HomeScreen">
-          <Tab.Screen name="HomeScreen" component={HomeStack} />
+          <Tab.Screen name="HomeScreen" component={HomeStack} options={(item)=>{
+            if(item.route.state){
+              if("index" in item.route.state){
+                if(item.route.state.index>0)
+                return {tabBarVisible:false}
+              }else{
+                return {tabBarVisible:true}
+              }
+            }else{
+              return {tabBarVisible:true}
+            }
+          }}/>
           <Tab.Screen name="ContactScreen" component={HomeScreen}/>
           <Tab.Screen name="MapScreen" component={NewsScreen} />
           <Tab.Screen name="NewsScreen" component={NewsScreen}/>
