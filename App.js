@@ -89,14 +89,42 @@ class App extends Component {
         </Stack.Navigator>
       );
     }
+    function AnalyticsStack() {
+      return (
+        <Stack.Navigator initialRouteName="AnalyticsScreen">
+         <Stack.Screen
+            options={{ headerShown: true }}
+            options={{
+              headerRight: () => null,
+              headerTitle: () => (
+                <Text
+                  style={{
+                    fontSize: 23,
+                    color: "#010979",
+                    alignSelf: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  สถิติสำรวจ
+                </Text>
+              ),
+              headerBackTitleVisible: false,
+              headerBackImage: (props) => <Back {...props} />,
+            }}
+            name="AnalyticsScreen"
+            component={AnalyticsScreen}
+          />
+        </Stack.Navigator>
+      );
+    }
     function MainApp() {
       return (
         <Tab.Navigator initialRouteName="HomeScreen">
           <Tab.Screen name="HomeScreen" component={HomeStack} />
-          <Tab.Screen name="ContactScreen" component={HomeScreen} />
+          <Tab.Screen name="ContactScreen" component={HomeScreen}/>
           <Tab.Screen name="MapScreen" component={NewsScreen} />
-          <Tab.Screen name="NewsScreen" component={NewsScreen} />
-          <Tab.Screen name="AnalyticsScreen" component={AnalyticsScreen} />
+          <Tab.Screen name="NewsScreen" component={NewsScreen}/>
+          <Tab.Screen name="AnalyticsScreen" component={AnalyticsStack} />
         </Tab.Navigator>
       );
     }
