@@ -34,7 +34,8 @@ export default StyleSheet.create({
     },
     imageLogoSplash:{
       width:150,
-      height:150
+      height:150,
+      alignSelf:'center'
     },
     containerBtnLoginSplash:{
       flex:1,
@@ -46,6 +47,6 @@ export default StyleSheet.create({
     text1:{ flex: 1,justifyContent: 'center',alignItems: 'center' },
     text2:{ flex: 1,justifyContent: 'center',alignItems: 'center'},
     text3:{ flex: 1,justifyContent: 'center',alignItems: 'center' },
-    containerLogo:{ flex: 6,justifyContent: 'center',alignItems: 'center' }
+    containerLogo:{ flex: 6,justifyContent: 'center',alignItems: 'center',backgroundColor:'red' }
 
 });

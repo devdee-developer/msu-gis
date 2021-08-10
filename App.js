@@ -20,7 +20,7 @@ class App extends Component {
     function LogoTitle() {
       return (
         <Image
-          style={{ width: 176, height: 40 }}
+          style={{marginLeft:15, width: 176, height: 40 }}
           source={require("./assets/header_image.png")}
         />
       );

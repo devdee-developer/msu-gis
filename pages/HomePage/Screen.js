@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN, USER_TOKEN, apiUrl } from "../../constants/config";
 import {
   Dimensions,
   Image,
@@ -7,11 +8,13 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
+import { getItemAsync, setItemAsync } from "expo-secure-store";
 
 import Background from "../../assets/home_background.png";
 import IconSpeech from "../../assets/icon_speech.png";
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
+import {httpClient} from "../../utils/HttpClient"
 import menu_assessment from "../../assets/menu_button_assessment.png";
 import menu_knowledge from "../../assets/meun_button_knowledge.png";
 import menu_urgent from "../../assets/menu_button_urgent.png";
@@ -23,6 +26,7 @@ class Screen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       position: 2,
       interval: null,
       dataSource: [
@@ -51,6 +55,7 @@ class Screen extends Component {
       ],
     };
   }
+
   componentDidMount() {
     this.setState({
       interval: setInterval(() => {
@@ -62,6 +67,27 @@ class Screen extends Component {
         });
       }, 4000),
     });
+    this. initialData()
+  }
+  initialData() {
+    this.loadDataFromApi();
+  }
+  async loadDataFromApi() {
+    this.setState({ isLoading: true });
+    let user_token = await getItemAsync(USER_TOKEN);
+    const url = `${apiUrl}/initialapp`;
+    const data = {
+      token: user_token,
+    };
+    try {
+      const res = await httpClient.post(url, data);
+      const result = await res.data.Data;
+      this.setState({ isLoading: false });
+      console.log(result)
+    } catch (err) {
+      alert(`api error :${err}`);
+      console.log(`api error :${err}`);
+    }
   }
   componentWillUnmount() {
     clearInterval(this.state.interval);
