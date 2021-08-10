@@ -6,7 +6,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
 
@@ -16,7 +16,7 @@ import HeaderWithSearch from "../../components/HeaderWithSearchComponent/Screen"
 import KnowledgeImage from "../../assets/knowledge.png";
 import Style from "./Style";
 import { apiUrl } from "../../constants/config";
-import axios from "axios";
+import { httpClient } from "../../utils/HttpClient";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -33,11 +33,11 @@ class Screen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      knowledgeList:[],
+      knowledgeList: [],
       knowledgeListFromSearch: [],
-      category:'',
+      category: "",
       refreshing: false,
-      search: "",
+      search: ""
     };
   }
   componentDidMount() {
@@ -50,16 +50,10 @@ class Screen extends Component {
   async loadData() {
     this.setState({ refreshing: true });
     const url = `${apiUrl}/getKm`;
-    const data = {
-      token:
-        "Zr5Uv4Y+oc3NTcRNLQFTJKjLzGl8qDCR1R5Z4BAifBl5gy8XUHqHJ+0vfQm55uy8UrzV2zpuUhjdXGUMvO3vYho+urUpg+PrYyPMa8fPrt4="
-    };
-    const headers = {
-      Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjg0OTA0MzIsImV4cCI6MTYyODg1MDQzMiwibmJmIjoxNjI4NDkwNDMyLCJqdGkiOiI2R0JzVmRZQ1FuZ1RvOUNxIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.MWY9lrAos1GN65eyhtiCgYGF46LSj_bw-xRN4MFjH9g"
-    };
+    const data = {};
+
     try {
-      const res = await axios.post(url, data, { headers: headers });
+      const res = await httpClient.post(url, data);
       const result = await res.data.Data;
       this.setState({ refreshing: false });
       this.intialData(result);
@@ -72,7 +66,7 @@ class Screen extends Component {
     this.setState({
       knowledgeList: data.data,
       categoryList: data.categoryList,
-      category:data.categoryList?data.categoryList[0]:''
+      category: data.categoryList ? data.categoryList[0] : ""
     });
   }
   onRefresh = () => {
@@ -94,8 +88,10 @@ class Screen extends Component {
   };
   debounceSearch = debounce(this.onSearch, 500);
   render() {
-    const {category,knowledgeList,knowledgeListFromSearch} = this.state;
-    const total =  knowledgeList.filter(item=>item.category==category).length
+    const { category, knowledgeList, knowledgeListFromSearch } = this.state;
+    const total = knowledgeList.filter(
+      (item) => item.category == category
+    ).length;
     const FooterCard = ({ label }) => (
       <View style={Style.cardFooter}>
         <Image source={BookIcon} style={Style.cardFooterIcon} />
@@ -103,43 +99,55 @@ class Screen extends Component {
       </View>
     );
     const renderKnowledgeList = () => {
-      return knowledgeList.filter(item=>item.category==category).map((item, index) => (
-        <Card
-          key={"knowledge" + index}
-          onPress={() =>
-            this.props.navigation.navigate("KnowledgeDetailScreen", {
-              detail: item,
-            })
-          }
-          thumbnail={item.thumbnail}
-          text={item.header}
-          cardStyle={{ height: 100 }}
-          footer={<FooterCard label={item.subHead} />}
-        />
-      ));
+      return knowledgeList
+        .filter((item) => item.category == category)
+        .map((item, index) => (
+          <Card
+            key={"knowledge" + index}
+            onPress={() =>
+              this.props.navigation.navigate("KnowledgeDetailScreen", {
+                detail: item
+              })
+            }
+            thumbnail={item.thumbnail}
+            text={item.header}
+            cardStyle={{ height: 100 }}
+            footer={<FooterCard label={item.subHead} />}
+          />
+        ));
     };
-    const renderKnowledgeListSearch = (item, index)  => (
-        <Card
-          key={"knowledge" + index}
-          onPress={() =>
-            this.props.navigation.navigate("KnowledgeDetailScreen", {
-              detail: item,
-            })
-          }
-          thumbnail={item.thumbnail}
-          text={item.header}
-          cardStyle={{ height: 100 }}
-          footer={<FooterCard label={item.subHead} />}
-        />
-      )
+    const renderKnowledgeListSearch = (item, index) => (
+      <Card
+        key={"knowledge" + index}
+        onPress={() =>
+          this.props.navigation.navigate("KnowledgeDetailScreen", {
+            detail: item
+          })
+        }
+        thumbnail={item.thumbnail}
+        text={item.header}
+        cardStyle={{ height: 100 }}
+        footer={<FooterCard label={item.subHead} />}
+      />
+    );
 
     const renderCategory = ({ item }) => <CategoryButton label={item} />;
     const CategoryButton = ({ label }) => (
       <TouchableOpacity
-        style={[ Style.buttonCategory,category == label&&Style.buttonCategorySelected]}
-        onPress={()=>this.setState({category:label})}
+        style={[
+          Style.buttonCategory,
+          category == label && Style.buttonCategorySelected
+        ]}
+        onPress={() => this.setState({ category: label })}
       >
-        <Text style={[Style.buttonLabelCategory,category == label&&Style.buttonLabelCategorySelected]}>{label}</Text>
+        <Text
+          style={[
+            Style.buttonLabelCategory,
+            category == label && Style.buttonLabelCategorySelected
+          ]}
+        >
+          {label}
+        </Text>
       </TouchableOpacity>
     );
     return (
@@ -162,8 +170,7 @@ class Screen extends Component {
               />
             }
           >
-          
-          <View style={Style.titleGroup}>
+            <View style={Style.titleGroup}>
               <View style={{ width: 100 }}>
                 <Image
                   source={KnowledgeImage}
@@ -180,7 +187,13 @@ class Screen extends Component {
                 </Text>
               </View>
             </View>
-            <View style={{ height: 76 ,paddingVertical:18,backgroundColor:'#FFFFFF'}}>
+            <View
+              style={{
+                height: 76,
+                paddingVertical: 18,
+                backgroundColor: "#FFFFFF"
+              }}
+            >
               <FlatList
                 horizontal={true}
                 data={this.state.categoryList}
@@ -193,7 +206,7 @@ class Screen extends Component {
               style={{
                 paddingHorizontal: 20,
                 paddingVertical: 23,
-                flexDirection: "row",
+                flexDirection: "row"
               }}
             >
               <View style={{ flexDirection: "row" }}>
@@ -206,7 +219,7 @@ class Screen extends Component {
                 style={{
                   justifyContent: "center",
                   alignItems: "flex-end",
-                  flex: 1,
+                  flex: 1
                 }}
               >
                 {/* for button  */}

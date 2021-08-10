@@ -1,8 +1,15 @@
-import { ACCESS_TOKEN, USER_TOKEN } from "./constants/config";
-import { Button, Image, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import React, { Component } from "react";
-import { getItemAsync, setItemAsync } from "expo-secure-store";
-
+import iconHome from "./assets/icon_menu_home.png";
+import iconHomeActive from "./assets/icon_menu_home_active.png";
+import iconContact from "./assets/icon_menu_contact.png";
+import iconContactActive from "./assets/icon_menu_contact_active.png";
+import iconMap from "./assets/icon_menu_map.png";
+import iconMapActive from "./assets/icon_menu_map_active.png";
+import iconNews from "./assets/icon_menu_news.png";
+import iconNewsActive from "./assets/icon_menu_news_active.png";
+import iconAnalytics from "./assets/icon_menu_analytics.png";
+import iconAnalyticsActive from "./assets/analytics_icon_data.png";
 import AnalyticsScreen from "./pages/AnalyticsPage/Screen";
 import ContactScreen from "./pages/ContactPage/Screen";
 import HomeScreen from "./pages/HomePage/Screen";
@@ -16,30 +23,21 @@ import NewsScreen from "./pages/NewsPage/Screen";
 import SplashScreen from "./pages/SplashPage/Screen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import ProfileButton from "./components/ProfileButtonComponent/Screen";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { isLogin: false };
   }
-  componentDidMount() {
-    this.checkLogin();
-  }  
-  componentDidUpdate() {
 
-  }
-  async checkLogin() {
-    const user_token = await getItemAsync(USER_TOKEN);
-    if (user_token) {
-      this.setState({ isLogin: true });
-    } else {
-      this.setState({ isLogin: false });
-    }
-  }
   render() {
+    const Blank = () => (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Blank</Text>
+      </View>
+    );
     const Stack = createStackNavigator();
     const Tab = createBottomTabNavigator();
-    function AuthStack() {
+    function RootStack() {
       return (
         <Stack.Navigator initialRouteName="SplashScreen">
           <Stack.Screen
@@ -52,6 +50,11 @@ class App extends Component {
             name="LoginScreen"
             component={LoginScreen}
           />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="MainApp"
+            component={MainApp}
+          />
         </Stack.Navigator>
       );
     }
@@ -61,14 +64,27 @@ class App extends Component {
         <Stack.Navigator initialRouteName="HomeScreen">
           <Stack.Screen
             options={{ headerShown: true }}
-            options={{
+            options={({ navigation }) => ({
               headerLeft: (props) => <LogoTitle {...props} />,
               headerTitle: () => null,
               headerBackTitleVisible: false,
-              headerRight: (props) => <Profile {...props} />,
-            }}
+              headerRight: (props) => (
+                <ProfileButton {...props} navigation={navigation} />
+              )
+            })}
             name="HomeScreen"
             component={HomeScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: true }}
+            options={{
+              headerRight: () => null,
+              headerTitle: () => null,
+              headerBackTitleVisible: false,
+              headerBackImage: (props) => <Back {...props} />
+            }}
+            name="NewsDetailScreen"
+            component={NewsDetailScreen}
           />
           <Stack.Screen
             options={{ headerShown: false }}
@@ -81,7 +97,7 @@ class App extends Component {
               headerRight: () => null,
               headerTitle: () => null,
               headerBackTitleVisible: false,
-              headerBackImage: (props) => <Back {...props} />,
+              headerBackImage: (props) => <Back {...props} />
             }}
             name="KnowledgeDetailScreen"
             component={KnowledgeDetailScreen}
@@ -92,7 +108,7 @@ class App extends Component {
     function AnalyticsStack() {
       return (
         <Stack.Navigator initialRouteName="AnalyticsScreen">
-         <Stack.Screen
+          <Stack.Screen
             options={{ headerShown: true }}
             options={{
               headerRight: () => null,
@@ -102,14 +118,14 @@ class App extends Component {
                     fontSize: 23,
                     color: "#010979",
                     alignSelf: "center",
-                    fontWeight: "bold",
+                    fontWeight: "bold"
                   }}
                 >
                   สถิติสำรวจ
                 </Text>
               ),
               headerBackTitleVisible: false,
-              headerBackImage: (props) => <Back {...props} />,
+              headerBackImage: (props) => <Back {...props} />
             }}
             name="AnalyticsScreen"
             component={AnalyticsScreen}
@@ -117,25 +133,113 @@ class App extends Component {
         </Stack.Navigator>
       );
     }
+    function NewsStack() {
+      return (
+        <Stack.Navigator initialRouteName="NewsScreen">
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="NewsScreen"
+            component={NewsScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: true }}
+            options={{
+              headerRight: () => null,
+              headerTitle: () => null,
+              headerBackTitleVisible: false,
+              headerBackImage: (props) => <Back {...props} />
+            }}
+            name="NewsDetailScreen"
+            component={NewsDetailScreen}
+          />
+        </Stack.Navigator>
+      );
+    }
     function MainApp() {
       return (
-        <Tab.Navigator initialRouteName="HomeScreen">
-          <Tab.Screen name="HomeScreen" component={HomeStack} options={(item)=>{
-            if(item.route.state){
-              if("index" in item.route.state){
-                if(item.route.state.index>0)
-                return {tabBarVisible:false}
-              }else{
-                return {tabBarVisible:true}
+        <Tab.Navigator
+          initialRouteName="HomeScreen"
+          tabBarOptions={{
+            activeTintColor: "#FFFFFF",
+            inactiveTintColor: "#000979",
+            activeBackgroundColor: "#7676FF",
+            labelStyle: { fontSize: 14 },
+            tabStyle: {
+              paddingVertical: 5,
+              height: 60,
+              borderRadius: 12,
+              margin: 4
+            },
+            safeAreaInsets: { bottom: 35 }
+          }}
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let icon;
+              let imageSize
+              if (route.name === "HomeScreen") {
+                icon = focused ? iconHomeActive : iconHome;
+                size ={width: 22, height: 23.5, }
+              } else if (route.name === "ContactScreen") {
+                icon = focused ? iconContactActive : iconContact;
+                size ={width: 29, height: 22.5, }
+              }else if (route.name === "MapScreen") {
+                icon = focused ? iconMapActive : iconMap;
+                size ={width: 29, height: 27.6, }
+              }else if (route.name === "NewsScreen") {
+                icon = focused ? iconNewsActive : iconNews;
+                size ={width: 35.3, height: 25.4, }
+              }else if (route.name === "AnalyticsScreen") {
+                icon = focused ? iconAnalyticsActive : iconAnalytics;
+                size ={width:27.2, height: 23.1, }
               }
-            }else{
-              return {tabBarVisible:true}
+              
+              
+              return (
+                <Image
+                  source={icon}
+                  style={{...size, resizeMode: "contain" }}
+                />
+              );
             }
-          }}/>
-          <Tab.Screen name="ContactScreen" component={HomeScreen}/>
-          <Tab.Screen name="MapScreen" component={NewsScreen} />
-          <Tab.Screen name="NewsScreen" component={NewsScreen}/>
-          <Tab.Screen name="AnalyticsScreen" component={AnalyticsStack} />
+          })}
+        >
+          <Tab.Screen
+            name="HomeScreen"
+            component={HomeStack}
+            options={(item) => {
+              // if (item.route.state) {
+              //   if ("index" in item.route.state) {
+              //     if (item.route.state.index > 0)
+              //       return { tabBarVisible: false };
+              //   } else {
+              //     return { tabBarVisible: true };
+              //   }
+              // } else {
+              //   return { tabBarVisible: true };
+              // }
+              return { title: "หน้าหลัก" };
+            }}
+          />
+          <Tab.Screen
+            name="ContactScreen"
+            component={Blank}
+            options={(item) => ({ title: "รายชื่อ" })}
+          />
+          <Tab.Screen
+            name="MapScreen"
+            component={Blank}
+            options={(item) => ({ title: "แผนที่" })}
+          />
+          <Tab.Screen
+            name="NewsScreen"
+            component={NewsStack}
+            options={(item) => ({ title: "ข่าวสาร" })}
+          />
+          <Tab.Screen
+            name="AnalyticsScreen"
+            component={AnalyticsStack}
+            options={(item) => ({ title: "สถิติสำรวจ" })}
+          />
         </Tab.Navigator>
       );
     }
@@ -147,39 +251,7 @@ class App extends Component {
         />
       );
     }
-    function Profile() {
-      return (
-        <View>
-          <View
-            style={{
-              height: 18,
-              width: 18,
-              backgroundColor: "#F53F4D",
-              position: "absolute",
-              left: -9,
-              top: 0,
-              borderRadius: 9,
-              zIndex: 1,
-              justifyContent: "center",
-            }}
-          >
-            <Image
-              source={require("./assets/notification.png")}
-              style={{
-                width: 7.32,
-                height: 8.79,
-                position: "absolute",
-                alignSelf: "center",
-              }}
-            />
-          </View>
-          <Image
-            style={{ width: 39, height: 39, borderRadius: 20, marginRight: 13 }}
-            source={require("./assets/older.png")}
-          />
-        </View>
-      );
-    }
+
     function Back(props) {
       return (
         <Image
@@ -273,7 +345,7 @@ class App extends Component {
             component={AnalyticsScreen}
           />
         </Stack.Navigator> */}
-        {this.state.isLogin ? <MainApp /> : <AuthStack />}
+        <RootStack />
       </NavigationContainer>
     );
   }

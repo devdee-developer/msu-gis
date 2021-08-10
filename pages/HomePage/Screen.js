@@ -5,16 +5,15 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
-import { getItemAsync, setItemAsync } from "expo-secure-store";
-
+import { httpClient } from "../../utils/HttpClient";
 import Background from "../../assets/home_background.png";
 import IconSpeech from "../../assets/icon_speech.png";
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
-import {httpClient} from "../../utils/HttpClient"
+
 import menu_assessment from "../../assets/menu_button_assessment.png";
 import menu_knowledge from "../../assets/meun_button_knowledge.png";
 import menu_urgent from "../../assets/menu_button_urgent.png";
@@ -32,27 +31,27 @@ class Screen extends Component {
       dataSource: [
         {
           id: "1",
-          url: "http://placeimg.com/640/480/any",
+          url: "http://placeimg.com/640/480/any"
         },
         {
           id: "2",
 
-          url: "http://placeimg.com/640/480/any",
+          url: "http://placeimg.com/640/480/any"
         },
         {
           id: "3",
 
-          url: "http://placeimg.com/640/480/any",
+          url: "http://placeimg.com/640/480/any"
         },
         {
           id: "4",
 
-          url: "http://placeimg.com/640/480/any",
+          url: "http://placeimg.com/640/480/any"
         },
         {
-          url: "http://placeimg.com/640/480/any",
-        },
-      ],
+          url: "http://placeimg.com/640/480/any"
+        }
+      ]
     };
   }
 
@@ -63,27 +62,24 @@ class Screen extends Component {
           position:
             this.state.position === this.state.dataSource.length
               ? 0
-              : this.state.position + 1,
+              : this.state.position + 1
         });
-      }, 4000),
+      }, 4000)
     });
-    this. initialData()
+    this.initialData();
   }
   initialData() {
     this.loadDataFromApi();
   }
   async loadDataFromApi() {
     this.setState({ isLoading: true });
-    let user_token = await getItemAsync(USER_TOKEN);
     const url = `${apiUrl}/initialapp`;
     const data = {
-      token: user_token,
     };
     try {
-      // const res = await httpClient.post(url, data);
-      // const result = await res.data.Data;
-      // this.setState({ isLoading: false });
-      // console.log(result)
+      const res = await httpClient.post(url, data);
+      const result = await res.data.Data;
+      this.setState({ isLoading: false });
     } catch (err) {
       alert(`api error :${err}`);
       console.log(`api error :${err}`);
@@ -92,6 +88,7 @@ class Screen extends Component {
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
+ 
   render() {
     return (
       <View style={Style.container}>
@@ -103,7 +100,7 @@ class Screen extends Component {
             bottom: 15,
             height: 300,
             width: 346,
-            resizeMode: "contain",
+            resizeMode: "contain"
           }}
         />
         <View style={Style.slider_show_group}>
@@ -119,10 +116,10 @@ class Screen extends Component {
               flex: 1,
               backgroundColor: "rgba(240,238,247,1)",
               paddingBottom: 25,
-              justifyContent: "space-between",
+              justifyContent: "space-between"
             }}
             onPress={(item) => {
-              this.props.navigation.navigate("Announce", { id: item.image.id });
+              this.props.navigation.navigate("NewsDetailScreen", { id: item.image.id });
             }}
           />
         </View>
@@ -130,7 +127,7 @@ class Screen extends Component {
           <TouchableOpacity
             style={Style.news}
             onPress={() =>
-              this.props.navigation.navigate("Announce", { id: 1 })
+              this.props.navigation.navigate("NewsDetailScreen", { id: 1 })
             }
           >
             <View style={{ flex: 1, alignItems: "center" }}>
@@ -149,9 +146,11 @@ class Screen extends Component {
             <TouchableOpacity
               style={[
                 Style.menu_button,
-                { backgroundColor: "rgba(100, 100, 247, 1)" },
+                { backgroundColor: "rgba(100, 100, 247, 1)" }
               ]}
-              onPress={() => { setItemAsync(USER_TOKEN,"")}}
+              onPress={() => {
+
+              }}
             >
               <Image source={menu_assessment} style={Style.menu_button_image} />
               <Text style={Style.menu_button_label}>ประเมินสุขภาพ</Text>
@@ -159,7 +158,7 @@ class Screen extends Component {
             <TouchableOpacity
               style={[
                 Style.menu_button,
-                { backgroundColor: "rgba(245, 199, 97, 1)" },
+                { backgroundColor: "rgba(245, 199, 97, 1)" }
               ]}
               onPress={() => this.props.navigation.navigate("KnowledgeScreen")}
             >
@@ -171,7 +170,7 @@ class Screen extends Component {
             <TouchableOpacity
               style={[
                 Style.menu_button,
-                { backgroundColor: "rgba(26, 188, 156, 1)" },
+                { backgroundColor: "rgba(26, 188, 156, 1)" }
               ]}
               onPress={() => {}}
             >
@@ -181,7 +180,7 @@ class Screen extends Component {
             <TouchableOpacity
               style={[
                 Style.menu_button,
-                { backgroundColor: "rgba(242, 110, 79, 1)" },
+                { backgroundColor: "rgba(242, 110, 79, 1)" }
               ]}
               onPress={() => {}}
             >

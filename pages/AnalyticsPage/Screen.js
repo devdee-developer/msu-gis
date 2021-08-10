@@ -4,7 +4,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
 import Svg, { Image as ImageSVG } from "react-native-svg";
@@ -13,71 +13,71 @@ import CloseIcon from "../../assets/close.png";
 import DataImage from "../../assets/analytics_icon_data.png";
 import { Entypo } from "@expo/vector-icons";
 import HealthImage from "../../assets/health.png";
-import Model from "../../components/ModalCustomComponent/Screen";
+import Modal from "../../components/ModalCustomComponent/Screen";
 import RadioGroup from "react-native-radio-buttons-group";
 import Style from "./Style";
 import { VictoryPie } from "victory-native";
 import { apiUrl } from "../../constants/config";
-import axios from "axios";
+import { httpClient } from "../../utils/HttpClient";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const option = [
   {
-    title: "ประเมินโรคเบาหวาน",
+    title: "ประเมินโรคเบาหวาน"
   },
   {
-    title: "ประเมินโรคความดันโลหิตสูง",
+    title: "ประเมินโรคความดันโลหิตสูง"
   },
   {
-    title: "โรคหัวใจและหลอดเลือด",
+    title: "โรคหัวใจและหลอดเลือด"
   },
   {
-    title: "สมองเสื่อม",
+    title: "สมองเสื่อม"
   },
   {
-    title: "โรคซึมเศร้า",
+    title: "โรคซึมเศร้า"
   },
   {
-    title: "โรคข้อเข่าเสื่อม",
+    title: "โรคข้อเข่าเสื่อม"
   },
   {
-    title: "ภาวะหกล้ม",
+    title: "ภาวะหกล้ม"
   },
   {
-    title: "สุขภาวะทางตา",
+    title: "สุขภาวะทางตา"
   },
   {
-    title: "การได้ยิน",
+    title: "การได้ยิน"
   },
   {
-    title: "การประเมินปัญหาการนอน",
+    title: "การประเมินปัญหาการนอน"
   },
   {
-    title: "การประเมินสุขภาพช่องปาก",
+    title: "การประเมินสุขภาพช่องปาก"
   },
   {
-    title: "ภาวะโภชนาการ",
+    title: "ภาวะโภชนาการ"
   },
   {
-    title: "การทำกิจวัตรประจำวัน",
-  },
+    title: "การทำกิจวัตรประจำวัน"
+  }
 ];
 DatasetLabel = ({ label, color }) => (
   <View
     style={{
       flexDirection: "row",
       alignItems: "center",
-      marginBottom: 5,
+      marginBottom: 5
     }}
   >
     <View
       style={[
         Style.datasetLabel,
         {
-          backgroundColor: color,
-        },
+          backgroundColor: color
+        }
       ]}
     />
     <Text style={{ fontSize: 16, color: "#0D0E12" }}>{label}</Text>
@@ -92,31 +92,23 @@ class Screen extends Component {
       selectedItem: {},
       onSelectOptionOpen: false,
       updateDate: "",
-      refreshing: false,
+      refreshing: false
     };
   }
   componentDidMount() {
     const groupData = option.map(this.setGroupData);
     this.setState({
       groupData: groupData,
-      selectedItem: groupData[0],
+      selectedItem: groupData[0]
     });
     this.loadData();
   }
   async loadData() {
     this.setState({ refreshing: true });
-    console.log("test");
     const url = `${apiUrl}/getStatic`;
-    const data = {
-      token:
-        "JZKIfUFgS29xept2mQ1ITIEzcKRz2osyqUG7ozUDtPzIG/rf4llVmd8yIlMwDoficfVKvR07Wh5XOjSY0xJSRlCsjfitPI4J0KDfh0lkFYE=",
-    };
-    const headers = {
-      Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjg1NjQ2MzUsImV4cCI6MTYyODkyNDYzNSwibmJmIjoxNjI4NTY0NjM1LCJqdGkiOiIyY3lPMTVma0tHMElud3kzIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.auK4UusAnaBAd-sF-aRIaSt3O6ziiRLf2stoYD7oBmw",
-    };
+    const data = {};
     try {
-      const res = await axios.post(url, data, { headers: headers });
+      const res = await httpClient.post(url, data);
       const result = await res.data.Data;
       this.setState({ refreshing: false });
       this.initialData(result);
@@ -134,17 +126,17 @@ class Screen extends Component {
         new Date().toLocaleDateString("th-TH", {
           year: "numeric",
           month: "long",
-          day: "numeric",
+          day: "numeric"
         }) +
         " " +
-        new Date().toLocaleTimeString("th-TH"),
+        new Date().toLocaleTimeString("th-TH")
     });
   };
   setGroupData = (item, index, array) => {
     const radioStyle = {
       borderColor: "#E4E1F0",
       color: "#7676FF",
-      size: 22,
+      size: 22
     };
     const containerRadioStyle = {
       margin: 0,
@@ -153,12 +145,12 @@ class Screen extends Component {
       height: 50,
       width: "95%",
       paddingLeft: 30,
-      paddingRight: 30,
+      paddingRight: 30
     };
     const labelRadioStyle = {
       fontSize: 20,
       color: "#010979",
-      marginBottom: 4,
+      marginBottom: 4
     };
 
     const data = {
@@ -168,13 +160,13 @@ class Screen extends Component {
       selected: index == 0 ? true : false,
       labelStyle: {
         ...labelRadioStyle,
-        color: index == 0 ? "#6F63FD" : "#010979",
+        color: index == 0 ? "#6F63FD" : "#010979"
       },
       ...radioStyle,
       containerStyle: {
         ...containerRadioStyle,
-        borderBottomWidth: array.length == index + 1 ? 0 : 1,
-      },
+        borderBottomWidth: array.length == index + 1 ? 0 : 1
+      }
     };
     return data;
   };
@@ -183,7 +175,7 @@ class Screen extends Component {
       {
         onSelectOptionOpen: false,
         groupData: data,
-        selectedItem: data.find((item) => item.selected),
+        selectedItem: data.find((item) => item.selected)
       },
       () => {
         this.setState({
@@ -192,17 +184,17 @@ class Screen extends Component {
               item.labelStyle = {
                 fontSize: 20,
                 color: "#6F63FD",
-                marginBottom: 4,
+                marginBottom: 4
               };
             } else {
               item.labelStyle = {
                 fontSize: 20,
                 color: "#010979",
-                marginBottom: 4,
+                marginBottom: 4
               };
             }
             return item;
-          }),
+          })
         });
       }
     );
@@ -237,7 +229,7 @@ class Screen extends Component {
                 height={deviceWidth / 1.7}
                 data={[
                   { x: male.normal, y: male.normal },
-                  { x: male.problem, y: male.problem },
+                  { x: male.problem, y: male.problem }
                 ]}
                 innerRadius={deviceWidth / 10}
                 labelRadius={deviceWidth / 1.7 / 3}
@@ -245,9 +237,9 @@ class Screen extends Component {
                   labels: {
                     fontSize: 16,
                     fill: ({ text, index }) =>
-                      index == 0 ? "#54D5BB" : "#F53F4D",
+                      index == 0 ? "#54D5BB" : "#F53F4D"
                   },
-                  margin: 0,
+                  margin: 0
                 }}
               />
             </Svg>
@@ -272,7 +264,7 @@ class Screen extends Component {
                 height={deviceWidth / 1.7}
                 data={[
                   { x: female.normal, y: female.normal },
-                  { x: female.problem, y: female.problem },
+                  { x: female.problem, y: female.problem }
                 ]}
                 innerRadius={deviceWidth / 10}
                 labelRadius={deviceWidth / 1.7 / 3}
@@ -280,9 +272,9 @@ class Screen extends Component {
                   labels: {
                     fontSize: 16,
                     fill: ({ text, index }) =>
-                      index == 0 ? "#54D5BB" : "#F53F4D",
+                      index == 0 ? "#54D5BB" : "#F53F4D"
                   },
-                  margin: 0,
+                  margin: 0
                 }}
               />
             </Svg>
@@ -302,15 +294,13 @@ class Screen extends Component {
     return (
       <View style={Style.container}>
         <View style={Style.containerHeader}>
-          <View
-            style={Style.selectLabel}
-          >
+          <View style={Style.selectLabel}>
             <Image
               source={DataImage}
               style={{
                 width: 22.65,
                 height: 19.24,
-                marginRight: 10,
+                marginRight: 10
               }}
               resizeMode={"contain"}
             />
@@ -334,42 +324,30 @@ class Screen extends Component {
             />
           </TouchableOpacity>
         </View>
-        <View
-          style={Style.containerContent}
-        >
-          <View
-            style={Style.selectedTitle}
-          >
+        <View style={Style.containerContent}>
+          <View style={Style.selectedTitle}>
             <Image
               source={HealthImage}
               style={Style.selectedTitleImage}
               resizeMode={"contain"}
             />
-            <Text
-              style={Style.selectedTitleLabel}
-            >
-              {selectedItem.label}
-            </Text>
+            <Text style={Style.selectedTitleLabel}>{selectedItem.label}</Text>
           </View>
           <View style={{ flex: 6, paddingVertical: 20 }}>
-            <Text
-              style={Style.updateDateLabel}
-            >
+            <Text style={Style.updateDateLabel}>
               อัพเดทเมื่อ : {this.state.updateDate}
             </Text>
             {selectedItem.data && this.renderChart()}
-            <View
-              style={Style.containerDatasetLabel}
-            >
+            <View style={Style.containerDatasetLabel}>
               <DatasetLabel label={"มีปัญหา"} color={"#F53F4D"} />
               <DatasetLabel label={"ปกติ"} color={"#54D5BB"} />
             </View>
           </View>
         </View>
 
-        <Model
+        <Modal
           Visible={onSelectOptionOpen}
-          Style={{top: 70, bottom: 49, width: 370, paddingBottom: 50 }}
+          Style={{ top: 70, bottom: 49, width: 370, paddingBottom: 50 }}
         >
           <TouchableOpacity
             activeOpacity={1}
@@ -380,7 +358,7 @@ class Screen extends Component {
               source={CloseIcon}
               style={{
                 width: 12.54,
-                height: 12.54,
+                height: 12.54
               }}
             />
           </TouchableOpacity>
@@ -401,7 +379,7 @@ class Screen extends Component {
               onPress={this.onPressRadioButton}
             />
           </ScrollView>
-        </Model>
+        </Modal>
       </View>
     );
   }

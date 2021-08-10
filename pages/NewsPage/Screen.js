@@ -7,14 +7,14 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
-
+import { httpClient } from "../../utils/HttpClient";
 import CalendarIcon from "../../assets/calendar_icon.png";
 import Card from "../../components/CardCustomComponent/Screen";
 import HeaderWithSearch from "../../components/HeaderWithSearchComponent/Screen";
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
 import { apiUrl } from "../../constants/config";
-import axios from "axios";
+
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -52,15 +52,10 @@ class Screen extends Component {
     this.setState({ refreshing: true });
     const url = `${apiUrl}/getNews`;
     const data = {
-      token:
-        "J3lr+BD92j6HNl/dRCMwDgUMId48kmUwn/hjakOOTWsHLmPo4tBCjn7bPIOyaEPt6pnEkVjeJhFSLYt3L2cd/SG3u+IZTyYcx6sQ7djBVZw=",
     };
-    const headers = {
-      Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tb25wbGVybi5jb21cL2xhcmF2ZWxcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2Mjc5ODE2MDYsImV4cCI6MTYyODM0MTYwNiwibmJmIjoxNjI3OTgxNjA2LCJqdGkiOiIwR3JmWGdXVTV2RThFWjJaIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.jzT6NdnR7h8AHBl1Glijr7Z2nvvxsVCRM-XaIVbpR0o",
-    };
+  
     try {
-      const res = await axios.post(url, data, { headers: headers });
+      const res = await httpClient.post(url, data);
       const result = await res.data.Data;
       this.setState({ refreshing: false });
       this.intialData(result);
