@@ -57,10 +57,11 @@ class Screen extends Component {
       partner_id: PARTNER_ID,
       partner_key: PARTNER_KEY,
     };
-    const data_login = {
-      user: this.state.username,
-      pass: this.state.password,
-    };
+    // const data_login = {
+    //   user: this.state.username,
+    //   pass: this.state.password,
+    // };
+    const data_login = {"user":"msu","pass":"1qaz@WSX"}
     try {
       const res_access_token = await axios.post(
         url_access_token,
@@ -79,7 +80,7 @@ class Screen extends Component {
         console.log(`user token : ${user_token}`);
         await setItemAsync(USER_TOKEN, user_token);
         this.setState({ isLoading: false });
-        this.props.navigation.navigate("HomeScreen");
+        // this.props.navigation.navigate("HomeScreen");
       } else {
         this.setState({ isLoading: false });
         Alert.alert(

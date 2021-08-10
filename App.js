@@ -1,5 +1,7 @@
+import { ACCESS_TOKEN, USER_TOKEN } from "./constants/config";
 import { Button, Image, Text, View } from "react-native";
 import React, { Component } from "react";
+import { getItemAsync, setItemAsync } from "expo-secure-store";
 
 import AnalyticsScreen from "./pages/AnalyticsPage/Screen";
 import ContactScreen from "./pages/ContactPage/Screen";
@@ -12,15 +14,96 @@ import { NavigationContainer } from "@react-navigation/native";
 import NewsDetailScreen from "./pages/NewsDetailPage/Screen";
 import NewsScreen from "./pages/NewsPage/Screen";
 import SplashScreen from "./pages/SplashPage/Screen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { isLogin: false };
+  }
+  componentDidMount() {
+    this.checkLogin();
+  }  
+  componentDidUpdate() {
+
+  }
+  async checkLogin() {
+    const user_token = await getItemAsync(USER_TOKEN);
+    if (user_token) {
+      this.setState({ isLogin: true });
+    } else {
+      this.setState({ isLogin: false });
+    }
+  }
   render() {
     const Stack = createStackNavigator();
+    const Tab = createBottomTabNavigator();
+    function AuthStack() {
+      return (
+        <Stack.Navigator initialRouteName="SplashScreen">
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="SplashScreen"
+            component={SplashScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="LoginScreen"
+            component={LoginScreen}
+          />
+        </Stack.Navigator>
+      );
+    }
+
+    function HomeStack() {
+      return (
+        <Stack.Navigator initialRouteName="HomeScreen">
+          <Stack.Screen
+            options={{ headerShown: true }}
+            options={{
+              headerLeft: (props) => <LogoTitle {...props} />,
+              headerTitle: () => null,
+              headerBackTitleVisible: false,
+              headerRight: (props) => <Profile {...props} />,
+            }}
+            name="HomeScreen"
+            component={HomeScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="KnowledgeScreen"
+            component={KnowledgeScreen}
+          />
+          <Stack.Screen
+            options={{ headerShown: true }}
+            options={{
+              headerRight: () => null,
+              headerTitle: () => null,
+              headerBackTitleVisible: false,
+              headerBackImage: (props) => <Back {...props} />,
+            }}
+            name="KnowledgeDetailScreen"
+            component={KnowledgeDetailScreen}
+          />
+        </Stack.Navigator>
+      );
+    }
+    function MainApp() {
+      return (
+        <Tab.Navigator initialRouteName="HomeScreen">
+          <Tab.Screen name="HomeScreen" component={HomeStack} />
+          <Tab.Screen name="ContactScreen" component={HomeScreen} />
+          <Tab.Screen name="MapScreen" component={NewsScreen} />
+          <Tab.Screen name="NewsScreen" component={NewsScreen} />
+          <Tab.Screen name="AnalyticsScreen" component={AnalyticsScreen} />
+        </Tab.Navigator>
+      );
+    }
     function LogoTitle() {
       return (
         <Image
-          style={{marginLeft:15, width: 176, height: 40 }}
+          style={{ width: 176, height: 40, marginLeft: 15 }}
           source={require("./assets/header_image.png")}
         />
       );
@@ -36,12 +119,20 @@ class App extends Component {
               position: "absolute",
               left: -9,
               top: 0,
-              borderRadius:9,
-              zIndex:1,
-              justifyContent:'center'
+              borderRadius: 9,
+              zIndex: 1,
+              justifyContent: "center",
             }}
           >
-            <Image source={require("./assets/notification.png")} style={{width:7.32,height:8.79,position:'absolute', alignSelf: 'center'}}/>
+            <Image
+              source={require("./assets/notification.png")}
+              style={{
+                width: 7.32,
+                height: 8.79,
+                position: "absolute",
+                alignSelf: "center",
+              }}
+            />
           </View>
           <Image
             style={{ width: 39, height: 39, borderRadius: 20, marginRight: 13 }}
@@ -58,9 +149,10 @@ class App extends Component {
         />
       );
     }
+
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SplashScreen">
+        {/* <Stack.Navigator initialRouteName="HomeScreen">
           <Stack.Screen
             options={{ headerShown: false }}
             name="SplashScreen"
@@ -80,7 +172,7 @@ class App extends Component {
               headerRight: (props) => <Profile {...props} />,
             }}
             name="HomeScreen"
-            component={HomeScreen}
+            component={MainApp}
           />
           <Stack.Screen
             options={{ headerShown: false }}
@@ -89,12 +181,6 @@ class App extends Component {
           />
           <Stack.Screen
             options={{ headerShown: false }}
-            // options={{
-            //   headerRight: (props) => <HeaderWithSearch {...props} />,
-            //   headerTitle: () => null,
-            //   headerBackTitleVisible: false,
-            //   headerBackImage: (props) => <Back {...props} />,
-            // }}
             name="NewsScreen"
             component={NewsScreen}
           />
@@ -138,7 +224,6 @@ class App extends Component {
                     fontWeight: "bold",
                   }}
                 >
-                  {" "}
                   สถิติสำรวจ
                 </Text>
               ),
@@ -148,7 +233,8 @@ class App extends Component {
             name="AnalyticsScreen"
             component={AnalyticsScreen}
           />
-        </Stack.Navigator>
+        </Stack.Navigator> */}
+        {this.state.isLogin ? <MainApp /> : <AuthStack />}
       </NavigationContainer>
     );
   }

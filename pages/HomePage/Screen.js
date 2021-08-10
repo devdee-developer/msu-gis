@@ -80,10 +80,10 @@ class Screen extends Component {
       token: user_token,
     };
     try {
-      const res = await httpClient.post(url, data);
-      const result = await res.data.Data;
-      this.setState({ isLoading: false });
-      console.log(result)
+      // const res = await httpClient.post(url, data);
+      // const result = await res.data.Data;
+      // this.setState({ isLoading: false });
+      // console.log(result)
     } catch (err) {
       alert(`api error :${err}`);
       console.log(`api error :${err}`);
@@ -151,7 +151,7 @@ class Screen extends Component {
                 Style.menu_button,
                 { backgroundColor: "rgba(100, 100, 247, 1)" },
               ]}
-              onPress={() => {}}
+              onPress={() => { setItemAsync(USER_TOKEN,"")}}
             >
               <Image source={menu_assessment} style={Style.menu_button_image} />
               <Text style={Style.menu_button_label}>ประเมินสุขภาพ</Text>
