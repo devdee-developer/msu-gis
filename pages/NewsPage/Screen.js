@@ -4,10 +4,11 @@ import {
   RefreshControl,
   ScrollView,
   Text,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
-
+import * as SQLite from "expo-sqlite";
+import { Platform } from "react-native";
 import CalendarIcon from "../../assets/calendar_icon.png";
 import Card from "../../components/CardCustomComponent/Screen";
 import HeaderWithSearch from "../../components/HeaderWithSearchComponent/Screen";
@@ -18,6 +19,20 @@ import { httpClient } from "../../utils/HttpClient";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+function openDatabase() {
+  if (Platform.OS === "web") {
+    return {
+      transaction: () => {
+        return {
+          executeSql: () => {}
+        };
+      }
+    };
+  }
+  const db = SQLite.openDatabase("db.db");
+  return db;
+}
+const db = openDatabase();
 let timeOutId;
 const debounce = (func, deley) => {
   return (...args) => {
@@ -37,22 +52,29 @@ class Screen extends Component {
       newsList: [],
       newsListFromSearch: [],
       refreshing: false,
-      search: "",
+      search: ""
     };
   }
   componentDidMount() {
-    this.loadData();
+    // this.loadData();
+    this.loadLocalData();
   }
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
+  loadLocalData() {
+    db.transaction((tx) => {
+      tx.executeSql(`select * from tb_news`, [], (_, { rows }) =>
+        this.intialData(rows._array)
+      );
+    });
+  }
   async loadData() {
     this.setState({ refreshing: true });
     const url = `${apiUrl}/getNews`;
-    const data = {
-    };
-  
+    const data = {};
+
     try {
       const res = await httpClient.post(url, data);
       const result = await res.data.Data;
@@ -67,11 +89,11 @@ class Screen extends Component {
     this.setState(
       {
         position: 2,
-        dataSource: data.slideNews.map((slide) => ({
+        dataSource: data.filter(row=>row.top_news ==1).map((slide) => ({
           ...slide,
-          url: slide.banner,
+          url: slide.banner
         })),
-        newsList: data.newsList,
+        newsList: data
       },
       () => {
         this.setState({
@@ -80,9 +102,9 @@ class Screen extends Component {
               position:
                 this.state.position === this.state.dataSource.length
                   ? 0
-                  : this.state.position + 1,
+                  : this.state.position + 1
             });
-          }, 5000),
+          }, 5000)
         });
       }
     );
@@ -160,7 +182,9 @@ class Screen extends Component {
             }
           >
             <View style={Style.titleGroup}>
-              <Text style={{ fontSize: 30, color: "#010979",fontWeight:'bold' }}>
+              <Text
+                style={{ fontSize: 30, color: "#010979", fontWeight: "bold" }}
+              >
                 ข่าวสารและกิจกรรม
               </Text>
               <Text style={{ fontSize: 16, color: "#3B3D48" }}>
@@ -182,11 +206,11 @@ class Screen extends Component {
                     flex: 1,
                     backgroundColor: "#FFFFFF",
                     paddingBottom: 30,
-                    justifyContent: "space-between",
+                    justifyContent: "space-between"
                   }}
                   onPress={(item) => {
                     this.props.navigation.navigate("NewsDetailScreen", {
-                      detail: item.image,
+                      detail: item.image
                     });
                   }}
                 />
@@ -197,11 +221,13 @@ class Screen extends Component {
               style={{
                 paddingHorizontal: 20,
                 paddingVertical: 15,
-                flexDirection: "row",
+                flexDirection: "row"
               }}
             >
-              <View style={{height:80,justifyContent:'center'}}>
-                <Text style={{ fontSize: 30, color: "#010979" ,fontWeight:'bold'}}>
+              <View style={{ height: 80, justifyContent: "center" }}>
+                <Text
+                  style={{ fontSize: 30, color: "#010979", fontWeight: "bold" }}
+                >
                   ข่าวทั้งหมด
                 </Text>
                 <Text style={{ fontSize: 16, color: "#3B3D48" }}>
@@ -210,7 +236,7 @@ class Screen extends Component {
               </View>
               <View
                 style={{
-                  height:80,
+                  height: 80,
                   justifyContent: "center",
                   alignItems: "flex-end",
                   flex: 1

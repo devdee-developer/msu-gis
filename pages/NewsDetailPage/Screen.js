@@ -5,7 +5,7 @@ import {
   Share,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
 
@@ -21,7 +21,9 @@ const deviceHeight = Dimensions.get("window").height;
 
 const ShareButton = ({ onPress }) => (
   <TouchableOpacity style={Style.shareButton} onPress={onPress}>
-    <Text style={{ color: "#FFFFFF", fontSize: 16 ,fontWeight:'bold'}}>แชร์</Text>
+    <Text style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "bold" }}>
+      แชร์
+    </Text>
     <Image source={iconShare} style={{ width: 16.58, height: 19.91 }} />
   </TouchableOpacity>
 );
@@ -32,21 +34,27 @@ class Screen extends Component {
   }
   componentDidMount() {
     const { detail } = this.props.route.params;
+
     this.setState({ ...detail });
     this.props.navigation.dangerouslyGetParent().setOptions({
-      tabBarVisible: false,
+      tabBarVisible: false
     });
   }
   componentWillUnmount() {
     this.props.navigation.dangerouslyGetParent().setOptions({
-      tabBarVisible: true,
+      tabBarVisible: true
     });
   }
   render() {
-    const { header, publicDate, banner, detail, vdoLink } = this.state;
+    const { header, public_date, banner, detail, vdo } = this.state;
+
     const renderVideo = () => {
+      let vdoLink
+      if(vdo){
+        vdoLink = JSON.parse( vdo)
+      }
       return (
-        vdoLink &&
+        vdo &&
         vdoLink.map((url, index) => {
           let regex = /[?&]([^=#]+)=([^&#]*)/g,
             params = {},
@@ -70,7 +78,7 @@ class Screen extends Component {
       try {
         const result = await Share.share({
           message:
-            "React Native | A framework for building native apps using React",
+            "React Native | A framework for building native apps using React"
         });
         if (result.action === Share.sharedAction) {
           if (result.activityType) {
@@ -91,7 +99,7 @@ class Screen extends Component {
           <View
             style={{
               padding: 15,
-              paddingBottom: 0,
+              paddingBottom: 0
             }}
           >
             <Text style={Style.titleLabel}>{header}</Text>
@@ -101,12 +109,12 @@ class Screen extends Component {
               flexDirection: "row",
               alignItems: "flex-end",
               marginBottom: 15,
-              marginHorizontal: 15,
+              marginHorizontal: 15
             }}
           >
             <View style={Style.date}>
               <Image source={CalendarIcon} style={Style.dateIcon} />
-              <Text style={Style.dateLabel}>{publicDate}</Text>
+              <Text style={Style.dateLabel}>{public_date}</Text>
             </View>
             <ShareButton onPress={() => onShare()} />
           </View>
@@ -136,7 +144,7 @@ class Screen extends Component {
               style={[Style.date, { marginTop: 20, alignSelf: "flex-end" }]}
             >
               <Image source={CalendarIcon} style={Style.dateIcon} />
-              <Text style={Style.dateLabel}>{publicDate}</Text>
+              <Text style={Style.dateLabel}>{public_date}</Text>
             </View>
           </View>
         </ScrollView>
