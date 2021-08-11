@@ -14,6 +14,7 @@ import Background from "../../assets/home_background.png";
 import IconSpeech from "../../assets/icon_speech.png";
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
+import {createAllTable} from "../../database"
 import { httpClient } from "../../utils/HttpClient";
 import menu_assessment from "../../assets/menu_button_assessment.png";
 import menu_knowledge from "../../assets/meun_button_knowledge.png";
@@ -22,6 +23,8 @@ import menu_visit from "../../assets/menu_button_visit.png";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
+
+
 class Screen extends Component {
   constructor(props) {
     super(props);
@@ -57,6 +60,7 @@ class Screen extends Component {
   }
 
   componentDidMount() {
+    createAllTable()
     this.setState({
       interval: setInterval(() => {
         this.setState({

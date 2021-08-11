@@ -22,7 +22,7 @@ const deviceHeight = Dimensions.get("window").height;
 
 const ShareButton = ({ onPress }) => (
   <TouchableOpacity style={Style.shareButton} onPress={onPress}>
-    <Text style={{ color: "#FFFFFF", fontSize: 16 }}>แชร์</Text>
+    <Text style={{ color: "#FFFFFF", fontSize: 16,fontWeight:'bold' }}>แชร์</Text>
     <Image source={iconShare} style={{ width: 16.58, height: 19.91 }} />
   </TouchableOpacity>
 );

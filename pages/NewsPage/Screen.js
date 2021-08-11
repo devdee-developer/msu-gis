@@ -198,7 +198,6 @@ class Screen extends Component {
                 paddingHorizontal: 20,
                 paddingVertical: 15,
                 flexDirection: "row",
-               
               }}
             >
               <View style={{height:80,justifyContent:'center'}}>
