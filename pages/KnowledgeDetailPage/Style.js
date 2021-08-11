@@ -14,6 +14,7 @@ export default StyleSheet.create({
     // fontFamily: "Prompt-Medium",
     color: "#010979",
     fontSize: 26
+    ,fontWeight:'bold'
   },
   subHead: {
     flexDirection: "row",

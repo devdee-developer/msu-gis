@@ -40,12 +40,19 @@ class Screen extends Component {
       search: ""
     };
   }
+
   componentDidMount() {
+    this.props.navigation.dangerouslyGetParent().setOptions({
+      tabBarVisible: false
+    });
     this.loadData();
   }
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
+    this.props.navigation.dangerouslyGetParent().setOptions({
+      tabBarVisible: true
+    });
   }
   async loadData() {
     this.setState({ refreshing: true });
@@ -179,7 +186,7 @@ class Screen extends Component {
                 />
               </View>
               <View style={{ flex: 3 }}>
-                <Text style={{ fontSize: 30, color: "#010979" }}>
+                <Text style={{ fontSize: 30, color: "#010979" ,fontWeight:'bold'}}>
                   คลังความรู้
                 </Text>
                 <Text style={{ fontSize: 16, color: "#3B3D48" }}>
@@ -210,8 +217,8 @@ class Screen extends Component {
               }}
             >
               <View style={{ flexDirection: "row" }}>
-                <Text style={{ fontSize: 18, color: "#010979" }}>ทั้งหมด </Text>
-                <Text style={{ fontSize: 18, color: "#6F63FD" }}>
+                <Text style={{ fontSize: 18, color: "#010979",fontWeight:'bold' }}>ทั้งหมด </Text>
+                <Text style={{ fontSize: 18, color: "#6F63FD" ,fontWeight:'bold'}}>
                   {total} รายการ
                 </Text>
               </View>

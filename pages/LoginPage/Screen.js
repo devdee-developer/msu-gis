@@ -95,7 +95,7 @@ class Screen extends Component {
         this.setState({ isLoading: false });
         Alert.alert(
           "เข้าสู่ระบบไม่สำเร็จ",
-          "กรุณาตรวจสอบชื่อผู้ผู้ใช้านและรหัสผ่าน"
+          "กรุณาตรวจสอบชื่อผู้ใช้านและรหัสผ่าน"
         );
       }
     } catch (err) {

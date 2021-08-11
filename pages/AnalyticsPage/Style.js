@@ -61,8 +61,7 @@ export default StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
   },
-  selectedTitle: {
-    flex: 1,
+  selectedTitle: {height:60,
     borderBottomWidth: 1,
     borderBottomColor: "#E4E1F0",
     justifyContent: "center",

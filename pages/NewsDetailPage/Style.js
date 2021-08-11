@@ -1,6 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-
 const deviceWidth = Dimensions.get("window").width;
 const ratio = deviceWidth / 640;
 export default StyleSheet.create({
@@ -13,6 +12,7 @@ export default StyleSheet.create({
   },
   titleLabel: {
     // fontFamily: "Prompt-Medium",
+    fontWeight:'bold',
     color: "#010979",
     fontSize: 26
   },

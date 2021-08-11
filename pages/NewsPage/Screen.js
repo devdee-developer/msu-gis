@@ -7,14 +7,14 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
-import { httpClient } from "../../utils/HttpClient";
+
 import CalendarIcon from "../../assets/calendar_icon.png";
 import Card from "../../components/CardCustomComponent/Screen";
 import HeaderWithSearch from "../../components/HeaderWithSearchComponent/Screen";
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
 import { apiUrl } from "../../constants/config";
-
+import { httpClient } from "../../utils/HttpClient";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -39,7 +39,6 @@ class Screen extends Component {
       refreshing: false,
       search: "",
     };
-    console.log(props);
   }
   componentDidMount() {
     this.loadData();
@@ -148,6 +147,7 @@ class Screen extends Component {
           onChangeText={(e) => this.debounceSearch(e)}
           onSearchCancel={() => this.setState({ newsListFromSearch: [] })}
           value={this.state.search}
+          hideBack={true}
         />
         <View style={Style.container}>
           <ScrollView
@@ -160,7 +160,7 @@ class Screen extends Component {
             }
           >
             <View style={Style.titleGroup}>
-              <Text style={{ fontSize: 30, color: "#010979" }}>
+              <Text style={{ fontSize: 30, color: "#010979",fontWeight:'bold' }}>
                 ข่าวสารและกิจกรรม
               </Text>
               <Text style={{ fontSize: 16, color: "#3B3D48" }}>
@@ -198,10 +198,11 @@ class Screen extends Component {
                 paddingHorizontal: 20,
                 paddingVertical: 15,
                 flexDirection: "row",
+               
               }}
             >
-              <View>
-                <Text style={{ fontSize: 30, color: "#010979" }}>
+              <View style={{height:80,justifyContent:'center'}}>
+                <Text style={{ fontSize: 30, color: "#010979" ,fontWeight:'bold'}}>
                   ข่าวทั้งหมด
                 </Text>
                 <Text style={{ fontSize: 16, color: "#3B3D48" }}>
@@ -210,9 +211,10 @@ class Screen extends Component {
               </View>
               <View
                 style={{
+                  height:80,
                   justifyContent: "center",
                   alignItems: "flex-end",
-                  flex: 1,
+                  flex: 1
                 }}
               >
                 {/* for button  */}

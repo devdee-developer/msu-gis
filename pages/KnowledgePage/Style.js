@@ -43,8 +43,9 @@ export default StyleSheet.create({
     marginLeft: 13,
     borderRadius: 8,
     alignItems: "center"
+
   },
   buttonCategorySelected: { backgroundColor: "#6F63FD" },
-  buttonLabelCategory:{fontSize:18,color:'#3B3D48'},
+  buttonLabelCategory:{fontSize:18,color:'#3B3D48',fontWeight:'bold'},
   buttonLabelCategorySelected:{color:"#FFFFFF"}
 });

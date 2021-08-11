@@ -23,7 +23,7 @@ const deviceWidth = Dimensions.get("window").width;
 class Screen extends Component {
   constructor(props) {
     super(props);
-    this.state = { onFocus: false };
+    this.state = { onFocus: false ,hideBack:this.props.hideBack?this.props.hideBack:false};
   }
   width = new Animated.Value(90);
   animate = () => {
@@ -100,7 +100,7 @@ class Screen extends Component {
             style={{ paddingTop: Platform.OS === "android" ? 0 : 0 }}
           >
             <Animated.View style={[Style.container, animatedContainerStyle]}>
-              {navigation.canGoBack() &&
+              {navigation.canGoBack()&& !this.state.hideBack &&
               !this.state.onFocus &&
               !this.state.onFocus ? (
                 <TouchableOpacity onPress={() => navigation.goBack()}>

@@ -324,7 +324,7 @@ class Screen extends Component {
             />
           </TouchableOpacity>
         </View>
-        <View style={Style.containerContent}>
+        <ScrollView style={Style.containerContent}>
           <View style={Style.selectedTitle}>
             <Image
               source={HealthImage}
@@ -343,7 +343,7 @@ class Screen extends Component {
               <DatasetLabel label={"ปกติ"} color={"#54D5BB"} />
             </View>
           </View>
-        </View>
+        </ScrollView>
 
         <Modal
           Visible={onSelectOptionOpen}

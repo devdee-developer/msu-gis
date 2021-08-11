@@ -1,15 +1,6 @@
 import { Image, Text, View } from "react-native";
 import React, { Component } from "react";
-import iconHome from "./assets/icon_menu_home.png";
-import iconHomeActive from "./assets/icon_menu_home_active.png";
-import iconContact from "./assets/icon_menu_contact.png";
-import iconContactActive from "./assets/icon_menu_contact_active.png";
-import iconMap from "./assets/icon_menu_map.png";
-import iconMapActive from "./assets/icon_menu_map_active.png";
-import iconNews from "./assets/icon_menu_news.png";
-import iconNewsActive from "./assets/icon_menu_news_active.png";
-import iconAnalytics from "./assets/icon_menu_analytics.png";
-import iconAnalyticsActive from "./assets/analytics_icon_data.png";
+
 import AnalyticsScreen from "./pages/AnalyticsPage/Screen";
 import ContactScreen from "./pages/ContactPage/Screen";
 import HomeScreen from "./pages/HomePage/Screen";
@@ -20,10 +11,22 @@ import LoginScreen from "./pages/LoginPage/Screen";
 import { NavigationContainer } from "@react-navigation/native";
 import NewsDetailScreen from "./pages/NewsDetailPage/Screen";
 import NewsScreen from "./pages/NewsPage/Screen";
+import ProfileButton from "./components/ProfileButtonComponent/Screen";
 import SplashScreen from "./pages/SplashPage/Screen";
+import commonjs from "react-native-render-html";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import ProfileButton from "./components/ProfileButtonComponent/Screen";
+import iconAnalytics from "./assets/icon_menu_analytics.png";
+import iconAnalyticsActive from "./assets/analytics_icon_data.png";
+import iconContact from "./assets/icon_menu_contact.png";
+import iconContactActive from "./assets/icon_menu_contact_active.png";
+import iconHome from "./assets/icon_menu_home.png";
+import iconHomeActive from "./assets/icon_menu_home_active.png";
+import iconMap from "./assets/icon_menu_map.png";
+import iconMapActive from "./assets/icon_menu_map_active.png";
+import iconNews from "./assets/icon_menu_news.png";
+import iconNewsActive from "./assets/icon_menu_news_active.png";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +40,7 @@ class App extends Component {
     );
     const Stack = createStackNavigator();
     const Tab = createBottomTabNavigator();
+    
     function RootStack() {
       return (
         <Stack.Navigator initialRouteName="SplashScreen">
@@ -61,7 +65,7 @@ class App extends Component {
 
     function HomeStack() {
       return (
-        <Stack.Navigator initialRouteName="HomeScreen">
+        <Stack.Navigator initialRouteName="HomeScreen" > 
           <Stack.Screen
             options={{ headerShown: true }}
             options={({ navigation }) => ({
@@ -70,7 +74,7 @@ class App extends Component {
               headerBackTitleVisible: false,
               headerRight: (props) => (
                 <ProfileButton {...props} navigation={navigation} />
-              )
+              ),
             })}
             name="HomeScreen"
             component={HomeScreen}
@@ -81,7 +85,7 @@ class App extends Component {
               headerRight: () => null,
               headerTitle: () => null,
               headerBackTitleVisible: false,
-              headerBackImage: (props) => <Back {...props} />
+              headerBackImage: (props) => <Back {...props} />,
             }}
             name="NewsDetailScreen"
             component={NewsDetailScreen}
@@ -97,7 +101,7 @@ class App extends Component {
               headerRight: () => null,
               headerTitle: () => null,
               headerBackTitleVisible: false,
-              headerBackImage: (props) => <Back {...props} />
+              headerBackImage: (props) => <Back {...props} />,
             }}
             name="KnowledgeDetailScreen"
             component={KnowledgeDetailScreen}
@@ -118,14 +122,14 @@ class App extends Component {
                     fontSize: 23,
                     color: "#010979",
                     alignSelf: "center",
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                   }}
                 >
                   สถิติสำรวจ
                 </Text>
               ),
               headerBackTitleVisible: false,
-              headerBackImage: (props) => <Back {...props} />
+              headerBackImage: (props) => <Back {...props} />,
             }}
             name="AnalyticsScreen"
             component={AnalyticsScreen}
@@ -133,6 +137,7 @@ class App extends Component {
         </Stack.Navigator>
       );
     }
+
     function NewsStack() {
       return (
         <Stack.Navigator initialRouteName="NewsScreen">
@@ -147,7 +152,7 @@ class App extends Component {
               headerRight: () => null,
               headerTitle: () => null,
               headerBackTitleVisible: false,
-              headerBackImage: (props) => <Back {...props} />
+              headerBackImage: (props) => <Back {...props} />,
             }}
             name="NewsDetailScreen"
             component={NewsDetailScreen}
@@ -168,57 +173,44 @@ class App extends Component {
               paddingVertical: 5,
               height: 60,
               borderRadius: 12,
-              margin: 4
+              margin: 4,
             },
-            safeAreaInsets: { bottom: 35 }
+            safeAreaInsets: { bottom: 35 },
           }}
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
               let icon;
-              let imageSize
+              let imageSize;
               if (route.name === "HomeScreen") {
                 icon = focused ? iconHomeActive : iconHome;
-                size ={width: 22, height: 23.5, }
+                size = { width: 22, height: 23.5 };
               } else if (route.name === "ContactScreen") {
                 icon = focused ? iconContactActive : iconContact;
-                size ={width: 29, height: 22.5, }
-              }else if (route.name === "MapScreen") {
+                size = { width: 29, height: 22.5 };
+              } else if (route.name === "MapScreen") {
                 icon = focused ? iconMapActive : iconMap;
-                size ={width: 29, height: 27.6, }
-              }else if (route.name === "NewsScreen") {
+                size = { width: 29, height: 27.6 };
+              } else if (route.name === "NewsScreen") {
                 icon = focused ? iconNewsActive : iconNews;
-                size ={width: 35.3, height: 25.4, }
-              }else if (route.name === "AnalyticsScreen") {
+                size = { width: 35.3, height: 25.4 };
+              } else if (route.name === "AnalyticsScreen") {
                 icon = focused ? iconAnalyticsActive : iconAnalytics;
-                size ={width:27.2, height: 23.1, }
+                size = { width: 27.2, height: 23.1 };
               }
-              
-              
+
               return (
                 <Image
                   source={icon}
-                  style={{...size, resizeMode: "contain" }}
+                  style={{ ...size, resizeMode: "contain" }}
                 />
               );
-            }
+            },
           })}
         >
           <Tab.Screen
             name="HomeScreen"
             component={HomeStack}
-            options={(item) => {
-              // if (item.route.state) {
-              //   if ("index" in item.route.state) {
-              //     if (item.route.state.index > 0)
-              //       return { tabBarVisible: false };
-              //   } else {
-              //     return { tabBarVisible: true };
-              //   }
-              // } else {
-              //   return { tabBarVisible: true };
-              // }
-              return { title: "หน้าหลัก" };
-            }}
+            options={(item) => ({ title: "หน้าหลัก" })}
           />
           <Tab.Screen
             name="ContactScreen"

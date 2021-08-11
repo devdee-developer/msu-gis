@@ -5,7 +5,7 @@ import {
   Share,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import React, { Component } from "react";
 
@@ -21,7 +21,7 @@ const deviceHeight = Dimensions.get("window").height;
 
 const ShareButton = ({ onPress }) => (
   <TouchableOpacity style={Style.shareButton} onPress={onPress}>
-    <Text style={{ color: "#FFFFFF", fontSize: 16 }}>แชร์</Text>
+    <Text style={{ color: "#FFFFFF", fontSize: 16 ,fontWeight:'bold'}}>แชร์</Text>
     <Image source={iconShare} style={{ width: 16.58, height: 19.91 }} />
   </TouchableOpacity>
 );
@@ -33,8 +33,15 @@ class Screen extends Component {
   componentDidMount() {
     const { detail } = this.props.route.params;
     this.setState({ ...detail });
+    this.props.navigation.dangerouslyGetParent().setOptions({
+      tabBarVisible: false,
+    });
   }
-
+  componentWillUnmount() {
+    this.props.navigation.dangerouslyGetParent().setOptions({
+      tabBarVisible: true,
+    });
+  }
   render() {
     const { header, publicDate, banner, detail, vdoLink } = this.state;
     const renderVideo = () => {
@@ -51,7 +58,7 @@ class Screen extends Component {
           return (
             <YoutubePlayer
               key={`video${index}`}
-              height={deviceWidth*(9/16)}
+              height={deviceWidth * (9 / 16)}
               play={false}
               videoId={videoId}
             />
@@ -63,7 +70,7 @@ class Screen extends Component {
       try {
         const result = await Share.share({
           message:
-            "React Native | A framework for building native apps using React"
+            "React Native | A framework for building native apps using React",
         });
         if (result.action === Share.sharedAction) {
           if (result.activityType) {
@@ -84,7 +91,7 @@ class Screen extends Component {
           <View
             style={{
               padding: 15,
-              paddingBottom: 0
+              paddingBottom: 0,
             }}
           >
             <Text style={Style.titleLabel}>{header}</Text>
@@ -94,7 +101,7 @@ class Screen extends Component {
               flexDirection: "row",
               alignItems: "flex-end",
               marginBottom: 15,
-              marginHorizontal: 15
+              marginHorizontal: 15,
             }}
           >
             <View style={Style.date}>

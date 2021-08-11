@@ -1,22 +1,27 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
+const deviceWidth= Dimensions.get('window').width;
+const deviceHeight= Dimensions.get('window').height;
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    height:deviceHeight,
+    width:deviceWidth,
     backgroundColor: "rgba(240,238,247,1)",
   },
   slider_show_group: {
-    flex: 4,
+    height:deviceHeight/3,
+    width:deviceWidth,
   },
   news_group: {
-    flex: 1,
+    height:deviceHeight*0.1,
+    width:deviceWidth,
     justifyContent: "center",
     padding: 20,
     paddingTop: 5,
   },
   menu_button_group: {
-    flex: 4,
-
+    height:deviceHeight*0.37,
+    width:deviceWidth,
     padding: 10,
     paddingTop: 5,
   },

@@ -2,18 +2,19 @@ import { ACCESS_TOKEN, USER_TOKEN, apiUrl } from "../../constants/config";
 import {
   Dimensions,
   Image,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from "react-native";
 import React, { Component } from "react";
-import { httpClient } from "../../utils/HttpClient";
+
 import Background from "../../assets/home_background.png";
 import IconSpeech from "../../assets/icon_speech.png";
 import Slideshow from "react-native-image-slider-show";
 import Style from "./Style";
-
+import { httpClient } from "../../utils/HttpClient";
 import menu_assessment from "../../assets/menu_button_assessment.png";
 import menu_knowledge from "../../assets/meun_button_knowledge.png";
 import menu_urgent from "../../assets/menu_button_urgent.png";
@@ -91,13 +92,14 @@ class Screen extends Component {
  
   render() {
     return (
+
       <View style={Style.container}>
         <Image
           source={Background}
           style={{
             position: "absolute",
             left: -150,
-            bottom: 15,
+            top: "40%",
             height: 300,
             width: 346,
             resizeMode: "contain"
@@ -134,7 +136,7 @@ class Screen extends Component {
               <Image source={IconSpeech} style={Style.news_icon} />
             </View>
 
-            <Text style={Style.news_label}>
+            <Text style={Style.news_label} numberOfLines={2}>
               เปิดรับอาสาสมัครเพื่อออกตรวจเยี่ยมผู้สูงอายุ ประจำปี 2564
               ตั้งแต่วันนี้ ถึง 31 ธันวาคม 2564
             </Text>
@@ -190,6 +192,7 @@ class Screen extends Component {
           </View>
         </View>
       </View>
+   
     );
   }
 }
